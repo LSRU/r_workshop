@@ -1,0 +1,146 @@
+---
+title: "R Worshop"
+author: "Aurélien Ginolhac"
+date: "15 March 2016"
+output:
+  html_document:
+    toc: true
+    toc_depth: 2
+---
+
+Dear all,
+
+I would like to organize a workshop for the LSRU' people who want to learn / improve their _R_ skills.
+Starting from scratch a _R_ course does not seem relevant neither effective.  
+On the contrary, learning from concrete examples and focusing on modern packages should help.
+
+If you are interested, you can continue reading. After the description, you can find a link to
+a survey so I can adapt the content and time dedicated.
+
+
+
+
+## Modern packages
+
+What I mean is that _R_ base by itself is harsh and far from intuitive.
+We want to avoid those kind of coding, even if it's working fine
+```{r, eval=FALSE}
+# from https://github.com/ANGSD/angsd/blob/master/R/jackKnife.R
+Args<-function(l,args){
+ if(! all(sapply(strsplit(l,"="),function(x)x[1])%in%names(args))){
+  cat("Error -> ",l[!sapply(strsplit(l,"="),function(x)x[1])%in%names(args)]," is not a valid argument")
+  q("no")
+}
+```
+
+
+The libraries for the **main** components are:
+
++ **reading** data, get rid of `read.table()`
+    - `readr` for all text files, much faster, much better
+    - `readxl` for excel files. Fast, still some issues but overall great
++ **tidying** data. The main concept is simple:
+    - Each column is a variable.
+    - Each row is an observation.
+    - `tidyr` does the job
++ **manipulating** data. Without entering into details, everything like merging, filtering, sorting, aggregating etc.
+    - `dplyr`
++ **plotting** data. _R_ does a amazing job
+    - `ggplot2`
++ **chaining** functions. Sick of parenthesis, we will move to the pipe operator `%>%` 
+
+3 other aspects won't be covered, or could be depending on the interest:
+
++ **modeling**, where _R_ base actually is great.
+    - `broom` for cleaning up models
++ **writing** nice reports
+   - `Rmarkdown` and `knitr` (this very document)
++ **interactive** computation. Web framework.
+    - `shiny` and related packages.
+  
+Of course, everything will be done using [Rstudio ](https://www.rstudio.com/products/RStudio/#Desktop) that makes you life way easier.
+
+
+## Concrete examples
+
+
+```{r, include=FALSE}
+library("ggplot2")
+library("scales")
+library("tidyr")
+library("readr")
+library("readxl")
+library("dplyr", warn.conflicts = FALSE)
+theme_set(theme_bw(14))
+```
+
+
+### merging list / tables 
+
+
+A common question is _how do I merge 2 lists based on this/those id(s)?_
+
+Obviously, they are not sorted the same way, that is super easy in R, see this toy example
+```{r}
+library("dplyr")
+a <- data.frame(a = 1:3,
+                name = c("a", "a", "b"))
+b <- data.frame(a = c(2, 3, 1),
+                other = c("yes", "no", "yes"))
+a
+b
+inner_join(a, b)
+```
+
+the base version is `merge` which is ~ 50 times slower
+
+
+## Tidying
+
+Tyding data is one observation per row, one variable per column.
+
+```{r, echo=FALSE}
+gene_expression <- structure(c(5.85816859103934, 6.60428769475497, 5.4278181170489, 
+3.64198318686737, 2.98308007124715, 6.60444574589028, 7.00805674362776, 
+5.57135166957136, 5.14045415430309, 3.49663423366768, 5.94121052204627, 
+7.25262696967957, 5.73597527709437, 5.13355247068666, 3.09661935730267, 
+8.19815765591581, 6.41420670534176, 6.2578760673826, 4.97723524689115, 
+1.90301643803504, 6.79101402711924, 7.03201225669769, 5.68340149938261, 
+4.67483151462603, 3.78712626322116, 5.8756526105461, 7.89718752225727, 
+5.58581882538314, 3.95586533543214, 4.29670995199073, 5.72651601739691, 
+7.14934863678698, 5.34678828849904, 5.47530710160199, 5.79145434700723, 
+5.19431908120944, 7.07334883453955, 5.56747268379296, 4.67120897018278, 
+4.86218289261696), .Dim = c(5L, 8L), .Dimnames = list(c("10000_at", 
+"10001_at", "10002_at", "100033423_at", "100033424_at"), c("GSM875933", 
+"GSM875934", "GSM875935", "GSM875936", "GSM875937", "GSM875938", 
+"GSM875939", "GSM875940"))) %>% as.data.frame()
+```
+
+See one sample per column
+```{r}
+gene_expression
+```
+
+this is the _wide_ format, we need the _long_ format
+```{r}
+library("tidyr")
+gather(gene_expression, sample, value) %>% # chain to tbl_df
+  tbl_df() # that format nicely the table printing, 10 instead of the full 40 rows
+```
+
+
+
+## plotting
+
+```{r, fig.height=5, fig.width=6}
+library("ggplot2")
+iris %>% # use built-in dataset
+  ggplot(aes(x = Sepal.Length, y = Sepal.Width, colour = Species))+ # declare the mapped variables
+  geom_point()+ # add points
+  geom_smooth(method = "lm") # add linear regression, automatically per Species
+```
+
+
+## Questionnaire
+
+You can access the questionr [here](http://goo.gl/forms/qcU6Qvgmw3)
