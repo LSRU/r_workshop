@@ -1,5 +1,5 @@
 ---
-title: "R Worshop"
+title: "R Workshop"
 author: "Aurélien Ginolhac"
 date: "15 March 2016"
 output:
@@ -56,7 +56,7 @@ The libraries for the **main** components are:
 + **writing** nice reports
    - `Rmarkdown` and `knitr` (this very document)
 + **interactive** computation. Web framework.
-    - `shiny` and related packages.
+    - `shiny` and related packages. See this example developed by [Eric Koncina](http://shiny-server.uni.lu/elisar-shiny/)
   
 Of course, everything will be done using [Rstudio ](https://www.rstudio.com/products/RStudio/#Desktop) that makes you life way easier.
 
@@ -116,24 +116,66 @@ gene_expression <- structure(c(5.85816859103934, 6.60428769475497, 5.42781811704
 "GSM875939", "GSM875940"))) %>% as.data.frame()
 ```
 
-See one sample per column
+See one sample per column, and we cannot apply which are control or treated
 ```{r}
 gene_expression
 ```
 
-this is the _wide_ format, we need the _long_ format
+this is the _wide_ format, we need the _long_ format.  
+Now we can set that the first 3 are controls.
 ```{r}
 library("tidyr")
-gather(gene_expression, sample, value) %>% # chain to tbl_df
-  tbl_df() # that format nicely the table printing, 10 instead of the full 40 rows
+tidy_ge <- gather(gene_expression, sample, value) %>% # chain to tbl_df
+  tbl_df() %>% # that format nicely the table printing, 10 instead of the full 40 rows
+  mutate(condition = ifelse(grepl("[345]$", sample), "control", "treated"))
+tidy_ge
+```
+
+## summarizing
+
+Let's use the previous example, to compute the mean and standard deviation for each sample and condition
+
+```{r}
+sum_ge <- tidy_ge %>%
+  group_by(sample, condition) %>%
+  summarise(mean_ge = mean(value),
+            sd_ge = sd(value))
+sum_ge
 ```
 
 
 
 ## plotting
 
-```{r, fig.height=5, fig.width=6}
+### intervals
+
+Using the previous summarised example. Since the data is **tidy**, we can use it directly.
+See that the legend is automatically added
+
+```{r, fig.height=5, fig.width=4}
 library("ggplot2")
+sum_ge %>%
+  ggplot(aes(x = sample, y = mean_ge, colour = condition))+
+  geom_pointrange(aes(ymin = mean_ge - sd_ge,
+                      ymax = mean_ge + sd_ge))+
+  coord_flip()
+```
+
+If you prefer the old companion barplot
+
+```{r, fig.height=4, fig.width=6}
+sum_ge %>%
+  ggplot(aes(x = sample, y = mean_ge, fill = condition))+
+  geom_bar(stat = "identity")+
+  geom_errorbar(aes(ymin = mean_ge - sd_ge,
+                      ymax = mean_ge + sd_ge), width = 0.5)+
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+
+### scatterplot and linear regression
+
+```{r, fig.height=5, fig.width=6}
 iris %>% # use built-in dataset
   ggplot(aes(x = Sepal.Length, y = Sepal.Width, colour = Species))+ # declare the mapped variables
   geom_point()+ # add points
