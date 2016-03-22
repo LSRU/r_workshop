@@ -49,13 +49,14 @@ The libraries for the **main** components are:
     - `ggplot2`
 + **chaining** functions. Sick of parenthesis, we will move to the pipe operator `%>%` 
 
-3 other aspects won't be covered, or could be depending on the interest:
+4 other aspects won't be covered, or could be depending on the interest:
 
 + **modeling**, where _R_ base actually is great.
     - `broom` for cleaning up models
 + **writing** nice reports
    - `Rmarkdown` and `knitr` (this very document)
-+ **interactive** computation. Web framework.
++ **versionning**, using `git`. Not really specific de to _R_ but nicely integrated to RStudio.   
++ **interactive** computation, Web framework.
     - `shiny` and related packages. See this example developed by [Eric Koncina](http://shiny-server.uni.lu/elisar-shiny/)
   
 Of course, everything will be done using [Rstudio ](https://www.rstudio.com/products/RStudio/#Desktop) that makes you life way easier.
