@@ -17,9 +17,6 @@ On the contrary, learning from concrete examples and focusing on modern packages
 If you are interested, you can continue reading. After the description, you can find a link to
 a survey so I can adapt the content and time dedicated.
 
-
-
-
 ## Modern packages
 
 What I mean is that _R_ base by itself is harsh and far from intuitive.
@@ -45,25 +42,24 @@ The libraries for the **main** components are:
     - `tidyr` does the job
 + **manipulating** data. Without entering into details, everything like merging, filtering, sorting, aggregating etc.
     - `dplyr`
-+ **plotting** data. _R_ does a amazing job
++ **plotting** data. _R_ does an amazing job
     - `ggplot2`
 + **chaining** functions. Sick of parenthesis, we will move to the pipe operator `%>%` 
 
-4 other aspects won't be covered, or could be depending on the interest:
+Depending on the interest, the 4 following aspects could also be covered:
 
 + **modeling**, where _R_ base actually is great.
     - `broom` for cleaning up models
 + **writing** nice reports
    - `Rmarkdown` and `knitr` (this very document)
-+ **versionning**, using `git`. Not really specific de to _R_ but nicely integrated to RStudio.   
++ **versioning**, using `git`. Not really specific to _R_ but nicely integrated into RStudio.   
 + **interactive** computation, Web framework.
     - `shiny` and related packages. See this example developed by [Eric Koncina](http://shiny-server.uni.lu/elisar-shiny/)
   
-Of course, everything will be done using [Rstudio ](https://www.rstudio.com/products/RStudio/#Desktop) that makes you life way easier.
+Of course, everything will be done using [Rstudio](https://www.rstudio.com/products/RStudio/#Desktop) that makes your life way easier.
 
 
 ## Concrete examples
-
 
 ```{r, include=FALSE}
 library("ggplot2")
@@ -79,28 +75,35 @@ theme_set(theme_bw(14))
 ### merging list / tables 
 
 
-A common question is _how do I merge 2 lists based on this/those id(s)?_
+A common question is _how do I merge 2 lists based on common id(s)?_
 
-Obviously, they are not sorted the same way, that is super easy in R, see this toy example
+Let's consider the two following and distinct datasets, *a* and *b*
+
 ```{r}
 library("dplyr")
-a <- data.frame(a = 1:3,
+a <- data.frame(id = 1:3,
                 name = c("a", "a", "b"))
-b <- data.frame(a = c(2, 3, 1),
+b <- data.frame(id = c(2, 3, 1),
                 other = c("yes", "no", "yes"))
 a
 b
+```
+
+Obviously, the ids are not sorted the same way, but with R, it is very easy to merge them by id:
+
+```{r}
 inner_join(a, b)
 ```
 
-the base version is `merge` which is ~ 50 times slower
-
+<!-- the base version is `merge` which is ~ 50 times slower 
+ Je ne pense pas que ce soit utile pour le pitch... Il y a déjà beaucoup de mots clés "pointus": Tout dépend du public visé...
+-->
 
 ## Tidying
 
-Tyding data is one observation per row, one variable per column.
+A dataset is considered tidy, once each observation is in its own row and each variable in its own column.
 
-```{r, echo=FALSE}
+```{r, echo = FALSE}
 gene_expression <- structure(c(5.85816859103934, 6.60428769475497, 5.4278181170489, 
 3.64198318686737, 2.98308007124715, 6.60444574589028, 7.00805674362776, 
 5.57135166957136, 5.14045415430309, 3.49663423366768, 5.94121052204627, 
@@ -117,24 +120,33 @@ gene_expression <- structure(c(5.85816859103934, 6.60428769475497, 5.42781811704
 "GSM875939", "GSM875940"))) %>% as.data.frame()
 ```
 
-See one sample per column, and we cannot apply which are control or treated
+In the following example, each sample is represented in its column.
+
 ```{r}
 gene_expression
 ```
 
-this is the _wide_ format, we need the _long_ format.  
-Now we can set that the first 3 are controls.
+Samples ending with numbers 3, 4 or 5 are the control conditions while the remaining are the treated one. The above _wide_ format representation is not very handy to use. We can easily tidy it (i.e. transform it into the _long_ format):
+
 ```{r}
 library("tidyr")
 tidy_ge <- gather(gene_expression, sample, value) %>% # chain to tbl_df
-  tbl_df() %>% # that format nicely the table printing, 10 instead of the full 40 rows
+  tbl_df()  # that format nicely the table printing, 10 instead of the full 40 rows
+tidy_ge
+```
+
+Once our data is tidy, it is very easy to improve it and add additional useful informations. Let us specify which samples are controls and which are treated: 
+
+```{r}
+tidy_ge <- tidy_ge %>%
   mutate(condition = ifelse(grepl("[345]$", sample), "control", "treated"))
 tidy_ge
 ```
 
-## summarizing
 
-Let's use the previous example, to compute the mean and standard deviation for each sample and condition
+## Summarizing
+
+Let's use the previous example to compute the mean and standard deviation for each sample and condition:
 
 ```{r}
 sum_ge <- tidy_ge %>%
@@ -145,13 +157,11 @@ sum_ge
 ```
 
 
+## Plotting
 
-## plotting
+### Intervals
 
-### intervals
-
-Using the previous summarised example. Since the data is **tidy**, we can use it directly.
-See that the legend is automatically added
+Since our previous summarised example data is **tidy**, we can use it directly (see that the legend is automatically added).
 
 ```{r, fig.height=5, fig.width=4}
 library("ggplot2")
@@ -174,7 +184,7 @@ sum_ge %>%
 ```
 
 
-### scatterplot and linear regression
+### Scatterplot and linear regression
 
 ```{r, fig.height=5, fig.width=6}
 iris %>% # use built-in dataset
