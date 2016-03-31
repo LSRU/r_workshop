@@ -1,34 +1,23 @@
 ---
 title: "R Workshop"
 author: "Aurélien Ginolhac"
-date: "15 March 2016"
+date: "30 March 2016"
 output:
-  pdf_document:
-    toc: yes
-    toc_depth: '2'
   html_document:
     toc: yes
     toc_depth: 2
+  pdf_document:
+    toc: yes
+    toc_depth: '2'
 ---
 
 Dear all,
 
-I would like to organize a workshop for the LSRU' people who want to learn / improve their _R _ skills.
+I would like to organize a workshop for the LSRU and LCSB people who want to learn / improve their _R _ skills.
 Starting from scratch a _R _ course does not seem relevant neither effective.  
 On the contrary, learning from concrete examples and focusing on modern packages should help.
 
-If you are interested, you can continue reading. Please fill this [survey](http://goo.gl/forms/qcU6Qvgmw3), so I can adapt the content and time dedicated.
-
-It is likely that two groups of people appear:
-
-+ have not used _R _, including
-    + want to learn it
-    + want to use web (`shiny`) applications for repetitive tasks
-+ use R but want to move toward those packages
-
-Depending on the group sizes, I could organize a session for each group.
-For the repetitive tasks you are currently performing in excel, such as transposing tables or merging tables,
-I could also provide a web application. Then, you can use _R _ without any prior programming knowledge.
+If you are interested, you can continue reading. Please fill this [survey](http://goo.gl/forms/9ZYHbPFYBs), so I can adapt the content and time dedicated.
 
 ## Modern packages
 
@@ -61,7 +50,7 @@ The packages for the **main ** components are:
 
 Depending on the interest, the 4 following aspects could also be covered:
 
-+ **modeling **, where _R _ base actually is great.
++ **modeling **, where _R _ base is actually great.
     - `broom` for cleaning up models
 + **writing ** nice reports
     - `Rmarkdown` and `knitr` (this very document)
@@ -209,4 +198,4 @@ iris %>% # use built-in dataset
 
 ## Questionnaire
 
-You can access the questionr [here](http://goo.gl/forms/qcU6Qvgmw3)
+You can access the questionr [here](http://goo.gl/forms/9ZYHbPFYBs)
