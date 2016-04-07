@@ -1,0 +1,47 @@
+---
+title: "R workshop"
+author: "Aurélien Ginolhac"
+date: "7 April 2016"
+output:
+  ioslides_presentation:
+    smaller: true
+    css: style.css
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## R workshop | Day 1
+
+
+This is an R Markdown presentation. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document.
+
+## Pipeline goal
+
+[David Robinson](http://varianceexplained.org/) summarized the goal on his laptop
+
+<img src="img/drob_r_pipeline_600.jpg">
+
+## Slide with R Output
+
+```{r cars, echo = TRUE}
+summary(cars)
+```
+
+## Period of much suckiness
+
+> Whenever you’re learning a new tool, for a long time you’re going to suck...</br>
+> But the good news is that is typical, that’s something that happens to everyone, and it’s only temporary.</br>
+> -- <cite>[Hadley Wickham][1]</cite>
+
+[1]:https://youtu.be/8SGif63VW6E?t=4m12s
+
+
+
+# Rstudio | Integrated Development Editor
+
+
+
