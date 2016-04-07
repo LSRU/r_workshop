@@ -1,0 +1,48 @@
+.wrapper {
+  text-align: center;
+}
+blockquote {
+  margin: 0 auto;
+  max-width: 400px;
+  position: relative;
+  /* Added */
+}
+blockquote::after,
+blockquote::before {
+  color: green;
+  font-size: 8rem;
+  line-height: 0.8;
+}
+blockquote::after {
+  content: close-quote;
+  vertical-align: bottom;
+  /* Added */
+    position: absolute;
+  right: -15%;
+  bottom: -60px;
+}
+blockquote::before {
+  content: open-quote;
+  vertical-align: top;
+  /* Added */
+    position: absolute;
+  left: -20%;
+}
+p {
+  font-size: 1.25rem;
+  font-style: italic;
+  text-align: left;
+  color: green;
+}
+@media (max-width: 600px) {
+  blockquote::after {
+    bottom: unset;
+    right: 0;
+  }
+  blockquote::before {
+    left: 0;
+  }
+  blockquote p {
+    padding-top: 55px;
+  }
+}
