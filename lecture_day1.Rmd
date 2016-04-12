@@ -4,6 +4,7 @@ author: "Aurélien Ginolhac"
 date: "7 April 2016"
 output:
   ioslides_presentation:
+    logo: img/uni.png
     smaller: true
     css: style.css
 ---
@@ -15,9 +16,24 @@ knitr::opts_chunk$set(echo = FALSE)
 ## R workshop | Day 1
 
 
-This is an R Markdown presentation. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document.
+## Why learn R? {.build}
+
++ Free!
++ Packages
++ Community
+
+<img src="img/r_community_450.png">
+
+
+## Packages
+
+package manager.
+
++ CRAN, reliable
++ bioconductor. Check status
++ GitHub using devtools. Check status
+
 
 ## Pipeline goal
 
