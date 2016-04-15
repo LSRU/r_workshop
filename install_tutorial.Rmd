@@ -2,9 +2,11 @@
 title: "Install tutorial"
 author: "Aurélien Ginolhac"
 date: "14 April 2016"
-output: 
-  html_document: 
+output:
+  html_document:
     theme: cosmo
+    toc: yes
+  pdf_document:
     toc: yes
 ---
 
@@ -27,7 +29,7 @@ by a good **package manager**
 Visit the [download page](https://cloud.r-project.org/) and choose the corresponding installer for your platform.
 
 One way to circumvent the absence of package manager for Windows, is to install the `R` package
-`installr`. This package provide a function `updateR()` to takes care of updating your R installtion
+`installr`. This package provide a function `updateR()` to takes care of updating your R installation
 and the migration of your installed packages whenever a major `R` release happens.
 
 ### MacOS
@@ -66,3 +68,88 @@ Rstudio is an Integrated Development Editor, it wraps and interface `R` but,
 
 Visit the [download page](https://www.rstudio.com/products/rstudio/download/) and
 choose the corresponding installer for your platform. As for now, the latest version is `0.99.893`.
+
+## Open rstudio
+
+They are 4 main panels in rstudio, but as the top-left is for scripting, the layout should looks like
+
+![](img/rstudio_blank_700.png)
+
+### install R packages
+
+On the bottom-right panel, 5 tabs are present:
+
+- Files
+- Plots
+- Packages
+- Help
+- Viewer
+
+Click on the `Packages` tab (1.) and select the select the `Install` button (2.)
+and type `dplyr, tidyr, ggplot2, ggrepel, devtools, broom, purrr, shiny, readr, readxl, d3heatmap, stringr` in (3.)
+
+![](img/install_packages_300.png)
+
+It takes time, usually 10 seconds to 5 minutes for one package depending on its size and compilation stages.
+
+Those packages could also be installed in the console, the bottom-left panel.
+Example here for installing `devtools`
+![](img/install_console_200.png)
+
+
+#### A note about package updates
+
+Again, the same complain is true, updates are very frequent and when you have many packages
+it could be cumbersome to maintain your R up-to-date. Actually, it is as easy as
+```{r, eval=FALSE}
+update.packages()
+```
+
+But, next to the `Install` button, you should use the `Update` green button in the `Packages` tab. 
+The advantage is that you could check the ones you want and also click on the `NEWS` links to see
+that was actually changed.
+
+### install bioconductor packages
+
+The [bioconductor](https://www.bioconductor.org/) resource will be detailed latter, but for now 
+we could save time and install the necessary packages before the workshop.
+
+Copy / paste the following the console.
+```{r, eval=FALSE}
+source("https://bioconductor.org/biocLite.R")
+biocLite(c("limma", "Biobase", "GEOquery"))
+```
+
+#### A note about package updates
+
+No interface for bioconductor packages, you will need to run
+```{r, eval=FALSE}
+source("https://bioconductor.org/biocLite.R")
+biocLite()
+```
+
+and you will be asked if you want to update some / all
+
+## Testing your installation
+
+Copy / paste this code and you should obtain the following plot.
+```{r}
+library("ggplot2")
+library("tidyr")
+library("ggrepel")
+library("dplyr", warn.conflicts = FALSE)
+theme_set(theme_bw(14))
+
+mtcars %>%
+  add_rownames(var = "car_name") %>%
+  gather(key, value, c(drat, wt)) %>%
+  ggplot(aes(x = value, y = mpg, colour = key))+
+  geom_point()+
+  geom_text_repel(aes(label = car_name))
+```
+
+If not, please [contact me](mailto:aurelien.ginolhac@uni.lu) with the error produced and the output of
+```{r}
+sessionInfo()
+```
+

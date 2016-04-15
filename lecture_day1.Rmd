@@ -51,7 +51,11 @@ biocLite("limma")
 </div>
 
 
+# More and more packages
 
+![](img/packages_vs_r_version.jpg)
+
+[source: Andrie de Vries](http://blog.revolutionanalytics.com/2016/04/cran-package-growth.html)
 
 ## Pipeline goal
 
@@ -83,4 +87,22 @@ biocLite("limma")
 - autocompletion using TAB
 - Cheatsheets
 - Keyboard shortcuts
+
+
+# Chaining
+
+Compare
+```{r}
+set.seed(1234)
+x <- rnorm(10)
+mean(x)
+round(mean(x), 3)
+```
+
+with
+```{r}
+set.seed(1234)
+rnorm(10) %>% mean %>% round(3)
+```
+
 
