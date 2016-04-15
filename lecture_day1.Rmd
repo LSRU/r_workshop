@@ -1,7 +1,7 @@
 ---
 title: "R workshop"
 author: "Aurélien Ginolhac"
-date: "7 April 2016"
+date: "26 May 2016"
 output:
   ioslides_presentation:
     logo: img/uni.png
@@ -19,20 +19,38 @@ knitr::opts_chunk$set(echo = FALSE)
 
 ## Why learn R? {.build}
 
-+ Free!
-+ Packages
-+ Community
+- Free!
+- Packages
+- Community
 
 <img src="img/r_community_450.png">
 
 
-## Packages
+## Packages | as easy as `apt` and yes frequent updates
 
-package manager.
 
-+ CRAN, reliable
-+ bioconductor. Check status
-+ GitHub using devtools. Check status
+<div class="columns-2">
+- CRAN, reliable many checks when submitting
+
+![](img/install_packages_300.png)
+
+- [GitHub](https://github.com/) using [devtools](https://github.com/hadley/devtools). Check [status](https://github.com/hadley/readr)
+```{r, eval=FALSE}
+# install.packages("devtools")
+devtools::install_github("hadley/readr")
+```
+
+- [bioconductor](https://www.bioconductor.org/). Check [status](https://www.bioconductor.org/packages/release/bioc/html/limma.html)
+```{r, eval=FALSE}
+source("https://bioconductor.org/biocLite.R")
+biocLite("limma")
+```
+
+![](img/install_console_200.png)
+
+</div>
+
+
 
 
 ## Pipeline goal
@@ -41,11 +59,6 @@ package manager.
 
 <img src="img/drob_r_pipeline_600.jpg">
 
-## Slide with R Output
-
-```{r cars, echo = TRUE}
-summary(cars)
-```
 
 ## Period of much suckiness
 
@@ -56,8 +69,18 @@ summary(cars)
 [1]:https://youtu.be/8SGif63VW6E?t=4m12s
 
 
-
 # Rstudio | Integrated Development Editor
 
+## Layout, 4 panels
 
+<img src="img/rstudio_layout_850.png">
+
+## Features
+
+- Package management
+- Console to run R, with syntax highligther
+- Editor to work with scripts / markdown
+- autocompletion using TAB
+- Cheatsheets
+- Keyboard shortcuts
 
