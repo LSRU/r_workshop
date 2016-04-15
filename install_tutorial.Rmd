@@ -1,0 +1,68 @@
+---
+title: "Install tutorial"
+author: "Aurélien Ginolhac"
+date: "14 April 2016"
+output: 
+  html_document: 
+    theme: cosmo
+    toc: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Install R
+
+![](img/Rlogo_90.png)
+
+`R` is available for free for Windows, GNU/Linux and MacOS.  
+As for now, the latest version is `3.2.5`.
+
+One common complain about `R` is the frequency of updates. True, but that could be sorted out
+by a good **package manager**
+
+### Windows
+
+Visit the [download page](https://cloud.r-project.org/) and choose the corresponding installer for your platform.
+
+One way to circumvent the absence of package manager for Windows, is to install the `R` package
+`installr`. This package provide a function `updateR()` to takes care of updating your R installtion
+and the migration of your installed packages whenever a major `R` release happens.
+
+### MacOS
+
+You could either use the [download page](https://cloud.r-project.org/) or better use the 
+[Homebrew package manager](http://brew.sh/).
+
+Once `homebrew` installed, you can install/uninstall easily with dependencies many programs
+and utilities. This implies to use the terminal, but worth it if you ask me.
+Then, installation is done with:
+
+```{r, eval=FALSE}
+brew install r
+```
+
+and the updates will be automatically done for all your software by
+```{r, eval=FALSE}
+brew update; brew upgrade
+```
+
+### GNU/Linux
+
+Any Linux distributions is bundled with a great package manager such as `dpkg` or `rpm`.
+
+```{r, eval=FALSE}
+sudo apt-get install r-base
+```
+
+
+## Install Rstudio
+
+![](img/rstudiosticker_110.png)
+
+Rstudio is an Integrated Development Editor, it wraps and interface `R` but, 
+`R` needs to installed first. The free-version contains everything you need.
+
+Visit the [download page](https://www.rstudio.com/products/rstudio/download/) and
+choose the corresponding installer for your platform. As for now, the latest version is `0.99.893`.
