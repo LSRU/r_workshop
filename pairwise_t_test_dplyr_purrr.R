@@ -36,6 +36,15 @@ by_cell2 <- df2 %>%
 by_cell2 %>%
   unnest(model %>% purrr::map(tidy))
 
+# from Ian
+# https://github.com/hadley/tibble/issues/31#issuecomment-207597557
+library("purrr")
+
+x <- list(alpha = 'horrible', beta = 'list', gamma = 'column')
+
+x %>% map_df(~ data_frame(thing = .x), .id = "name")
+x %>% Kimisc:::list_to_df() 
+
 library("broom")
 lm(mpg ~ wt + cyl, data = mtcars) %>%
   augment() %>%
