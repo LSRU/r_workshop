@@ -6,8 +6,10 @@ output:
   html_document:
     theme: cosmo
     toc: yes
+    toc_float: true
   pdf_document:
     toc: yes
+    
 ---
 
 ```{r setup, include=FALSE}
