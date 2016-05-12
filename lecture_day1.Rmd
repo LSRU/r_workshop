@@ -105,4 +105,14 @@ set.seed(1234)
 rnorm(10) %>% mean %>% round(3)
 ```
 
+# dplyr
+
+```{r}
+with(mtcars, aggregate(mpg, list(cyl), mean))
+
+library(dplyr)
+mtcars %>% group_by(cyl) %>% summarize(mean(mpg))
+```
+
+[source by Steve Simpson](http://data-steve.github.io/base-r-groupby-tapply-ave-by/)
 
