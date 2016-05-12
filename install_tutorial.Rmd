@@ -32,7 +32,7 @@ Visit the [download page](https://cloud.r-project.org/) and choose the correspon
 
 One way to circumvent the absence of package manager for Windows, is to install the `R` package
 `installr`. This package provide a function `updateR()` to takes care of updating your R installation
-and the migration of your installed packages whenever a major `R` release happens.
+and the migration of your installed packages whenever a major `R` release happens. Recently, a package can [help you](#reinstallr) with this.
 
 ### MacOS
 
@@ -75,7 +75,7 @@ choose the corresponding installer for your platform. As for now, the latest ver
 
 ## Open rstudio
 
-They are 4 main panels in rstudio, but as the top-left is for scripting, the layout should looks like
+They are 4 main panels in rstudio, but as the top-left is for scripting and by default missing, the layout should looks like
 
 ![](img/rstudio_blank_700.png)
 
@@ -108,6 +108,7 @@ devtools::install_github("hadley/dplyr")
 ```
 
 
+
 #### A note about package updates
 
 Again, the same complain is true, updates are very frequent and when you have many packages
@@ -132,15 +133,35 @@ source("https://bioconductor.org/biocLite.R")
 biocLite(c("limma", "Biobase", "GEOquery"))
 ```
 
-#### A note about package updates
+
+
+#### Package updates
 
 No interface for bioconductor packages, you will need to run
 ```{r, eval=FALSE}
 source("https://bioconductor.org/biocLite.R")
 biocLite()
 ```
-
 and you will be asked if you want to update some / all
+
+<a name="reinstallr"/>
+
+### About packages and major version
+
+A very recent package `reinstall` is doing a neat job looking at the installed packages and those you already used by parsing your `.R`, `.Rmd` etc. your R files.
+
+For example, after I upgraded to `3.3` I forgot some packages and can decide if I want to install or not.
+```{r, eval=FALSE}
+#devtools::install_github("calligross/reinstallr")
+library("reinstallr")
+reinstallr(path = "~/Work/")
+The following packages were found in your source files and can be installed from CRAN:
+ggdendro openxlsx UpSetR pastecs wesanderson DNAcopy impute gplots directlabels DT GGally purrr ggpmisc VennDiagram blockcluster pheatmap gridSVG cowplot
+Do you want to install them now?
+y: Yes! Go ahed!
+n: No, fortget it!
+```
+
 
 ## Testing your installation
 
