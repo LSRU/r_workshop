@@ -71,7 +71,7 @@ Rstudio is an Integrated Development Editor, it wraps and interface `R` but,
 `R` needs to installed first. The free-version contains everything you need.
 
 Visit the [download page](https://www.rstudio.com/products/rstudio/download/) and
-choose the corresponding installer for your platform. As for now, the latest version is `0.99.893`.
+choose the corresponding installer for your platform. As for now, the latest version is `0.99.1172`.
 
 ## Open rstudio
 
