@@ -4,13 +4,13 @@ author: "Aurélien Ginolhac"
 date: "3rd June 2016"
 output:
   ioslides_presentation:
-    logo: img/uni.png
-    smaller: true
     css: style.css
+    logo: img/uni.png
+    smaller: yes
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ## R workshop | Day 2 - advanced
@@ -39,15 +39,76 @@ Tutorial based on the great conference by [Hadley Wickham][1]
 Using `purrr` and `tidyr`. Hadley takes every part of `R` and _clean_ it up.
 
 `purrr` revisit the `apply` family in a consistent way.
-`tidry::nest` nest list in `tibble::data_frame` to keep related things together.
+`tidyr::nest` nest list in `tibble::data_frame` to keep related things together.
 
-## 
+## For loops emphasis objects and not actions
+
+compare (notice `seq_along` instead of `1:length(mtcars)`)
+```{r}
+means <- vector("double", ncol(mtcars))
+for (i in seq_along(mtcars)) {
+  means[i] <- mean(mtcars[[i]])
+}
+means
+```
+
+and
+```{r}
+library("purrr")
+map_dbl(mtcars, mean)
+```
 
 
-## Modeling life
+## Nested map
 
 ```{r}
+library("purrr")
+library("dplyr", warn.conflicts = FALSE)
+funs <- list(mean = mean, median = median, sd = sd)
+funs %>%
+  map(~ mtcars %>% map_dbl(.x))
+```
+
+
+
+## Keep related things together
+
+Linear model _per_ country
+```{r}
 library("gapminder")
+library("tidyr")
+by_country_lm <- gapminder %>%
+  mutate(year1950 = year - 1950) %>%
+  group_by(continent, country) %>%
+  nest() %>%
+  mutate(model = map(data, ~ lm(lifeExp ~ year1950, data = .x)))
+```
+
+## Tidying model coefficients
+
+From `lm()` extract in neat data frames using broom:
+- coefficients estimates: **slope** and **intercept**
+- $r^2$ 
+- residuals
+
+```{r}
+library("broom")
+models <- by_country_lm %>%
+  mutate(glance  = map(model, glance),
+         rsq     = glance %>% map_dbl("r.squared"),
+         tidy    = map(model, tidy),
+         augment = map(model, augment))
+```
+
+## Exploratory plots
+
+```{r}
+library("ggplot2")
+theme_set(theme_bw(14))
+models %>%
+  ggplot(aes(x = rsq, y = reorder(country, rsq)))+
+  geom_point(aes(colour = continent))+
+  theme(axis.text.y = element_text(size = 6))
 ```
 
 
