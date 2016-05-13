@@ -1,0 +1,53 @@
+---
+title: "R workshop"
+author: "Aurélien Ginolhac"
+date: "3rd June 2016"
+output:
+  ioslides_presentation:
+    logo: img/uni.png
+    smaller: true
+    css: style.css
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## R workshop | Day 2 - advanced
+
+
+
+## Modern R
+
+[David Robinson](http://varianceexplained.org/) summarized the goal on his laptop
+
+<img src="img/drob_r_pipeline_600.jpg">
+
+see also what Karl Broman is recommanding for [people who learnt R a while ago](http://kbroman.org/hipsteR/)
+
+## Managing multiple models
+
+Tutorial based on the great conference by [Hadley Wickham][1]
+
+![](img/hadley_purrr.png)
+
+[1]:https://www.youtube.com/watch?v=rz3_FDVt9eg
+
+
+## Functional programming and nested data_frames
+
+Using `purrr` and `tidyr`. Hadley takes every part of `R` and _clean_ it up.
+
+`purrr` revisit the `apply` family in a consistent way.
+`tidry::nest` nest list in `tibble::data_frame` to keep related things together.
+
+## 
+
+
+## Modeling life
+
+```{r}
+library("gapminder")
+```
+
+
