@@ -100,7 +100,9 @@ models <- by_country_lm %>%
          augment = map(model, augment))
 ```
 
-## Exploratory plots
+# Exploratory plots
+
+## Does linear models fit all countries?
 
 ```{r}
 library("ggplot2")
@@ -109,6 +111,17 @@ models %>%
   ggplot(aes(x = rsq, y = reorder(country, rsq)))+
   geom_point(aes(colour = continent))+
   theme(axis.text.y = element_text(size = 6))
+```
+
+## focus on non-linear trends
+
+```{r}
+models %>%
+  filter(rsq < 0.55) %>%
+  unnest(data) %>%
+  ggplot(aes(x = year, y = lifeExp))+
+  geom_line(aes(colour = continent))+
+  facet_wrap(~ country)
 ```
 
 
