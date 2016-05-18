@@ -3,13 +3,13 @@ title: "Install tutorial"
 author: "Aurélien Ginolhac"
 date: "14 April 2016"
 output:
+  pdf_document:
+    toc: yes
+    fig_caption: no
   html_document:
     theme: cosmo
     toc: yes
-    toc_float: true
-  pdf_document:
-    toc: yes
-    
+    toc_float: yes
 ---
 
 ```{r setup, include=FALSE}
@@ -23,31 +23,28 @@ knitr::opts_chunk$set(echo = TRUE)
 `R` is available for free for Windows, GNU/Linux and MacOS.  
 As for now, the latest version is `3.3.0`.
 
-One common complain about `R` is the frequency of updates. True, but that could be sorted out
-by a good **package manager**. Of note, the major update (`3.3`, early May 2016) is done on a yearly basis. And only this one forces you to reinstall extra-packages. 
+One common complain about `R` is the frequency of updates. This is true, but can be sorted out with a good **package manager**. Of note, major updates (`3.3`, early May 2016) are the only one forcing you to reinstall extra-packages and are released on a yearly basis.
 
 ### Windows
 
 Visit the [download page](https://cloud.r-project.org/) and choose the corresponding installer for your platform.
 
-One way to circumvent the absence of package manager for Windows, is to install the `R` package
-`installr`. This package provide a function `updateR()` to takes care of updating your R installation
-and the migration of your installed packages whenever a major `R` release happens. Recently, a package can [help you](#reinstallr) with this.
+To circumvent the lack of a package manager in Windows, it is possible to install the `R` library
+`installr`. This package provides the `updateR()` function which takes care of updating your R installation
+and migrates your installed libraries whenever a major `R` update is released. Recently, a package has been released which can also [help you](#reinstallr) in this task .
 
 ### MacOS
 
-You could either use the [download page](https://cloud.r-project.org/) or better use the 
-[Homebrew package manager](http://brew.sh/).
+You can either browse to the [download page](https://cloud.r-project.org/) or better use the [Homebrew package manager](http://brew.sh/).
 
-Once `homebrew` installed, you can install/uninstall easily with dependencies many programs
-and utilities. This implies to use the terminal, but worth it if you ask me.
-Then, installation is done with:
+Once `homebrew` is installed, you can easily install/uninstall many programs with their dependencies and utilities. This implies to use the terminal. If you're not comfortable with the use of the terminal, ask me! It is worth it.
+To install `R` using brew write in the following:
 
 ```{r, eval=FALSE}
 brew install r
 ```
 
-and the updates will be automatically done for all your software by
+Updates for all your software can be easily performed and will be automatically handled by the following line:
 ```{r, eval=FALSE}
 brew update; brew upgrade
 ```
@@ -62,13 +59,11 @@ After you get the correct entry in your package manager, it should quite easy
 sudo apt-get install r-base r-base-dev
 ```
 
-
 ## Install Rstudio
 
 ![](img/rstudiosticker_110.png)
 
-Rstudio is an Integrated Development Editor, it wraps and interface `R` but, 
-`R` needs to installed first. The free-version contains everything you need.
+Rstudio is an Integrated Development Editor, it wraps and interfaces `R` but, `R` needs to be installed first. The free-version contains everything you need.
 
 Visit the [download page](https://www.rstudio.com/products/rstudio/download/) and
 choose the corresponding installer for your platform. As for now, the latest version is `0.99.1172`.
@@ -89,68 +84,60 @@ On the bottom-right panel, 5 tabs are present:
 - Help
 - Viewer
 
-Click on the `Packages` tab (1.) and select the select the `Install` button (2.)
-and type `dplyr, tidyr, ggplot2, ggrepel, devtools, broom, purrr, shiny, readr, readxl, d3heatmap, stringr, rmarkdown, knitr` in (3.)
+Click on the `Packages` tab (1.) and select the select the `Install` button (2.). Type `dplyr, tidyr, ggplot2, ggrepel, devtools, broom, purrr, shiny, readr, readxl, d3heatmap, stringr, rmarkdown, knitr` in (3.)
 
 ![](img/install_packages_300.png)
 
-It takes time, usually 10 seconds to 5 minutes for one package depending on its size and compilation stages.
+It takes some time, usually 10 seconds up to 5 minutes for a single package depending on its size and compilation stage.
 
-Those packages could also be installed in the console, the bottom-left panel.
-Example here for installing `devtools`
+The packages can also be installed in the console (*i.e.* the bottom-left panel). The snapshot below shows you how to install `devtools` using the console:
+
 ![](img/install_console_200.png)
 
-Of note, `devtools` is handy when you want to install development version, for example if a bug was fixed 
+Of note, `devtools` is handy when you want to install a development version, for example if a bug was fixed 
 but the package not yet submitted to CRAN.
 
 ```{r, eval=FALSE}
 devtools::install_github("hadley/dplyr")
 ```
 
-
-
 #### A note about package updates
 
-Again, the same complain is true, updates are very frequent and when you have many packages
-it could be cumbersome to maintain your R up-to-date. Actually, it is as easy as
+The complaint of very frequent updates might be legitimate as it could be cumbersome to maintain `R` up-to-date when you have many packages. Actually, it is as easy as:
+
 ```{r, eval=FALSE}
 update.packages()
 ```
 
-But, next to the `Install` button, you should use the `Update` green button in the `Packages` tab. 
-The advantage is that you could check the ones you want and also click on the `NEWS` links to see
-that was actually changed.
+But, you should rather use the green `Update` button next to the `Install` (located in the `Packages` tab). The advantage is that you can check which package you would like to update and look at the actual changes by clicking on the `NEWS` link.
 
 ### install bioconductor packages
 
-The [bioconductor](https://www.bioconductor.org/) resource will be detailed latter, but for now 
-we could save time and install the necessary packages before the workshop.
+The [bioconductor](https://www.bioconductor.org/) resource will be detailed later, but to save time, copy / paste the following code into the consoleto install the necessary packages before the workshop:
 
-Copy / paste the following the console.
 ```{r, eval=FALSE}
 source("https://bioconductor.org/biocLite.R")
 # to install the version 3.3 of the bioconductor installer.
 biocLite(c("limma", "Biobase", "GEOquery"))
 ```
 
-
-
 #### Package updates
 
-No interface for bioconductor packages, you will need to run
+There is no interface for bioconductor packages thus you need to run the following lines to update the packages (you will be asked if you want to update some / all):
+
 ```{r, eval=FALSE}
 source("https://bioconductor.org/biocLite.R")
 biocLite()
 ```
-and you will be asked if you want to update some / all
 
 <a name="reinstallr"/>
 
 ### About packages and major version
 
-A very recent package `reinstall` is doing a neat job looking at the installed packages and those you already used by parsing your `.R`, `.Rmd` etc. your R files.
+A very recent package `reinstall` is doing a neat job looking at the installed packages and those you already used by parsing your your R files (`.R`, `.Rmd` etc.).
 
-For example, after I upgraded to `3.3` I forgot some packages and can decide if I want to install or not.
+For example, after I upgraded to `3.3` I forgot some packages and can decide if I want to install them or not.
+
 ```{r, eval=FALSE}
 #devtools::install_github("calligross/reinstallr")
 library("reinstallr")
@@ -162,10 +149,9 @@ y: Yes! Go ahed!
 n: No, fortget it!
 ```
 
-
 ## Testing your installation
 
-Copy / paste this code and you should obtain the following plot.
+Copy / paste the code below and you should obtain the following plot.
 ```{r}
 library("ggplot2")
 library("tidyr")
@@ -185,4 +171,3 @@ If not, please [contact me](mailto:aurelien.ginolhac@uni.lu) with the error prod
 ```{r}
 sessionInfo()
 ```
-
