@@ -63,6 +63,14 @@ biocLite("limma")
 
 <img src="img/drob_r_pipeline_600.jpg">
 
+## Period of much suckiness
+
+```{r, echo=FALSE}
+#devtools::install_github("ijlyttle/vembedr")
+library("vembedr")
+suppressPackageStartupMessages(library("dplyr"))
+embed_youtube("8SGif63VW6E")
+```
 
 ## Period of much suckiness
 
@@ -71,8 +79,6 @@ biocLite("limma")
 > -- <cite>[Hadley Wickham][1]</cite>
 
 [1]:https://youtu.be/8SGif63VW6E?t=4m12s
-
-
 # Rstudio | Integrated Development Editor
 
 ## Layout, 4 panels
@@ -115,4 +121,11 @@ mtcars %>% group_by(cyl) %>% summarize(mean(mpg))
 ```
 
 [source by Steve Simpson](http://data-steve.github.io/base-r-groupby-tapply-ave-by/)
+
+## Exploratory
+
+step-by-step tidying and manipulating data frames
+
+https://exploratory.io/
+
 
