@@ -15,8 +15,6 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## R workshop | Day 2 - advanced
 
-
-
 ## Modern R
 
 [David Robinson](http://varianceexplained.org/) summarized the goal on his laptop
@@ -36,10 +34,10 @@ Tutorial based on the great conference by [Hadley Wickham][1]
 
 ## Functional programming and nested data_frames
 
-Using `purrr` and `tidyr`. Hadley takes every part of `R` and _clean_ it up.
+Using `purrr` and `tidyr`. Hadley takes every part of `R` and _cleans_ it up.
 
-`purrr` revisit the `apply` family in a consistent way.
-`tidyr::nest` nest list in `tibble::data_frame` to keep related things together.
+`purrr` revisits the `apply` family in a consistent way.
+`tidyr::nest` nests list in `tibble::data_frame` to keep related things together.
 
 ## For loops emphasis objects and not actions
 
@@ -58,7 +56,6 @@ library("purrr")
 map_dbl(mtcars, mean)
 ```
 
-
 ## Nested map
 
 ```{r}
@@ -68,8 +65,6 @@ funs <- list(mean = mean, median = median, sd = sd)
 funs %>%
   map(~ mtcars %>% map_dbl(.x))
 ```
-
-
 
 ## Keep related things together
 
@@ -86,7 +81,7 @@ by_country_lm <- gapminder %>%
 
 ## Tidying model coefficients
 
-From `lm()` extract in neat data frames using broom:
+Use broom to extract from `lm()` in neat data frames:
 - coefficients estimates: **slope** and **intercept**
 - $r^2$ 
 - residuals
@@ -125,7 +120,6 @@ models %>%
 ```
 
 ## All in all
-
 
 ```{r}
 models %>%

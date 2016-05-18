@@ -10,6 +10,7 @@ output:
 ---
 
 ```{r setup, include=FALSE}
+library(dplyr)
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
@@ -33,6 +34,7 @@ knitr::opts_chunk$set(echo = FALSE)
 ![](img/install_packages_300.png)
 
 - [GitHub](https://github.com/) using [devtools](https://github.com/hadley/devtools). Check [status](https://github.com/hadley/readr)
+
 ```{r, eval=FALSE}
 # install.packages("devtools")
 devtools::install_github("hadley/readr")
@@ -65,7 +67,7 @@ biocLite("limma")
 ## Period of much suckiness
 
 > Whenever you’re learning a new tool, for a long time you’re going to suck...</br>
-> But the good news is that is typical, that’s something that happens to everyone, and it’s only temporary.</br>
+> But the good news is that it's typical, that’s something that happens to everyone, and it’s only temporary.</br>
 > -- <cite>[Hadley Wickham][1]</cite>
 
 [1]:https://youtu.be/8SGif63VW6E?t=4m12s
@@ -85,7 +87,6 @@ biocLite("limma")
 - autocompletion using TAB
 - Cheatsheets
 - Keyboard shortcuts
-
 
 # Chaining
 
