@@ -3,13 +3,13 @@ title: "Install tutorial"
 author: "Aurélien Ginolhac"
 date: "14 April 2016"
 output:
-  pdf_document:
-    toc: yes
-    fig_caption: no
   html_document:
     theme: cosmo
     toc: yes
     toc_float: yes
+  pdf_document:
+    fig_caption: no
+    toc: yes
 ---
 
 ```{r setup, include=FALSE}
