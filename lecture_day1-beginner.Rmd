@@ -15,8 +15,6 @@ knitr::opts_chunk$set(echo = FALSE)
 
 ## R workshop | Day 1 - beginner
 
-
-
 ## Why learn R? {.build}
 
 - Free!
