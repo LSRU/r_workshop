@@ -3,13 +3,13 @@ title: "Install tutorial"
 author: "Aurélien Ginolhac"
 date: "14 April 2016"
 output:
-  pdf_document:
-    fig_caption: no
-    toc: yes
   html_document:
     theme: cosmo
     toc: yes
     toc_float: yes
+  pdf_document:
+    fig_caption: no
+    toc: yes
 ---
 
 ```{r setup, include=FALSE}
@@ -86,6 +86,7 @@ On the bottom-right panel, 5 tabs are present:
 
 Click on the `Packages` tab (1.) and select the select the `Install` button (2.). Type `dplyr, tidyr, ggplot2, ggrepel, devtools, broom, purrr, shiny, readr, readxl, d3heatmap, stringr, rmarkdown, knitr, tibble` in (3.)
 
+
 ![](img/install_packages_300.png)
 
 It takes some time, usually 10 seconds up to 5 minutes for a single package depending on its size and compilation stage.
@@ -113,7 +114,7 @@ But, you should rather use the green `Update` button next to the `Install` (loca
 
 ### install bioconductor packages
 
-The [bioconductor](https://www.bioconductor.org/) resource will be detailed later, but to save time, copy / paste the following code into the consoleto install the necessary packages before the workshop:
+The [bioconductor](https://www.bioconductor.org/) resource will be detailed later, but to save time, copy / paste the following code into the console to install the necessary packages before the workshop:
 
 ```{r, eval=FALSE}
 source("https://bioconductor.org/biocLite.R")
