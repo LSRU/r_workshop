@@ -3,13 +3,13 @@ title: "Install tutorial"
 author: "Aurélien Ginolhac"
 date: "14 April 2016"
 output:
+  pdf_document:
+    fig_caption: no
+    toc: yes
   html_document:
     theme: cosmo
     toc: yes
     toc_float: yes
-  pdf_document:
-    fig_caption: no
-    toc: yes
 ---
 
 ```{r setup, include=FALSE}
@@ -84,7 +84,7 @@ On the bottom-right panel, 5 tabs are present:
 - Help
 - Viewer
 
-Click on the `Packages` tab (1.) and select the select the `Install` button (2.). Type `dplyr, tidyr, ggplot2, ggrepel, devtools, broom, purrr, shiny, readr, readxl, d3heatmap, stringr, rmarkdown, knitr` in (3.)
+Click on the `Packages` tab (1.) and select the select the `Install` button (2.). Type `dplyr, tidyr, ggplot2, ggrepel, devtools, broom, purrr, shiny, readr, readxl, d3heatmap, stringr, rmarkdown, knitr, tibble` in (3.)
 
 ![](img/install_packages_300.png)
 
