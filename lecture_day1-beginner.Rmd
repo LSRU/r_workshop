@@ -491,7 +491,7 @@ by_day %>%
 * Find the destinations with the highest average arrival delay?
   - discard flights with missing data as arrival delay
   - count the number of flights per destination
-  - discard results with less than 10 flights, mean not meaninful
+  - discard results with less than 10 flights, mean not meaningful
 
 ## Solution
 
@@ -717,8 +717,7 @@ gather(iris, leaf, value, 1:4) %>%
 
 ## Recommended reading
 
-Reading
->* Excellent recent ressource about `R` by [Ewen Gallic](http://egallic.fr/Enseignement/R/m1_stat_eco_logiciel_R.pdf)
+Excellent ressource about `R` (in French) by [Ewen Gallic](http://egallic.fr/Enseignement/R/m1_stat_eco_logiciel_R.pdf)
 
 ## Acknowledgments
 
