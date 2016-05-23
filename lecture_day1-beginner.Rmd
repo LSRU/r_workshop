@@ -69,7 +69,7 @@ biocLite("limma")
 #devtools::install_github("ijlyttle/vembedr")
 library("vembedr")
 suppressPackageStartupMessages(library("dplyr"))
-embed_youtube("8SGif63VW6E")
+embed_youtube("8SGif63VW6E", query = list(start = secs("4m12s")))
 ```
 
 ## Period of much suckiness
