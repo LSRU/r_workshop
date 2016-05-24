@@ -10,6 +10,15 @@ output:
     toc_float: yes
 ---
 
+### Intructors
+
+Life Sciences Research Unit](http://wwwen.uni.lu/recherche/fstc/life_sciences_research_unit/),
+University of Luxembourg
+
+- [Aurélien Ginolhac](mailto:aurelien.ginolhac@uni.lu)
+- Eric Koncina
+
+
 ### Preliminary program
 
 #### June 2nd morning, for complete beginner
