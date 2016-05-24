@@ -18,6 +18,9 @@ University of Luxembourg
 - [Aurélien Ginolhac](mailto:aurelien.ginolhac@uni.lu)
 - Eric Koncina
 
+### Install tutorial
+
+visit the [dedicated page](install_tutorial.html)
 
 ### Preliminary program
 
