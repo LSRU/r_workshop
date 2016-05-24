@@ -1,0 +1,66 @@
+---
+title: "R workshop"
+author: "Aurélien Ginolhac"
+date: "2nd and 3rd June 2016"
+output: 
+  html_document: 
+    theme: cosmo
+    toc: yes
+    toc_depth: 4
+    toc_float: yes
+---
+
+### Preliminary program
+
+#### June 2nd morning, for complete beginner
+
+##### Lecture ~ 45 minutes
+
+##### hands-on Rstudio
+
+- practise on a small dataset
+  + reading, specify locales and avoid factor conversions
+- tidying data
+  + transform wide / long format
+  + detect and remove mistakes 
+- plotting with `ggplot2`
+  + introduction to the grammar of graphics
+  + use aesthetics to map variables to columns
+  + explore the world of `geom_*`
+  + faceting for 1 or 2 variables
+- practise on normalisation of qPCR (or any) data
+
+#### June 2nd afternoon, intermediate level
+
+##### small presentation ~ 20 minutes
+
+##### microarray hands-on
+
+- public dataset from GEO using bioconductor package
+- tidying data, split text and unnesting cells
+- Contrast using `limma`
+- merging annotation tables
+- exploring histograms of p-value / adjusted-p.value
+- viz intersection using `UpSetR`.
+- viz comparison using heatmap and dynamic (d3) `heatmap`
+- Finding house keeping genes using linear models using `dplyr::do()`
+
+#### June 3rd morning, advanced user
+
+##### small presentation ~ 20 minutes
+
+##### practical with yeast data.
+
+- tidying data
+- performing thousands of linear regression
+- tidying / ranking models using functional programming using purrr and nested data frames
+- animate time series using gganimate
+- interactive input using embedded shiny in rmarkdown
+- exploring the git integration in Rstudio
+
+### Practical information
+
+#### Location
+
+Campus Belval, [Maison du Savoir](http://wwwfr.uni.lu/contact/campus_de_belval)
+Room 2.220
