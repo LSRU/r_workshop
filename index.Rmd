@@ -12,7 +12,7 @@ output:
 
 ### Intructors
 
-Life Sciences Research Unit](http://wwwen.uni.lu/recherche/fstc/life_sciences_research_unit/),
+[Life Sciences Research Unit](http://wwwen.uni.lu/recherche/fstc/life_sciences_research_unit/)  
 University of Luxembourg
 
 - [Aurélien Ginolhac](mailto:aurelien.ginolhac@uni.lu)
@@ -72,4 +72,12 @@ University of Luxembourg
 #### Location
 
 Campus Belval, [Maison du Savoir](http://wwwfr.uni.lu/contact/campus_de_belval)
-Room 2.220
+in **Room 2.220**, second floor.
+
+![](img/room220_320.jpg)
+
+---
+
+Inside
+
+![](img/room2.220_300.jpg)
