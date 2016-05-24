@@ -17,6 +17,11 @@ slides > slide:not(.nobackground):before {
   background-size: 50px 50px;
 }
 
+.codefont pre {
+    font-size: 12px;
+    line-height: 10px;
+}
+
 
 .wrapper {
   text-align: center;
@@ -48,11 +53,12 @@ blockquote::before {
     position: absolute;
   left: -20%;
 }
+/*
 p {
   font-size: 1.25rem;
   font-style: italic;
   text-align: left;
-}
+}*/
 @media (max-width: 600px) {
   blockquote::after {
     bottom: unset;

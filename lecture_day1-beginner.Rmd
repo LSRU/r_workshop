@@ -222,6 +222,16 @@ iris %>%
   geom_boxplot(aes(x = Species, y = measure, fill = flower))
 ```
 
+## Scatterplots
+
+```{r, out.width='450px', out.height='450px'}
+iris %>%
+  ggplot(aes(x = Sepal.Length, y = Sepal.Width, colour = Species))+
+  geom_point()+
+  geom_smooth(method = "lm", se = FALSE)
+```
+
+
 ## Barplots
 
 ```{r, out.width='450px', out.height='450px'}
@@ -230,13 +240,41 @@ iris_melt %>%
   geom_bar(aes(x = Species, y = measure, fill = flower), stat = "identity")
 ```
 
+## Density and faceting
+
+transparency using the `alpha` parameter
+```{r}
+iris_melt %>%
+  ggplot()+
+  geom_density(aes(x = measure, fill = Species, colour = Species), alpha = 0.6)+
+  facet_wrap(~ flower, scale = "free")+
+  theme_bw()
+```
+
+## facetting
+
+transparency using the `alpha` parameter
+```{r}
+iris_melt %>%
+  ggplot()+
+  geom_density(aes(x = measure, fill = Species, colour = Species), alpha = 0.6)+
+  facet_grid(Species ~ flower, scale = "free")+
+  theme_bw()
+```
+
 ## Recommended reading
 
-Excellent ressource about `R` (in French) by [Ewen Gallic](http://egallic.fr/Enseignement/R/m1_stat_eco_logiciel_R.pdf)
+- [R for data science](http://r4ds.had.co.nz) by Hadley & Garrett
+  + [reading data](http://r4ds.had.co.nz/data-import.html)
+  + [tidy data](http://r4ds.had.co.nz/tidy-data.html)
+  + [plotting](http://r4ds.had.co.nz/data-visualisation.html)
+- Excellent ressource about `R` (in French) by 
+[Ewen Gallic](http://egallic.fr/Enseignement/R/m1_stat_eco_logiciel_R.pdf)
 
 ## Acknowledgments
 
-Hadley
-Ewen
+Hadley Wickham
+Garrett Grolemund
+Ewen Gallic
 Simon
-David 
+David Robinson
