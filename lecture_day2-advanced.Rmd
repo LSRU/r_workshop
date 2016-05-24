@@ -23,6 +23,18 @@ knitr::opts_chunk$set(echo = TRUE)
 
 see also what Karl Broman is recommanding for [people who learnt R a while ago](http://kbroman.org/hipsteR/)
 
+## reading data
+
+Recently the project `feather` for python / R was achieved by Hadley Wickham and  Wes McKinney 
+
+Column structure and binary storage. Column types are preserved
+
+<img src="img/feather_perf_20.png">
+
+- [Rstudio blog](https://blog.rstudio.org/2016/03/29/feather/)
+- [performance benchmark](https://blog.dominodatalab.com/the-r-data-i-o-shootout/)
+- [github repo](https://github.com/wesm/feather)
+
 ## Managing multiple models
 
 Tutorial based on the great conference by [Hadley Wickham][1]
@@ -32,14 +44,14 @@ Tutorial based on the great conference by [Hadley Wickham][1]
 [1]:https://www.youtube.com/watch?v=rz3_FDVt9eg
 
 
-## Functional programming and nested data_frames
+## Functional programming and nested data_frames {.codefont}
 
 Using `purrr` and `tidyr`. Hadley takes every part of `R` and _cleans_ it up.
 
 `purrr` revisits the `apply` family in a consistent way.
 `tidyr::nest` nests list in `tibble::data_frame` to keep related things together.
 
-## For loops emphasis objects and not actions
+## For loops emphasis objects and not actions {.codefont}
 
 compare (notice `seq_along` instead of `1:length(mtcars)`)
 ```{r}

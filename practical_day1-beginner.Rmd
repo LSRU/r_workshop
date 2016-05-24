@@ -1,0 +1,22 @@
+---
+title: "practical - beginner"
+knit: unilur::knit
+author: "Aurelien Ginolhac"
+date: "2nd June 2016"
+output:
+  unilur::tutorial:
+    solution: yes
+---
+
+
+## Reading data
+
+Download this simple tab-separated file
+http://lsru.github.io/r_workshop/data/women.tsv
+
+load it
+```{r}
+library("readr")
+df <- read_tsv("women.tsv", col_names = TRUE)
+df
+```

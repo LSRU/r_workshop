@@ -183,35 +183,23 @@ iris_melt %>%
   spread(flower, measure)
 ```
 
-
-## Reading data
-
+## Separate / Unite
 
 
 
-```{r}
-library("readr")
-df <- read_tsv("women.tsv", col_names = TRUE)
-df
-```
+# Reading data
 
-## Reading data 2/3
 
+## Use rstudio project
+
+##
 
 Using `Rstudio`, right bottom panel. Select the **folder**
 
 <img src="img/rstudio_explorer.png">
 
-## Reading data 2/3
 
-When the **folder** is selected and its content displayed, tell `R` to use this location (alternative to `setwd(/path/to/location)`). Press the `More` menu and click on
-
-`Set As Working Directory`
-
-<img src="img/rstudio_setwd.png">
-
-
-## Reading data 3/3
+## import file
 
 
 Using `Rstudio`, right top panel. Select directly your **file**
@@ -219,10 +207,9 @@ Using `Rstudio`, right top panel. Select directly your **file**
 <img src="img/rstudio_import.png">
 
 
-
-
 # Plotting | ggplot2
 
+[overview](http://rvisualization.com/ggplot2-overview-2/)
 
 ## Why tidy is useful?
 
@@ -242,8 +229,6 @@ iris_melt %>%
   ggplot()+
   geom_bar(aes(x = Species, y = measure, fill = flower), stat = "identity")
 ```
-
-[overview](http://rvisualization.com/ggplot2-overview-2/)
 
 ## Recommended reading
 
