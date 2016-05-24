@@ -11,7 +11,7 @@ output:
 
 ```{r setup, include=FALSE}
 library(dplyr)
-knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ## R workshop | Day 1 - beginner
@@ -51,7 +51,7 @@ biocLite("limma")
 </div>
 
 
-# More and more packages
+## More and more packages
 
 ![](img/packages_vs_r_version.jpg)
 
@@ -79,6 +79,7 @@ embed_youtube("8SGif63VW6E", query = list(start = secs("4m12s")))
 > -- <cite>[Hadley Wickham][1]</cite>
 
 [1]:https://youtu.be/8SGif63VW6E?t=4m12s
+
 # Rstudio | Integrated Development Editor
 
 ## Layout, 4 panels
@@ -127,16 +128,65 @@ rnorm(10) %>%
 # tidyr
 
 
-## Concept
+## Concept | Definitions
+
+- **Variable**: A quantity, quality, or property that you can measure.
+- **Observation**: A set of values that display the relationship between variables.
+  + To be an observation, values need to be measured under similar conditions, usually measured on the same observational unit at the same time.
+- **Value**: The state of a variable that you observe when you measure it.
+
+[source: Garret Grolemund](http://garrettgman.github.io/tidying/)
+
+## Concept | Rules
+
+1. Each variable is in its own column
+2. Each observation is in its own row
+3. Each value is in its own cell
+
+![](img/tidy-1.png)
+
+## Long / wide format
+
+The wide format is generally untidy _but_ found in the majority of datasets
+
+`tidyr` convert from one to another
+
+Wide > Long
+![](img/tidy-gather.png)
+Long > Wide 
+![](img/tidy-spread.png)
 
 
+## Demo with iris
 
+```{r}
+head(iris, 3)
+```
 
+gather
 
+```{r}
+library("tidyr")
+iris_melt <- iris %>%
+  tibble::rownames_to_column() %>%
+  dplyr::tbl_df() %>%
+  gather(flower, measure, contains("al"))
+iris_melt
+```
 
+##
+
+spread
+
+```{r}
+iris_melt %>%
+  spread(flower, measure)
+```
 
 
 ## Reading data
+
+
 
 
 ```{r}
@@ -171,54 +221,29 @@ Using `Rstudio`, right top panel. Select directly your **file**
 
 
 
-## Plotting
-
-Overview
-
-Switch from "wide" format to "long" format
+# Plotting | ggplot2
 
 
-See "tidy-data-playbook" by [Garrett Grolemund](http://garrettgman.github.io/tidying/)
-
-Example
-
-
-```{r}
-head(iris, 5)
-dim(iris)
-```
-
-```{r}
-library("tidyr")
-iris.melt <- gather(iris, petal, value, 3:4)
-dim(iris.melt)
-head(iris.melt, 5)
-```
-
-## Why is this useful?
+## Why tidy is useful?
 
 ```{r}
 library("tidyr")
 library("ggplot2")
 iris %>%
-  gather(petal, value, 3:4) %>%
+  gather(flower, measure, 1:4) %>%
   ggplot()+
-  geom_boxplot(aes(x = Species, y = value, fill = petal))
+  geom_boxplot(aes(x = Species, y = measure, fill = flower))
 ```
-
-![](https://faculty.elgin.edu/dkernler/statistics/ch03/images/boxplot.gif)
-
 
 ## Barplots
 
 ```{r, out.width='450px', out.height='450px'}
-library("tidyr")
-gather(iris, leaf, value, 1:4) %>%
+iris_melt %>%
   ggplot()+
-  geom_bar(aes(x = Species, y = value, fill = leaf), stat = "identity")
+  geom_bar(aes(x = Species, y = measure, fill = flower), stat = "identity")
 ```
 
-<a href = "http://rvisualization.com/ggplot2-overview-2/">
+[overview](http://rvisualization.com/ggplot2-overview-2/)
 
 ## Recommended reading
 
