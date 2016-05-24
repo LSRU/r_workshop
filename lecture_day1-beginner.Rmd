@@ -82,12 +82,21 @@ embed_youtube("8SGif63VW6E", query = list(start = secs("4m12s")))
 
 `vector`, `lists`, `data.frame`, `matrix`, `array` etc
 
+Lists are objects that could contain anything
+
+```{r}
+list(a = 1:3, b = c("hello", "bye"), data = head(iris, 2))
+```
+
+
 Focus on `data.frame` which are `lists` where all columns have **equal** length
 
 ```{r}
 class(iris)
 class(unclass(iris))
 ```
+
+Actually, better to use `tbl_df`
 
 # Rstudio | Integrated Development Editor
 
@@ -104,6 +113,17 @@ class(unclass(iris))
 - Cheatsheets
 - Keyboard shortcuts
 
+
+Cmd + Enter: sends line or selection from the editor to the console and runs it.
+(Ctrl + Enter on a PC)
+↑: in the console browse previous commands
+
+## Update options
+
+Recommended in the [r4ds](http://r4ds.had.co.nz/introduction.html#prerequisites)
+To get a clean environment at start-up
+
+![](img/rstudio-workspace.png)
 
 ## Projects
 
