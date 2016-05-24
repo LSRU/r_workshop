@@ -9,14 +9,25 @@ output:
 ---
 
 
+## Project
+
+Create a new project in a meaningful folder name on your computer such as
+`R_workshop/day1-beginner`
+
+using the project manager utility, top-right of the rstudio window.
+
 ## Reading data
 
 Download this simple tab-separated file
 http://lsru.github.io/r_workshop/data/women.tsv
 
-load it
-```{r}
+and save it inside the folder `R_workshop/day1-beginner/data`.
+
+Remember your current active rstudio project should be `day1-beginner`
+
+load it, now the root is the project, so all paths are relative to it
+```{r, eval=FALSE}
 library("readr")
-df <- read_tsv("women.tsv", col_names = TRUE)
+df <- read_tsv("data/women.tsv", col_names = TRUE)
 df
 ```

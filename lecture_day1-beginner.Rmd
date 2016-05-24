@@ -334,6 +334,7 @@ iris_melt %>%
 
 Hadley Wickham
 Garrett Grolemund
+Jenny Bryan
 Ewen Gallic
 Simon
 David Robinson
