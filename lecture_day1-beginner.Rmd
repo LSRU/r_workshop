@@ -48,8 +48,6 @@ biocLite("limma")
 
 ![](img/install_console_200.png)
 
-</div>
-
 
 ## More and more packages
 
@@ -80,6 +78,17 @@ embed_youtube("8SGif63VW6E", query = list(start = secs("4m12s")))
 
 [1]:https://youtu.be/8SGif63VW6E?t=4m12s
 
+## R data structures
+
+`vector`, `lists`, `data.frame`, `matrix`, `array` etc
+
+Focus on `data.frame` which are `lists` where all columns have **equal** length
+
+```{r}
+class(iris)
+class(unclass(iris))
+```
+
 # Rstudio | Integrated Development Editor
 
 ## Layout, 4 panels
@@ -88,12 +97,19 @@ embed_youtube("8SGif63VW6E", query = list(start = secs("4m12s")))
 
 ## Features
 
-- Package management
-- Console to run R, with syntax highligther
+- Package management (also for building)
+- Console to run `R`, with syntax highligther
 - Editor to work with scripts / markdown
 - autocompletion using TAB
 - Cheatsheets
 - Keyboard shortcuts
+
+
+## Projects
+
+Solve most issues with working directory, get rid of `setwd()`
+
+![](img/rstudio_project.png)
 
 # Chaining
 
@@ -115,7 +131,9 @@ set.seed(124)
 rnorm(10) %>% mean %>% round(3)
 ```
 
-Easy to read, natural from left to right.
+# Easier to read
+
+natural from left to right.
 
 Even better with **one** instruction per line and **indentation**
 ```{r}
@@ -125,19 +143,19 @@ rnorm(10) %>%
   round(3)
 ```
 
-# tidyr
+# Tidying data | tidyr
 
 
-## Concept | Definitions
+## Definitions
 
-- **Variable**: A quantity, quality, or property that you can measure.
-- **Observation**: A set of values that display the relationship between variables.
++ **Variable**: A quantity, quality, or property that you can measure.
++ **Observation**: A set of values that display the relationship between variables.
   + To be an observation, values need to be measured under similar conditions, usually measured on the same observational unit at the same time.
-- **Value**: The state of a variable that you observe when you measure it.
++ **Value**: The state of a variable that you observe when you measure it.
 
 [source: Garret Grolemund](http://garrettgman.github.io/tidying/)
 
-## Concept | Rules
+## Rules
 
 1. Each variable is in its own column
 2. Each observation is in its own row
@@ -185,9 +203,27 @@ iris_melt %>%
 
 ## Separate / Unite
 
+```{r, echo=FALSE}
+df <- data_frame(year = c(2015, 2014, 2014),
+                 month = c(11, 2, 4),
+                 day = c(23, 1, 30),
+                 value = c("high", "low", "low"))
+```
+unite
+```{r}
+df %>%
+  unite(date, c(year, month, day), sep = "-") -> df_unite
+```
+
+separate, use **quotes** since not refering to objects
+```{r}
+df_unite %>%
+  separate(date, c("year", "month", "day"))
+```
 
 
-# Reading data
+
+# Reading data | readr
 
 
 ## Use rstudio project
@@ -228,7 +264,10 @@ iris %>%
 iris %>%
   ggplot(aes(x = Sepal.Length, y = Sepal.Width, colour = Species))+
   geom_point()+
-  geom_smooth(method = "lm", se = FALSE)
+  geom_smooth(method = "lm", se = FALSE)+
+  xlab("Length")+
+  ylab("Width")+
+  ggtitle("Sepal")
 ```
 
 
