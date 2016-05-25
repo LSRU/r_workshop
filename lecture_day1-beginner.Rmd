@@ -26,7 +26,7 @@ knitr::opts_chunk$set(echo = TRUE)
 - Community
   + [`#rstats`](https://twitter.com/search?q=%23rstats) on twitter
   + [rbloggers](http://www.r-bloggers.com/)
-  + [stackoverflow](http://stackoverflow.com/questions/tagged/r) many more tags `dplyr`, `ggplot2` etc
+  + [stackoverflow](http://stackoverflow.com/questions/tagged/r) with a lot of tags like `dplyr`, `ggplot2` etc
 
 <img src="img/r_community_450.png">
 
@@ -35,18 +35,18 @@ knitr::opts_chunk$set(echo = TRUE)
 
 
 <div class="columns-2">
-- CRAN, reliable many checks when submitting
+- CRAN *<span class="green2">reliable: package is checked during submit process</span>*
 
 ![](img/install_packages_300.png)
 
-- [GitHub](https://github.com/) using [devtools](https://github.com/hadley/devtools). Check [status](https://github.com/hadley/readr)
+- [GitHub](https://github.com/) using [devtools](https://github.com/hadley/devtools). *<span class="yellow2">Check [status](https://github.com/hadley/readr)</span>*
 
 ```{r, eval=FALSE}
 # install.packages("devtools")
 devtools::install_github("hadley/readr")
 ```
 
-- [bioconductor](https://www.bioconductor.org/). Check [status](https://www.bioconductor.org/packages/release/bioc/html/limma.html)
+- [bioconductor](https://www.bioconductor.org/). *<span class="yellow2">Check [status](https://www.bioconductor.org/packages/release/bioc/html/limma.html)</span>*
 ```{r, eval=FALSE}
 source("https://bioconductor.org/biocLite.R")
 biocLite("limma")
@@ -63,7 +63,7 @@ biocLite("limma")
 
 ## Pipeline goal
 
-[David Robinson](http://varianceexplained.org/) summarized the goal on his laptop
+[David Robinson](http://varianceexplained.org/) summarized the workflow on his laptop
 
 <img src="img/drob_r_pipeline_600.jpg">
 
@@ -114,18 +114,16 @@ Actually, better to use `tbl_df`
 
 ## Features
 
-- Package management (also for building)
+- Package management (including building)
 - Console to run `R`, with syntax highligther
 - Editor to work with scripts / markdown
 - autocompletion using TAB
 - Cheatsheets
 - Keyboard shortcuts
 
+<kbd>Cmd + Enter</kbd> (mac) or<kbd>Ctrl + Enter</kbd> (PC): sends the line or selection from the editor to the console and runs it.
 
-Cmd + Enter: sends line or selection from the editor to the console and runs it.
-(Ctrl + Enter on a PC)
-
-↑: in the console browse previous commands
+<kbd>↑</kbd>: in the console browse previous commands
 
 ## Update options
 
@@ -146,7 +144,9 @@ Solve most issues with working directories, get rid of `setwd()`
 
 [magrittr by Stefan Milton Bache](https://cran.r-project.org/web/packages/magrittr/vignettes/magrittr.html)
 
-Compare
+
+<div class="columns-2">
+Compare:
 ```{r}
 set.seed(124)
 x <- rnorm(10)
@@ -154,11 +154,13 @@ mean(x)
 round(mean(x), 3)
 ```
 
-with
+with:
 ```{r}
 set.seed(124)
 rnorm(10) %>% mean %>% round(3)
 ```
+<br><br><br><br><br>
+</div>
 
 ## Easier to read
 
@@ -201,7 +203,7 @@ The wide format is generally untidy _but_ found in the majority of datasets
 ![](img/tidy-spread_600.png)
 
 
-## Demo with iris
+## Demo with the iris dataset
 
 ```{r}
 head(iris, 3)
@@ -242,7 +244,7 @@ df %>%
   unite(date, c(year, month, day), sep = "-") -> df_unite
 ```
 
-separate, use **quotes** since not refering to objects
+separate, use **quotes** since we are not refering to objects
 ```{r}
 df_unite %>%
   separate(date, c("year", "month", "day"))
@@ -271,7 +273,7 @@ View(soft)
 
 
 Using `Rstudio`, right top panel. Select directly your **file**.
-This actually uses **readr**
+This actually uses **readr**.
 
 <img src="img/rstudio_import_700.png">
 
@@ -403,7 +405,7 @@ iris_melt %>%
   + [tidy data](http://r4ds.had.co.nz/tidy-data.html)
   + [plotting](http://r4ds.had.co.nz/data-visualisation.html)
 - [ggplot2 layer by layer](http://rpubs.com/hadley/ggplot2-layers) by Hadley
-- Excellent ressource about `R` (in French) 
+- Excellent ressource on `R` (in French) 
 [Ewen Gallic](http://egallic.fr/Enseignement/R/m1_stat_eco_logiciel_R.pdf) by Ewen Gallic
 
 ## Acknowledgments
