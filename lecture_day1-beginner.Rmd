@@ -404,7 +404,7 @@ iris_melt %>%
   + [plotting](http://r4ds.had.co.nz/data-visualisation.html)
 - [ggplot2 layer by layer](http://rpubs.com/hadley/ggplot2-layers) by Hadley
 - Excellent ressource about `R` (in French) 
-[Ewen Gallic](http://egallic.fr/Enseignement/R/m1_stat_eco_logiciel_R.pdf) by Ewen Gallic
+[Introduction to R](http://egallic.fr/Enseignement/R/m1_stat_eco_logiciel_R.pdf) by Ewen Gallic
 
 ## Acknowledgments
 
