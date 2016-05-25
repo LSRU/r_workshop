@@ -31,7 +31,7 @@ knitr::opts_chunk$set(echo = TRUE)
 <img src="img/r_community_450.png">
 
 
-## Packages | as easy as `apt` and yes frequent updates
+## Packages
 
 
 <div class="columns-2">
@@ -95,7 +95,9 @@ list(a = 1:3, b = c("hello", "bye"), data = head(iris, 2))
 ```
 
 
-Focus on `data.frame` which are `lists` where all columns have **equal** length
+## Focus on `data.frame` 
+
+which are `lists` where all columns have **equal** length
 
 ```{r}
 class(iris)
@@ -251,19 +253,25 @@ df_unite %>%
 # Reading data | readr
 
 
-## Use rstudio project
+## read_tsv
 
-##
+Guess column types and give **warnings**.
 
-Using `Rstudio`, right bottom panel. Select the **folder**
+```{r}
+library("readr")
+soft <- read_tsv("data/GDS5079.soft", skip = 42, na = "null")
+```
 
-<img src="img/rstudio_explorer_600.png">
+Viewer utility
+```{r, eval=FALSE}
+View(soft)
+```
+
+## Easier: import file utility
 
 
-## import file
-
-
-Using `Rstudio`, right top panel. Select directly your **file**
+Using `Rstudio`, right top panel. Select directly your **file**.
+This actually uses **readr**
 
 <img src="img/rstudio_import_700.png">
 
