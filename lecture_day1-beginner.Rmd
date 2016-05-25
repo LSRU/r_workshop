@@ -95,16 +95,28 @@ list(a = 1:3, b = c("hello", "bye"), data = head(iris, 2))
 ```
 
 
-## Focus on `data.frame` 
+## Focus on data frames 
 
 which are `lists` where all columns have **equal** length
 
-```{r}
+```{r, collapse=TRUE}
 class(iris)
 class(unclass(iris))
 ```
 
-Actually, better to use `tbl_df`
+Actually, better to use `tbl_df` _tibble diff_ [rstudio blog](https://blog.rstudio.org/2016/03/24/tibble-1-0-0/)
+
+`data_frame()` does much less than `data.frame()`:
+
+- never changes the type of the inputs (_e.g._ it never converts strings to factors!)
+- never changes the names of variables
+- never creates row.names()
+- never print ALL rows
+
+but display
+
+- column types
+- groups (`dplyr::group_by()`)
 
 # Rstudio | Integrated Development Editor
 
@@ -115,9 +127,9 @@ Actually, better to use `tbl_df`
 ## Features
 
 - Package management (also for building)
-- Console to run `R`, with syntax highligther
+- Console to run `R`, with syntax highlighter
 - Editor to work with scripts / markdown
-- autocompletion using TAB
+- auto-completion using TAB
 - Cheatsheets
 - Keyboard shortcuts
 
@@ -242,7 +254,7 @@ df %>%
   unite(date, c(year, month, day), sep = "-") -> df_unite
 ```
 
-separate, use **quotes** since not refering to objects
+separate, use **quotes** since not referring to objects
 ```{r}
 df_unite %>%
   separate(date, c("year", "month", "day"))
@@ -403,7 +415,7 @@ iris_melt %>%
   + [tidy data](http://r4ds.had.co.nz/tidy-data.html)
   + [plotting](http://r4ds.had.co.nz/data-visualisation.html)
 - [ggplot2 layer by layer](http://rpubs.com/hadley/ggplot2-layers) by Hadley
-- Excellent ressource about `R` (in French) 
+- Excellent resource about `R` (in French) 
 [Introduction to R](http://egallic.fr/Enseignement/R/m1_stat_eco_logiciel_R.pdf) by Ewen Gallic
 
 ## Acknowledgments

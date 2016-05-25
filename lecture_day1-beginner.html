@@ -192,19 +192,32 @@ biocLite(&quot;limma&quot;)</pre>
 ## 1          5.1         3.5          1.4         0.2  setosa
 ## 2          4.9         3.0          1.4         0.2  setosa</pre>
 
-</article></slide><slide class=''><hgroup><h2>Focus on <code>data.frame</code></h2></hgroup><article  id="focus-on-data.frame" class="smaller ">
+</article></slide><slide class=''><hgroup><h2>Focus on data frames</h2></hgroup><article  id="focus-on-data-frames" class="smaller ">
 
 <p>which are <code>lists</code> where all columns have <strong>equal</strong> length</p>
 
-<pre class = 'prettyprint lang-r'>class(iris)</pre>
+<pre class = 'prettyprint lang-r'>class(iris)
+## [1] &quot;data.frame&quot;
+class(unclass(iris))
+## [1] &quot;list&quot;</pre>
 
-<pre >## [1] &quot;data.frame&quot;</pre>
+<p>Actually, better to use <code>tbl_df</code> <em>tibble diff</em> <a href='https://blog.rstudio.org/2016/03/24/tibble-1-0-0/' title=''>rstudio blog</a></p>
 
-<pre class = 'prettyprint lang-r'>class(unclass(iris))</pre>
+<p><code>data_frame()</code> does much less than <code>data.frame()</code>:</p>
 
-<pre >## [1] &quot;list&quot;</pre>
+<ul>
+<li>never changes the type of the inputs (<em>e.g.</em> it never converts strings to factors!)</li>
+<li>never changes the names of variables</li>
+<li>never creates row.names()</li>
+<li>never print ALL rows</li>
+</ul>
 
-<p>Actually, better to use <code>tbl_df</code></p>
+<p>but display</p>
+
+<ul>
+<li>column types</li>
+<li>groups (<code>dplyr::group_by()</code>)</li>
+</ul>
 
 </article></slide><slide class='segue dark nobackground'><hgroup class = 'auto-fadein'><h2>Rstudio </h2><h3> Integrated Development Editor</h3></hgroup><article  id="rstudio-integrated-development-editor" class="smaller ">
 
@@ -216,9 +229,9 @@ biocLite(&quot;limma&quot;)</pre>
 
 <ul>
 <li>Package management (also for building)</li>
-<li>Console to run <code>R</code>, with syntax highligther</li>
+<li>Console to run <code>R</code>, with syntax highlighter</li>
 <li>Editor to work with scripts / markdown</li>
-<li>autocompletion using TAB</li>
+<li>auto-completion using TAB</li>
 <li>Cheatsheets</li>
 <li>Keyboard shortcuts</li>
 </ul>
@@ -371,7 +384,7 @@ iris_melt</pre>
 <pre class = 'prettyprint lang-r'>df %&gt;%
   unite(date, c(year, month, day), sep = &quot;-&quot;) -&gt; df_unite</pre>
 
-<p>separate, use <strong>quotes</strong> since not refering to objects</p>
+<p>separate, use <strong>quotes</strong> since not referring to objects</p>
 
 <pre class = 'prettyprint lang-r'>df_unite %&gt;%
   separate(date, c(&quot;year&quot;, &quot;month&quot;, &quot;day&quot;))</pre>
@@ -536,7 +549,7 @@ iris %&gt;%
 <li><a href='http://r4ds.had.co.nz/tidy-data.html' title=''>tidy data</a></li>
 <li><a href='http://r4ds.had.co.nz/data-visualisation.html' title=''>plotting</a></li>
 <li><a href='http://rpubs.com/hadley/ggplot2-layers' title=''>ggplot2 layer by layer</a> by Hadley</li>
-<li>Excellent ressource about <code>R</code> (in French) <a href='http://egallic.fr/Enseignement/R/m1_stat_eco_logiciel_R.pdf' title=''>Ewen Gallic</a> by Ewen Gallic</li>
+<li>Excellent resource about <code>R</code> (in French) <a href='http://egallic.fr/Enseignement/R/m1_stat_eco_logiciel_R.pdf' title=''>Introduction to R</a> by Ewen Gallic</li>
 </ul>
 
 </article></slide><slide class=''><hgroup><h2>Acknowledgments</h2></hgroup><article  id="acknowledgments" class="smaller ">
