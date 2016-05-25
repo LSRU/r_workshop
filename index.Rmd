@@ -28,6 +28,8 @@ visit the [dedicated page](install_tutorial.html)
 
 ##### Lecture ~ 45 minutes
 
+- Slides: [online](lecture_day1-beginner.html) and [pdf](lecture_day1-beginner.pdf)
+
 ##### hands-on Rstudio
 
 - practise on a small dataset
@@ -71,6 +73,23 @@ visit the [dedicated page](install_tutorial.html)
 - exploring the git integration in Rstudio
 
 ### Practical information
+
+Please, do bring **your laptop** as no computer will be available.
+Everyone should have one according to the survey.
+
+#### Schedule
+
+-------------------------------------------------------
+Day               Session           Start       End
+----------------  ----------------  ----------  -------
+June 2nd          Beginner          08:30        12:30
+
+June 2nd          Intermediate      13:30       18:00
+
+June 3rd          Advanced          08:00        12:15
+-------------------------------------------------------
+
+Hot & cold drinks will be served during the morning breaks.
 
 #### Location
 

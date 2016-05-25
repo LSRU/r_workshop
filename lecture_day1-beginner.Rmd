@@ -290,6 +290,40 @@ iris %>%
   ggtitle("Sepal")
 ```
 
+## More aesthetics
+
+```{r}
+iris %>%
+  ggplot(aes(x = Sepal.Length, y = Sepal.Width,
+             size = Petal.Length / Petal.Width,
+             colour = Species))+
+  geom_point()+
+  scale_size_area("Petal ratio Length / Width")+
+  #scale_colour_brewer(palette = 1, type = "qual")+
+  scale_colour_manual(values = c("blue", "red", "orange"))+
+  xlab("Sepal.Length")+
+  ylab("Sepal.Width")
+```
+
+## in / out aesthetics
+
+```{r}
+iris %>%
+  ggplot(aes(x = Sepal.Length, y = Sepal.Width))+
+  geom_point(aes(colour = Species))
+```
+
+```{r}
+iris %>%
+  ggplot(aes(x = Sepal.Length, y = Sepal.Width))+
+  geom_point(aes(colour = "Species"))
+```
+
+```{r}
+iris %>%
+  ggplot(aes(x = Sepal.Length, y = Sepal.Width))+
+  geom_point(colour = "red")
+```
 
 ## Barplots
 
@@ -327,8 +361,9 @@ iris_melt %>%
   + [reading data](http://r4ds.had.co.nz/data-import.html)
   + [tidy data](http://r4ds.had.co.nz/tidy-data.html)
   + [plotting](http://r4ds.had.co.nz/data-visualisation.html)
-- Excellent ressource about `R` (in French) by 
-[Ewen Gallic](http://egallic.fr/Enseignement/R/m1_stat_eco_logiciel_R.pdf)
+- [ggplot2 layer by layer](http://rpubs.com/hadley/ggplot2-layers) by Hadley
+- Excellent ressource about `R` (in French) 
+[Ewen Gallic](http://egallic.fr/Enseignement/R/m1_stat_eco_logiciel_R.pdf) by Ewen Gallic
 
 ## Acknowledgments
 
