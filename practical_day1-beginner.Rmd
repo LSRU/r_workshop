@@ -1,5 +1,5 @@
 ---
-title: "practical - beginner"
+title: "Practical - beginner"
 knit: unilur::knit
 author: "Aurelien Ginolhac"
 date: "2nd June 2016"
@@ -16,16 +16,20 @@ output:
 
 using the project manager utility, top-right of the rstudio window.
 
-![](img/rstudio_project.png)
+![project menu](img/rstudio_project.png)
 
 - Create a new folder `data` using bottom-right panel > **Files** tab > _New Folder_ button 
 
-![](img/rstudio_newfolder.png)
+![Files tab](img/rstudio_newfolder.png)
 
 - Create a new script to write and execute your `R` commands.
-top-left panel > **Create** icon > _New Script_ entry
+top-left panel > **Create** icon > _New Script_ entry.
 
-![](img/rstudio_newscript.png)
+![create menu](img/rstudio_newscript.png)
+
+Now, you have the 4 panels of the rstudio layout.
+
+- Save the script with a relevant name `practical-beginner.R`
 
 ## Reading data
 
@@ -37,11 +41,140 @@ and save it inside the folder `R_workshop/day1-beginner/data`.
 Remember your current active rstudio project should be `day1-beginner`
 
 load it, now the root is the project, so all paths are relative to it
-```{r, eval=FALSE}
+```{r, eval=TRUE, collapse=TRUE}
 library("readr")
 df <- read_tsv("data/women.tsv", col_names = TRUE)
 df
 ```
 
 Thanks to `readr` the object `df` is already a _tibble diff_ [rstudio blog: tibble](https://blog.rstudio.org/2016/03/24/tibble-1-0-0/)
+
+
+## Manipulate data frame
+
+We keep this section short, as we will see `dplyr` to perform tasks on `data frames`
+
+Access to one column, display only the first elements
+```{r}
+head(df$height)
+```
+
+Using a similar syntax, apply:
+
+- the function `mean()` to find the mean of women' height.
+```{r, solution=TRUE}
+mean(women$height)
+```
+- the function `var()` to find the variance of women' weight.
+```{r, solution=TRUE}
+mean(women$weight)
+```
+
+To compute her BMI (remember `height` are inches and `weight` US pounds) the formula is:
+
+$$BMI = \frac{weight}{height^2} * 703$$
+
+For the first individual (`^2` for square):
+```{r}
+(115 / 58^2) * 703
+```
+
+- Compute the BMI for all individuals, save it as `bmi`
+```{r, solution=TRUE}
+bmi <- (women$weight / women$height^2) * 703
+```
+
+- Compute the mean and median of all BMI
+```{r, solution=TRUE, collapse=TRUE}
+mean(bmi)
+median(bmi)
+```
+
+## plotting
+
+First load `dplyr` so we can the `%>%` pipe operator
+```{r}
+library("dplyr")
+```
+
+Using `df` dataset:
+
+- plot the `heigh` in function of the weight (`geom_point()`)
+
+```{r, solution=TRUE}
+library("ggplot2")
+df %>%
+  ggplot(aes(x = weight, y = height))+
+  geom_point()
+```
+
+- use the previous scatterplot, but map the point' size to the `bmi`
+```{r, solution=TRUE}
+df %>%
+  ggplot(aes(x = weight, y = height,
+             size = bmi))+
+  geom_point()
+```
+
+## tidying and plotting
+
+`df` has 2 columns, both contain values.
+- use `gather()` from `tidyr` to get two columns
+  + `measure` for either height or weight
+  + `value` for actual measurements
+Remember that `gather` takes by default all columns.
+- save as `df_melt`
+```{r, solution=TRUE}
+library("tidyr")
+df_melt <- gather(df, measure, value)
+```
+
+- plot the distribution as boxplots of both measures
+```{r, solution=TRUE}
+df_melt %>%
+  ggplot(aes(x = measure, y = value))+
+  geom_boxplot()
+```
+
+## plot densities
+
+### adding a column to a data frame
+
+Let's add `bmi` as a third column to `df`.
+
+```{r, collapse=TRUE}
+df$bmi <- bmi
+head(df)
+```
+
+### plot densities
+
+- tidy the 3 columns and plot all densities using different colours and transparency
+You will need to make a new `df_melt` data frame first.
+```{r, solution=TRUE}
+df_melt <- gather(df, measure, value)
+df_melt %>%
+  ggplot(aes(x = value, fill = measure, colour = measure))+
+  geom_density(alpha = 0.7)
+```
+
+The 3 distributions have very different ranges.
+
+- redo the plot using a faceting by `measure` with the appropriate **free** `scale`
+```{r, solution=TRUE}
+df_melt %>%
+  ggplot(aes(x = value, fill = measure, colour = measure))+
+  geom_density(alpha = 0.7)+
+  facet_wrap(~ measure, scale = "free")
+```
+
+The 3 distributions now have their own plots, mapping the colours to `measure` is useless.
+
+- redo the plot using a `lightblue` colour for all. Be careful to NOT set the colour inside `aes()`
+```{r, solution=TRUE}
+df_melt %>%
+  ggplot(aes(x = value))+
+  geom_density(fill = "blue", alpha = 0.7)+
+  facet_wrap(~ measure, scale = "free")
+```
 
