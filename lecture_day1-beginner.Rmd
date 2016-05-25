@@ -95,16 +95,28 @@ list(a = 1:3, b = c("hello", "bye"), data = head(iris, 2))
 ```
 
 
-## Focus on `data.frame` 
+## Focus on data frames 
 
 which are `lists` where all columns have **equal** length
 
-```{r}
+```{r, collapse=TRUE}
 class(iris)
 class(unclass(iris))
 ```
 
-Actually, better to use `tbl_df`
+Actually, better to use `tbl_df` _tibble diff_ [rstudio blog](https://blog.rstudio.org/2016/03/24/tibble-1-0-0/)
+
+`data_frame()` does much less than `data.frame()`:
+
+- never changes the type of the inputs (_e.g._ it never converts strings to factors!)
+- never changes the names of variables
+- never creates row.names()
+- never print ALL rows
+
+but display
+
+- column types
+- groups (`dplyr::group_by()`)
 
 # Rstudio | Integrated Development Editor
 
@@ -117,7 +129,7 @@ Actually, better to use `tbl_df`
 - Package management (including building)
 - Console to run `R`, with syntax highligther
 - Editor to work with scripts / markdown
-- autocompletion using TAB
+- auto-completion using TAB
 - Cheatsheets
 - Keyboard shortcuts
 
@@ -245,6 +257,7 @@ df %>%
 ```
 
 separate, use **quotes** since we are not refering to objects
+
 ```{r}
 df_unite %>%
   separate(date, c("year", "month", "day"))
@@ -406,7 +419,7 @@ iris_melt %>%
   + [plotting](http://r4ds.had.co.nz/data-visualisation.html)
 - [ggplot2 layer by layer](http://rpubs.com/hadley/ggplot2-layers) by Hadley
 - Excellent ressource on `R` (in French) 
-[Ewen Gallic](http://egallic.fr/Enseignement/R/m1_stat_eco_logiciel_R.pdf) by Ewen Gallic
+[Introduction to R](http://egallic.fr/Enseignement/R/m1_stat_eco_logiciel_R.pdf) by Ewen Gallic
 
 ## Acknowledgments
 
@@ -416,3 +429,4 @@ iris_melt %>%
 * Ewen Gallic
 * Simon
 * David Robinson
+* Eric Koncina

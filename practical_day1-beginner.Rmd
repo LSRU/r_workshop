@@ -9,12 +9,23 @@ output:
 ---
 
 
-## Project
+## Project - set-up
 
-Create a new project in a meaningful folder name on your computer such as
+- Create a new project in a meaningful folder name on your computer such as
 `R_workshop/day1-beginner`
 
 using the project manager utility, top-right of the rstudio window.
+
+![](img/rstudio_project.png)
+
+- Create a new folder `data` using bottom-right panel > **Files** tab > _New Folder_ button 
+
+![](img/rstudio_newfolder.png)
+
+- Create a new script to write and execute your `R` commands.
+top-left panel > **Create** icon > _New Script_ entry
+
+![](img/rstudio_newscript.png)
 
 ## Reading data
 
@@ -31,3 +42,6 @@ library("readr")
 df <- read_tsv("data/women.tsv", col_names = TRUE)
 df
 ```
+
+Thanks to `readr` the object `df` is already a _tibble diff_ [rstudio blog: tibble](https://blog.rstudio.org/2016/03/24/tibble-1-0-0/)
+
