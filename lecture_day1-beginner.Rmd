@@ -7,6 +7,9 @@ output:
     css: style.css
     logo: img/uni.png
     smaller: yes
+    fig_width: 6
+    fig_height: 5
+    keep_md: true
 ---
 
 ```{r setup, include=FALSE}
@@ -14,13 +17,16 @@ library(dplyr)
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## R workshop | Day 1 - beginner
+# R workshop | Day 1 - beginner
 
 ## Why learn R? {.build}
 
 - Free!
 - Packages
 - Community
+  + [`#rstats`](https://twitter.com/search?q=%23rstats) on twitter
+  + [rbloggers](http://www.r-bloggers.com/)
+  + [stackoverflow](http://stackoverflow.com/questions/tagged/r) many more tags `dplyr`, `ggplot2` etc
 
 <img src="img/r_community_450.png">
 
@@ -116,6 +122,7 @@ Actually, better to use `tbl_df`
 
 Cmd + Enter: sends line or selection from the editor to the console and runs it.
 (Ctrl + Enter on a PC)
+
 ↑: in the console browse previous commands
 
 ## Update options
@@ -123,11 +130,11 @@ Cmd + Enter: sends line or selection from the editor to the console and runs it.
 Recommended in the [r4ds](http://r4ds.had.co.nz/introduction.html#prerequisites)
 To get a clean environment at start-up
 
-![](img/rstudio-workspace.png)
+![](img/rstudio-workspace_500.png)
 
 ## Projects
 
-Solve most issues with working directory, get rid of `setwd()`
+Solve most issues with working directories, get rid of `setwd()`
 
 ![](img/rstudio_project.png)
 
@@ -151,7 +158,7 @@ set.seed(124)
 rnorm(10) %>% mean %>% round(3)
 ```
 
-# Easier to read
+## Easier to read
 
 natural from left to right.
 
@@ -169,8 +176,7 @@ rnorm(10) %>%
 ## Definitions
 
 + **Variable**: A quantity, quality, or property that you can measure.
-+ **Observation**: A set of values that display the relationship between variables.
-  + To be an observation, values need to be measured under similar conditions, usually measured on the same observational unit at the same time.
++ **Observation**: A set of values that display the relationship between variables. To be an observation, values need to be measured under similar conditions, usually measured on the same observational unit at the same time.
 + **Value**: The state of a variable that you observe when you measure it.
 
 [source: Garret Grolemund](http://garrettgman.github.io/tidying/)
@@ -181,18 +187,16 @@ rnorm(10) %>%
 2. Each observation is in its own row
 3. Each value is in its own cell
 
-![](img/tidy-1.png)
+![](img/tidy-1_600.png)
 
-## Long / wide format
+## Convert Long / wide format
 
 The wide format is generally untidy _but_ found in the majority of datasets
 
-`tidyr` convert from one to another
 
-Wide > Long
-![](img/tidy-gather.png)
-Long > Wide 
-![](img/tidy-spread.png)
+![](img/tidy-gather_600.png)
+
+![](img/tidy-spread_600.png)
 
 
 ## Demo with iris
@@ -229,6 +233,7 @@ df <- data_frame(year = c(2015, 2014, 2014),
                  day = c(23, 1, 30),
                  value = c("high", "low", "low"))
 ```
+
 unite
 ```{r}
 df %>%
@@ -252,7 +257,7 @@ df_unite %>%
 
 Using `Rstudio`, right bottom panel. Select the **folder**
 
-<img src="img/rstudio_explorer.png">
+<img src="img/rstudio_explorer_600.png">
 
 
 ## import file
@@ -260,7 +265,7 @@ Using `Rstudio`, right bottom panel. Select the **folder**
 
 Using `Rstudio`, right top panel. Select directly your **file**
 
-<img src="img/rstudio_import.png">
+<img src="img/rstudio_import_700.png">
 
 
 # Plotting | ggplot2
@@ -355,6 +360,34 @@ iris_melt %>%
   theme_bw()
 ```
 
+## theme
+
+```{r}
+  ggplot(iris, aes(x = Sepal.Length, y = Sepal.Width))+
+  geom_point(aes(colour = Species))+
+  theme_light()
+```
+
+```{r}
+  ggplot(iris, aes(x = Sepal.Length, y = Sepal.Width))+
+  geom_point(aes(colour = Species))+
+  theme_classic()
+```
+
+
+
+```{r}
+  ggplot(iris, aes(x = Sepal.Length, y = Sepal.Width))+
+  geom_point(aes(colour = Species))+
+  theme_void()
+```
+
+```{r}
+  ggplot(iris, aes(x = Sepal.Length, y = Sepal.Width))+
+  geom_point(aes(colour = Species))+
+  theme_dark()
+```
+
 ## Recommended reading
 
 - [R for data science](http://r4ds.had.co.nz) by Hadley & Garrett
@@ -367,9 +400,9 @@ iris_melt %>%
 
 ## Acknowledgments
 
-Hadley Wickham
-Garrett Grolemund
-Jenny Bryan
-Ewen Gallic
-Simon
-David Robinson
+* Hadley Wickham
+* Garrett Grolemund
+* Jenny Bryan
+* Ewen Gallic
+* Simon
+* David Robinson
