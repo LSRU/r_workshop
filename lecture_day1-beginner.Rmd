@@ -121,6 +121,7 @@ is.list(l)
 is.atomic(l)
 l[1]
 l[[1]]
+# str(l)
 ```
 
 ## subsetting
@@ -493,6 +494,7 @@ iris_melt %>%
   + [reading data](http://r4ds.had.co.nz/data-import.html)
   + [tidy data](http://r4ds.had.co.nz/tidy-data.html)
   + [plotting](http://r4ds.had.co.nz/data-visualisation.html)
+- [ggplot2 documentation](http://docs.ggplot2.org/current/) by Hadley / Winston
 - [ggplot2 layer by layer](http://rpubs.com/hadley/ggplot2-layers) by Hadley
 - Excellent ressource on `R` (in French) 
 [Introduction to R](http://egallic.fr/Enseignement/R/m1_stat_eco_logiciel_R.pdf) by Ewen Gallic
