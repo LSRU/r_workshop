@@ -339,7 +339,14 @@ df_unite %>%
   separate(date, c("year", "month", "day"))
 ```
 
+## Help
 
+using `?` or `help()`
+```{r}
+?gather
+```
+
+or using the `Help` tab next to the `Packages` tab.
 
 # Reading data | readr
 

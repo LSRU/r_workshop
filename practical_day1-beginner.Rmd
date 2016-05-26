@@ -178,3 +178,68 @@ df_melt %>%
   facet_wrap(~ measure, scale = "free")
 ```
 
+## Supplementary exercices
+
+### reading more complex file
+
+Microarray data from the GEO dataset GSE35982.
+
+- download this compressed file: [GSE35982.tsv.gz](http://lsru.github.io/r_workshop/data/GSE35982.tsv.gz) in
+your `data` folder.
+- read it using `read_tsv()` in an data frame named `gse`. The file will be uncompressed transparently.
+```{r, solution=TRUE}
+gse <- read_tsv("data/GSE35982.tsv.gz")
+```
+
+- Is the file tidy?
+```{asis, solution = TRUE}
+No, since all samples (starts by "GSM*") are in different columns
+```
+
+- tidy the samples. Look at the `gather` help page to select columns based on characters.
+```{r, solution=TRUE}
+library("tidyr")
+gse_melt <- gse %>%
+  gather(sample, value, starts_with("GSM"))
+```
+
+- plot the distributions as boxplots
+```{r, solution=TRUE}
+library("ggplot2")
+gse_melt %>%
+  ggplot(aes(x = sample, y = value))+
+  geom_boxplot()+
+  coord_flip()+
+  theme_bw()
+```
+
+- Any obvious issues? Check the file and find out what happened.
+```{asis, box = "blue", boxtitle = "Hint"}
+the `locale` setting in `readr` allows to specify the decimal mark used for float numbers
+```
+- Correct the mistake by reading again the file with relevant option in a new object.
+- Replace the wrong column in `gse` by the correct one in the new data frame.
+```{r, solution=TRUE}
+gsefr <- read_tsv("data/GSE35982.tsv.gz", locale = locale(decimal_mark = ","))
+gse$GSM878683 <- gsefr$GSM878683
+```
+
+
+- tidy the samples again.
+```{r, solution=TRUE}
+gse_melt <- gse %>%
+  gather(sample, value, starts_with("GSM"))
+```
+- plot the distributions as boxplots
+```{r, solution=TRUE}
+gse_melt %>%
+  ggplot(aes(x = sample, y = value))+
+  geom_boxplot()+
+  coord_flip()+
+  theme_bw()
+```
+
+- do the data appear normalised?
+```{asis, solution = TRUE}
+Yes, perfectly normalised
+```
