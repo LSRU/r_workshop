@@ -1,7 +1,7 @@
 ---
 title: "R workshop"
-author: "Aurélien Ginolhac"
-date: "2nd and 3rd June 2016"
+author: ""
+date: "2^nd^ and 3^rd^ June 2016"
 output: 
   html_document: 
     theme: cosmo
@@ -10,13 +10,25 @@ output:
     toc_float: yes
 ---
 
-### Intructors
+### Instructors
 
 [Life Sciences Research Unit](http://wwwen.uni.lu/recherche/fstc/life_sciences_research_unit/)  
 University of Luxembourg
 
 - [Aurélien Ginolhac](mailto:aurelien.ginolhac@uni.lu)
 - Eric Koncina
+
+### Aim
+
+Replace `R base` functions by the [**hadleyverse**](https://barryrowlingson.github.io/hadleyverse/).
+Adopt [Hadley Wickham](http://hadley.nz/) philosophy, take each step of data science and simplify the tools. 
+Keeping what make them helpful and removing inconsistent and historic behaviors.
+
+Summary in one picture, by [David Robinson](http://varianceexplained.org/)
+
+<img src="img/drob_r_pipeline_600.jpg">
+
+
 
 ### Install tutorial
 
@@ -32,7 +44,7 @@ visit the [dedicated page](install_tutorial.html)
 
 ##### hands-on Rstudio
 
-- practise on a small dataset
+- practice on a small dataset
   + reading, specify locales and avoid factor conversions
 - tidying data
   + transform wide / long format
@@ -42,7 +54,7 @@ visit the [dedicated page](install_tutorial.html)
   + use aesthetics to map variables to columns
   + explore the world of `geom_*`
   + faceting for 1 or 2 variables
-- practise on normalisation of qPCR (or any) data
+- practice on normalisation of qPCR (or any) data
 
 #### June 2nd afternoon, intermediate level
 
@@ -50,7 +62,7 @@ visit the [dedicated page](install_tutorial.html)
 
 ##### microarray hands-on
 
-- public dataset from GEO using bioconductor package
+- public dataset from GEO using `bioconductor` package
 - tidying data, split text and unnesting cells
 - Contrast using `limma`
 - merging annotation tables
@@ -67,10 +79,10 @@ visit the [dedicated page](install_tutorial.html)
 
 - tidying data
 - performing thousands of linear regression
-- tidying / ranking models using functional programming using purrr and nested data frames
-- animate time series using gganimate
-- interactive input using embedded shiny in rmarkdown
-- exploring the git integration in Rstudio
+- tidying / ranking models using functional programming using `purrr` and nested data frames
+- animate time series using `gganimate`
+- interactive input using embedded `shiny` in `rmarkdown`
+- exploring the git integration in `Rstudio`
 
 ### Practical information
 
@@ -82,11 +94,11 @@ Everyone should have one according to the survey.
 -------------------------------------------------------
 Day               Session           Start       End
 ----------------  ----------------  ----------  -------
-June 2nd          Beginner          08:30        12:30
+June 2^nd^ 2016   Beginner          08:30        12:30
 
-June 2nd          Intermediate      13:30       18:00
+June 2^nd^ 2016   Intermediate      13:30       18:00
 
-June 3rd          Advanced          08:00        12:15
+June 3^rd^ 2016   Advanced          08:00        12:15
 -------------------------------------------------------
 
 Hot & cold drinks will be served during the morning breaks.
@@ -103,3 +115,18 @@ in **Room 2.220**, second floor.
 Inside
 
 ![](img/room2.220_300.jpg)
+
+### About
+
+Of note, all material was written in [**rmarkdown**](http://rmarkdown.rstudio.com/) (`.Rmd`) using **Rstudio**.
+
+![](img/rmarkdown_600.png)
+
+---
+
+Behind the scene, [pandoc](http://pandoc.org/) does all the conversion.
+
+- Slides using [`ioslides`](http://rmarkdown.rstudio.com/ioslides_presentation_format.html)
+- PDF using [`LaTex`](http://rmarkdown.rstudio.com/pdf_document_format.html)
+- web, through [html5](http://rmarkdown.rstudio.com/html_document_format.html)
+
