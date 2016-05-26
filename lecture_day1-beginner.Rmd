@@ -14,7 +14,7 @@ output:
 
 ```{r setup, include=FALSE}
 library(dplyr)
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE, cache = TRUE)
 ```
 
 # R workshop | Day 1 - beginner
@@ -28,7 +28,7 @@ knitr::opts_chunk$set(echo = TRUE)
   + [rbloggers](http://www.r-bloggers.com/)
   + [stackoverflow](http://stackoverflow.com/questions/tagged/r) with a lot of tags like `dplyr`, `ggplot2` etc
 
-<img src="img/r_community_450.png">
+<img src="img/r_community_500.png">
 
 
 ## Packages
@@ -84,18 +84,79 @@ embed_youtube("8SGif63VW6E", query = list(start = secs("4m12s")))
 
 [1]:https://youtu.be/8SGif63VW6E?t=4m12s
 
-## R data structures
 
-`vector`, `lists`, `data.frame`, `matrix`, `array` etc
+# R data structures
+
+
+## 1 dimension: atomic vector
+
+_all elements of an `atomic vector` must be the same type_ [source](http://adv-r.had.co.nz/Data-structures.html#vectors)
+
+concatenate elements of **same** type
+```{r,collapse=TRUE}
+x <- c(1, 1.24, "6")
+x
+is.vector(x)
+x[1] # access 1st element
+```
+
+
+See if we enter 6 as **character**
+```{r, collapse=TRUE}
+x <- c(1, 1.24, "6")
+x
+is.vector(x)
+is.list(x)
+is.atomic(x)
+```
+
+## 1 dimension, lists
 
 Lists are objects that could contain anything
 
 ```{r}
-list(a = 1:3, b = c("hello", "bye"), data = head(iris, 2))
+l <- list(a = 1:3, b = c("hello", "bye"), data = head(iris, 2))
+is.vector(l)
+is.list(l)
+is.atomic(l)
+l[1]
+l[[1]]
+```
+
+## subsetting
+
+vector
+```{r, collapse=TRUE}
+x
+x[1]
+x[-2] # return 1st and 3rd elements
+x[c(1, 3)] # return 1st and 3rd elements
+```
+
+list
+```{r, collapse=TRUE}
+l[2]      # return a list
+l[2][1]   # makes no sense
+l[[2]]    # return a vector
+l[[2]][1] # return 1st element, 2nd atomic vector
 ```
 
 
-## Focus on data frames 
+## Accessing lists' elements {.smaller}
+
+![](img/hadley_pepper.png)
+![](img/hadley_pepper2.png)
+
+## 2 dimensions: homogenous elements
+
+`matrix`
+
+```{r}
+matrix(data = 1:6, nrow = 2, ncol = 3)
+```
+
+
+## 2 dimensions: data frames 
 
 which are `lists` where all columns have **equal** length
 
@@ -129,7 +190,7 @@ but display
 - Package management (including building)
 - Console to run `R`, with syntax highligther
 - Editor to work with scripts / markdown
-- auto-completion using TAB
+- auto-completion using <kbd>TAB</kbd>
 - Cheatsheets
 - Keyboard shortcuts
 
@@ -413,6 +474,7 @@ iris_melt %>%
 
 ## Recommended reading
 
+- [data structures](http://adv-r.had.co.nz/Data-structures.html) by Hadley
 - [R for data science](http://r4ds.had.co.nz) by Hadley & Garrett
   + [reading data](http://r4ds.had.co.nz/data-import.html)
   + [tidy data](http://r4ds.had.co.nz/tidy-data.html)
