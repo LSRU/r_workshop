@@ -2,10 +2,10 @@
 title: "Practical - beginner"
 knit: unilur::knit
 author: "Aurelien Ginolhac"
-date: "2nd June 2016"
+date: "2^nd^ June 2016"
 output:
   unilur::tutorial:
-    solution: yes
+    solution: no
 ---
 
 
