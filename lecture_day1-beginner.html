@@ -297,6 +297,30 @@ class(unclass(iris))
 <li>groups (<code>dplyr::group_by()</code>)</li>
 </ul>
 
+</article></slide><slide class=''><hgroup><h2>subsetting data frames</h2></hgroup><article  id="subsetting-data-frames" class="smaller ">
+
+<p>data frame are lists</p>
+
+<pre class = 'prettyprint lang-r'>mtcars[[1]]</pre>
+
+<pre >##  [1] 21.0 21.0 22.8 21.4 18.7 18.1 14.3 24.4 22.8 19.2 17.8 16.4 17.3 15.2
+## [15] 10.4 10.4 14.7 32.4 30.4 33.9 21.5 15.5 15.2 13.3 19.2 27.3 26.0 30.4
+## [29] 15.8 19.7 15.0 21.4</pre>
+
+<pre class = 'prettyprint lang-r'>mtcars[[&quot;mpg&quot;]]</pre>
+
+<pre >##  [1] 21.0 21.0 22.8 21.4 18.7 18.1 14.3 24.4 22.8 19.2 17.8 16.4 17.3 15.2
+## [15] 10.4 10.4 14.7 32.4 30.4 33.9 21.5 15.5 15.2 13.3 19.2 27.3 26.0 30.4
+## [29] 15.8 19.7 15.0 21.4</pre>
+
+<p>but <code>$</code> is a shorthand for <code>[[</code></p>
+
+<pre class = 'prettyprint lang-r'>mtcars$mpg</pre>
+
+<pre >##  [1] 21.0 21.0 22.8 21.4 18.7 18.1 14.3 24.4 22.8 19.2 17.8 16.4 17.3 15.2
+## [15] 10.4 10.4 14.7 32.4 30.4 33.9 21.5 15.5 15.2 13.3 19.2 27.3 26.0 30.4
+## [29] 15.8 19.7 15.0 21.4</pre>
+
 </article></slide><slide class='segue dark nobackground'><hgroup class = 'auto-fadein'><h2>Rstudio </h2><h3> Integrated Development Editor</h3></hgroup><article  id="rstudio-integrated-development-editor" class="smaller ">
 
 </article></slide><slide class=''><hgroup><h2>Layout, 4 panels</h2></hgroup><article  id="layout-4-panels" class="smaller ">
@@ -641,7 +665,6 @@ iris %&gt;%
 <li>Garrett Grolemund</li>
 <li>Jenny Bryan</li>
 <li>Ewen Gallic</li>
-<li>Simon</li>
 <li>David Robinson</li>
 <li>Eric Koncina</li>
 </ul></article></slide>

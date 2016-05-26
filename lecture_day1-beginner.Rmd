@@ -179,6 +179,20 @@ but display
 - column types
 - groups (`dplyr::group_by()`)
 
+
+## subsetting data frames
+
+data frame are lists
+```{r, collapse=FALSE}
+mtcars[[1]]
+mtcars[["mpg"]]
+```
+
+but `$` is a shorthand for `[[`
+```{r}
+mtcars$mpg
+```
+
 # Rstudio | Integrated Development Editor
 
 ## Layout, 4 panels
@@ -489,6 +503,5 @@ iris_melt %>%
 * Garrett Grolemund
 * Jenny Bryan
 * Ewen Gallic
-* Simon
 * David Robinson
 * Eric Koncina
