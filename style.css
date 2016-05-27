@@ -17,9 +17,14 @@ slides > slide:not(.nobackground):before {
   background-size: 50px 50px;
 }
 
+/* Headers */
+h1{
+  font-size: 20pt;
+}
+
 .codefont pre {
-    font-size: 12px;
-    line-height: 10px;
+    font-size: 11px;
+    line-height: 9px;
 }
 
 
