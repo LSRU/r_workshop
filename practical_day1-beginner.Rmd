@@ -5,8 +5,7 @@ author: "Aurelien Ginolhac"
 date: "2^nd^ June 2016"
 output:
   unilur::tutorial:
-    solution: wwo
-
+    solution: no
 ---
 
 
