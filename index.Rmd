@@ -26,8 +26,9 @@ Keeping what make them helpful and removing inconsistent and historic behaviors.
 
 Summary in one picture, by [David Robinson](http://varianceexplained.org/)
 
-<img src="img/drob_r_pipeline_600.jpg">
-
+```{r echo=FALSE, out.width='80%'}
+knitr::include_graphics("http://lsru.github.io/r_workshop/img/drob_r_pipeline_600.jpg")
+```
 
 
 ### Install tutorial
@@ -122,7 +123,10 @@ Inside
 
 Of note, all material was written in [**rmarkdown**](http://rmarkdown.rstudio.com/) (`.Rmd`) using **Rstudio**.
 
-![](img/rmarkdown_600.png)
+```{r echo=FALSE, out.width='60%'}
+knitr::include_graphics("http://lsru.github.io/r_workshop/img/rmarkdown_600.png")
+```
+
 
 ---
 

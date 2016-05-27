@@ -28,8 +28,9 @@ knitr::opts_chunk$set(echo = TRUE, cache = TRUE)
   + [rbloggers](http://www.r-bloggers.com/)
   + [stackoverflow](http://stackoverflow.com/questions/tagged/r) with a lot of tags like `dplyr`, `ggplot2` etc
 
-<img src="img/r_community_500.png">
-
+```{r echo=FALSE, out.width='70%'}
+knitr::include_graphics("http://lsru.github.io/r_workshop/img/r_community_500.png")
+```
 
 ## Packages
 
@@ -37,7 +38,9 @@ knitr::opts_chunk$set(echo = TRUE, cache = TRUE)
 <div class="columns-2">
 - CRAN *<span class="green2">reliable: package is checked during submit process</span>*
 
-![](img/install_packages_300.png)
+```{r echo=FALSE, out.width='85%'}
+knitr::include_graphics("http://lsru.github.io/r_workshop/img/install_packages_300.png")
+```
 
 - [GitHub](https://github.com/) using [devtools](https://github.com/hadley/devtools). *<span class="yellow2">Check [status](https://github.com/hadley/readr)</span>*
 
@@ -52,7 +55,9 @@ source("https://bioconductor.org/biocLite.R")
 biocLite("limma")
 ```
 
-![](img/install_console_200.png)
+```{r echo=FALSE, out.width='85%'}
+knitr::include_graphics("http://lsru.github.io/r_workshop/img/install_console_200.png")
+```
 
 
 ## More and more packages
@@ -279,16 +284,21 @@ rnorm(10) %>%
 2. Each observation is in its own row
 3. Each value is in its own cell
 
-![](img/tidy-1_600.png)
+```{r echo=FALSE, out.width='90%'}
+knitr::include_graphics("http://lsru.github.io/r_workshop/img/tidy-1_600.png")
+```
 
 ## Convert Long / wide format
 
 The wide format is generally untidy _but_ found in the majority of datasets
 
 
-![](img/tidy-gather_600.png)
-
-![](img/tidy-spread_600.png)
+```{r echo=FALSE, out.width='70%'}
+knitr::include_graphics("http://lsru.github.io/r_workshop/img/tidy-gather_600.png")
+```
+```{r echo=FALSE, out.width='70%'}
+knitr::include_graphics("http://lsru.github.io/r_workshop/img/tidy-spread_600.png")
+```
 
 
 ## Demo with the iris dataset
@@ -371,8 +381,9 @@ View(soft)
 Using `Rstudio`, right top panel. Select directly your **file**.
 This actually uses **readr**.
 
-<img src="img/rstudio_import_700.png">
-
+```{r echo=FALSE, out.width='60%'}
+knitr::include_graphics("http://lsru.github.io/r_workshop/img/rstudio_import_700.png")
+```
 
 # Plotting | ggplot2
 
@@ -380,7 +391,7 @@ This actually uses **readr**.
 
 ## Why tidy is useful?
 
-```{r}
+```{r, out.width='50%'}
 library("tidyr")
 library("ggplot2")
 iris %>%
@@ -391,7 +402,7 @@ iris %>%
 
 ## Scatterplots
 
-```{r, out.width='450px', out.height='450px'}
+```{r, out.width='50%'}
 iris %>%
   ggplot(aes(x = Sepal.Length, y = Sepal.Width, colour = Species))+
   geom_point()+
@@ -403,7 +414,7 @@ iris %>%
 
 ## More aesthetics
 
-```{r}
+```{r, out.width='50%'}
 iris %>%
   ggplot(aes(x = Sepal.Length, y = Sepal.Width,
              size = Petal.Length / Petal.Width,
@@ -416,21 +427,23 @@ iris %>%
   ylab("Sepal.Width")
 ```
 
-## in / out aesthetics
+## in / out aesthetics {.columns-2}
 
-```{r}
+```{r, out.width='60%'}
 iris %>%
   ggplot(aes(x = Sepal.Length, y = Sepal.Width))+
   geom_point(aes(colour = Species))
 ```
 
-```{r}
+```{r, out.width='60%'}
 iris %>%
   ggplot(aes(x = Sepal.Length, y = Sepal.Width))+
   geom_point(aes(colour = "Species"))
 ```
 
-```{r}
+##
+
+```{r, out.width='70%'}
 iris %>%
   ggplot(aes(x = Sepal.Length, y = Sepal.Width))+
   geom_point(colour = "red")
@@ -438,7 +451,7 @@ iris %>%
 
 ## Barplots
 
-```{r, out.width='450px', out.height='450px'}
+```{r, out.width='50%'}
 iris_melt %>%
   ggplot()+
   geom_bar(aes(x = Species, y = measure, fill = flower), stat = "identity")
@@ -447,7 +460,7 @@ iris_melt %>%
 ## Density and faceting
 
 transparency using the `alpha` parameter
-```{r}
+```{r, out.width='50%'}
 iris_melt %>%
   ggplot()+
   geom_density(aes(x = measure, fill = Species, colour = Species), alpha = 0.6)+
@@ -458,7 +471,7 @@ iris_melt %>%
 ## facetting
 
 transparency using the `alpha` parameter
-```{r}
+```{r, out.width='50%'}
 iris_melt %>%
   ggplot()+
   geom_density(aes(x = measure, fill = Species, colour = Species), alpha = 0.6)+
@@ -468,30 +481,24 @@ iris_melt %>%
 
 ## theme
 
-```{r}
-  ggplot(iris, aes(x = Sepal.Length, y = Sepal.Width))+
+```{r, echo=FALSE, out.width='90%'}
+light <- ggplot(iris, aes(x = Sepal.Length, y = Sepal.Width))+
   geom_point(aes(colour = Species))+
-  theme_light()
-```
-
-```{r}
-  ggplot(iris, aes(x = Sepal.Length, y = Sepal.Width))+
+  theme_light()+ggtitle("theme_light")
+classic <- ggplot(iris, aes(x = Sepal.Length, y = Sepal.Width))+
   geom_point(aes(colour = Species))+
-  theme_classic()
-```
-
-
-
-```{r}
-  ggplot(iris, aes(x = Sepal.Length, y = Sepal.Width))+
+  theme_classic()+
+  theme(axis.line.x = element_line(colour = 'black', size=0.5, linetype='solid'),
+        axis.line.y = element_line(colour = 'black', size=0.5, linetype='solid'))+
+  ggtitle("theme_classic")
+void <- ggplot(iris, aes(x = Sepal.Length, y = Sepal.Width))+
   geom_point(aes(colour = Species))+
-  theme_void()
-```
-
-```{r}
-  ggplot(iris, aes(x = Sepal.Length, y = Sepal.Width))+
+  theme_void()+ggtitle("theme_void")
+dark <- ggplot(iris, aes(x = Sepal.Length, y = Sepal.Width))+
   geom_point(aes(colour = Species))+
-  theme_dark()
+  theme_dark()+ggtitle("theme_dark")
+suppressPackageStartupMessages(library("gridExtra"))
+grid.arrange(light, classic, void, dark, nrow = 2)
 ```
 
 ## Recommended reading
