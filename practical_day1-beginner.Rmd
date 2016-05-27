@@ -40,9 +40,9 @@ http://lsru.github.io/r_workshop/data/women.tsv
 
 and save it inside the folder `R_workshop/day1-beginner/data`.
 
-Remember your current active rstudio project should be `day1-beginner`
+Remember, your current active rstudio project should be `day1-beginner`
 
-load it, now the root is the project, so all paths are relative to it
+load it: All paths are relative to the root which is the projects folder
 ```{r, eval=TRUE, collapse=TRUE}
 library("readr")
 df <- read_tsv("data/women.tsv", col_names = TRUE)
@@ -52,9 +52,9 @@ df
 Thanks to `readr` the object `df` is already a _tibble diff_ [rstudio blog: tibble](https://blog.rstudio.org/2016/03/24/tibble-1-0-0/)
 
 
-## Manipulate data frame
+## Manipulate a data frame
 
-We keep this section short, as we will see `dplyr` to perform tasks on `data frames`
+We keep this section short, as we will focus on `dplyr` to perform tasks on `data frames`
 
 Access to one column, display only the first elements
 ```{r}
@@ -69,7 +69,7 @@ mean(women$height)
 ```
 - the function `var()` to find the variance of women' weight.
 ```{r, solution=TRUE}
-mean(women$weight)
+var(women$weight)
 ```
 
 To compute her BMI (remember `height` are inches and `weight` US pounds) the formula is:
@@ -94,7 +94,7 @@ median(bmi)
 
 ## plotting
 
-First load `dplyr` so we can the `%>%` pipe operator
+First load `dplyr`. This enables the use of the `%>%` pipe operator
 ```{r}
 library("dplyr")
 ```
@@ -125,7 +125,7 @@ df %>%
   + `measure` for either height or weight
   + `value` for actual measurements
 Remember that `gather` takes by default all columns.
-- save as `df_melt`
+- store the result into `df_melt`
 ```{r, solution=TRUE}
 library("tidyr")
 df_melt <- gather(df, measure, value)
@@ -151,7 +151,7 @@ head(df)
 
 ### plot densities
 
-- tidy the 3 columns and plot all densities using different colours and transparency
+- tidy the 3 columns and plot all densities using different colours and set them translucent
 You will need to make a new `df_melt` data frame first.
 ```{r, solution=TRUE}
 df_melt <- gather(df, measure, value)
@@ -162,7 +162,7 @@ df_melt %>%
 
 The 3 distributions have very different ranges.
 
-- redo the plot using a faceting by `measure` with the appropriate **free** `scale`
+- Plot the same data but faceting it by `measure` (Use the appropriate **free** `scale`).
 ```{r, solution=TRUE}
 df_melt %>%
   ggplot(aes(x = value, fill = measure, colour = measure))+
@@ -170,9 +170,9 @@ df_melt %>%
   facet_wrap(~ measure, scale = "free")
 ```
 
-The 3 distributions now have their own plots, mapping the colours to `measure` is useless.
+When faceting, the 3 distributions are drawn in distinct plots: mapping the colours to `measure` is useless.
 
-- redo the plot using a `lightblue` colour for all. Be careful to NOT set the colour inside `aes()`
+- redo the plot using a `lightblue` colour for all. Be careful to **NOT** set the colour inside `aes()`.
 ```{r, solution=TRUE}
 df_melt %>%
   ggplot(aes(x = value))+
@@ -188,7 +188,7 @@ Microarray data from the GEO dataset GSE35982.
 
 - download this compressed file: [GSE35982.tsv.gz](http://lsru.github.io/r_workshop/data/GSE35982.tsv.gz) in
 your `data` folder.
-- read it using `read_tsv()` in an data frame named `gse`. The file will be uncompressed transparently.
+- read it using `read_tsv()` and store it into a data frame named `gse`. The file will be uncompressed seamlessly.
 ```{r, solution=TRUE}
 gse <- read_tsv("data/GSE35982.tsv.gz")
 ```
@@ -198,7 +198,7 @@ gse <- read_tsv("data/GSE35982.tsv.gz")
 No, since all samples (starts by "GSM*") are in different columns
 ```
 
-- tidy the samples. Look at the `gather` help page to select columns based on characters.
+- Tidy the samples. Look at the `gather` help page to select columns based on characters.
 ```{r, solution=TRUE}
 library("tidyr")
 gse_melt <- gse %>%
@@ -219,8 +219,8 @@ gse_melt %>%
 ```{asis, box = "blue", boxtitle = "Hint"}
 the `locale` setting in `readr` allows to specify the decimal mark used for float numbers
 ```
-- Correct the mistake by reading again the file with relevant option in a new object.
-- Replace the wrong column in `gse` by the correct one in the new data frame.
+- Correct the mistake by reading again the file with the adjusted relevant option and store the data into a a new object.
+- Replace the wrong column in `gse` by the correct one found in the data frame you just created.
 ```{r, solution=TRUE}
 gsefr <- read_tsv("data/GSE35982.tsv.gz", locale = locale(decimal_mark = ","))
 gse$GSM878683 <- gsefr$GSM878683
