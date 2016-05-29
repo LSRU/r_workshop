@@ -10,7 +10,7 @@ output:
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE, cache = TRUE)
 ```
 
 # dplyr
@@ -511,3 +511,25 @@ flights %>%
 `R` is rather flexible and permissive with its syntax. Howwver, being more strict tends to ease the debugging process.
 
 See [Hadley's recommendations](http://adv-r.had.co.nz/Style.html)
+
+## Useful rstudio shortcuts
+
+- Scripting (replace  <kbd>Cmd</kbd> by <kbd>Ctrl</kbd> for PC)
+    + <kbd>Cmd</kbd> + <kbd>-</kbd>: insert <kbd> <- </kbd>
+    + <kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>M</kbd>: insert <kbd>%>%</kbd>
+    + <kbd>Alt</kbd> + <kbd>↑</kbd> or <kbd>↓</kbd>: move line up / down
+    + <kbd>Cmd</kbd> + <kbd>Alt</kbd> + <kbd>↑</kbd> or <kbd>↓</kbd>: copy line up   / down
+    + <kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>↑</kbd> or <kbd>↓</kbd>: multi-line edition
+
+- Running
+    + <kbd>Cmd</kbd> + <kbd>Enter</kbd>: run code
+    + <kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd>: re-run Previous code
+    + <kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>K</kbd>: Knit document
+
+## Acknowledgments
+
+* Hadley Wickham
+* Steve Simpson
+* Jenny Bryan
+* David Robinson
+* Eric Koncina
