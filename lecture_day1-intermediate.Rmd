@@ -19,7 +19,10 @@ knitr::opts_chunk$set(echo = TRUE, cache = TRUE)
 
 There's a cheatsheet!
 
-![](img/dplyr_cheatsheet.png)
+```{r echo=FALSE, out.width='90%'}
+knitr::include_graphics("http://lsru.github.io/r_workshop/img/dplyr_cheatsheet.png")
+```
+
 
 ```{r}
 with(mtcars, aggregate(mpg, list(cyl), mean))
@@ -40,12 +43,11 @@ https://exploratory.io/
 
 ## nycflights13
 
-Convert data to a `tbl_df` so that it uses dplyr's nice `print` method. No need for `dim()`
+`fligts` is a `tbl_df`
 
 ```{r}
-library("dplyr")
+library("dplyr", warn.conflicts = FALSE)
 library("nycflights13")
-flights <- tbl_df(flights)
 flights
 ```
 
@@ -71,11 +73,7 @@ base version (could be `subset`)
 flights[which(flights$dest == "LGA"), ]
 ```
 
-
-
-
-
-## filter: multiple conditions
+## filter: multiple conditions AND (&)
 
 How many flights flew to Madison in first week of January?
 
@@ -86,27 +84,24 @@ flights %>%
 ```
 
 
-
-## Question
-
-
-> Commas in the filter statement are implicit `&` (and) operators.
-Is there anything similar for `|` (or)?
-
-Logical or statements are supported, but there's no shorthand.
+## filter:  multiple conditions OR (|)
 
 ```{r, eval = FALSE}
 flights %>%
   filter(dest == "MSN" | dest == "ORD" | dest == "MDW")
 ```
 
-For more complicated checks, try a set operation.
+For more complicated checks, try a set operation, 2 versions:
 
 ```{r, eval = FALSE}
 flights %>%
   filter(is.element(dest, c("MSN", "ORD", "MDW")))
 ```
 
+```{r, eval = FALSE}
+flights %>%
+  filter(dest %in% c("MSN", "ORD", "MDW"))
+```
 
 
 ## arrange: sort columns
@@ -120,7 +115,7 @@ flights %>%
 
 
 
-## desc: reverses sorting of a column
+## arrange desc: reverses sorting
 
 Find longest delayed flights to Madison.
 
@@ -143,9 +138,7 @@ flights %>%
 1272 / 60
 ```
 
-## select
-
-Select the columns you want.
+## select columns
 
 ```{r}
 flights %>%
@@ -156,6 +149,7 @@ flights %>%
 
 `select` has many helper functions. See `?select`.
 
+works with `tidyr` functions too
 ```{r}
 flights %>%
   select(origin, year:day, starts_with("dep"))
@@ -172,18 +166,14 @@ flights %>%
          -ends_with("time"))
 ```
 
-
-
 ## Recap: Verbs for inspecting data
 
 
-* convert to a `tbl_df` - nice print method. Now in `[tibble](https://github.com/hadley/tibble)`
+* convert to a `tbl_df`. Now in `[tibble](https://github.com/hadley/tibble)`
 * `glimpse` - some of each column
 * `filter` - subsetting
 * `arrange` - sorting (`desc` to reverse the sort)
 * `select` - picking (and omiting) columns
-
-
 
 ## rename
 
@@ -225,38 +215,13 @@ flights %>%
   geom_point()
 ```
 
-## mutate
-
-to split time between hours and minutes
-
-```{r}
-flights %>%
-  mutate(hours = dep_time %/% 100,
-         minute = dep_time %% 100) %>%
-  select(dep_time, hour, minute)
-```
-
-
 
 ## group_by
 
 Let's compute the average delay per month of flights to Madison.
 
-Normally--in `aggregate`, `by` or plyr's `d*ply` functions--you
-specify the grouping as an argument to the aggregation function.
-
-```{r}
-aggregate(dep_delay ~ month, flights, mean,
-          subset = flights$dest == "MSN")
-```
-
-
-
-## group_by
-
-
-In dplyr, grouping has its own action.  
-Here, we `group_by` date. This data.frame is not tidy, but muti-grouping solve it. See the helpful reminder from `tbl_df` print method
+instead of `aggregate`, `dplyr` has its own grouping function.  
+Here, we `group_by` date. See the helpful reminder from `tbl_df` print method
 
 ```{r}
 flights %>%
@@ -289,9 +254,9 @@ each group (per day). `summarise` returns one row per group.
 ```{r}
 by_day %>%
   summarise(
-    flights = n(),
+    flights = n(), # specific dplyr
     avg_delay = mean(dep_delay, na.rm = TRUE),
-    n_planes = n_distinct(tailnum))
+    n_planes = n_distinct(tailnum)) # specific dplyr
 ```
 
 
@@ -318,13 +283,14 @@ by_day %>%
 ## Solution 2
 
 
-```{r}
+```{r, fig.align = 'center', out.width='100%'}
 by_day %>%
   summarise(flights = n(),
             avg_delay = mean(dep_delay, na.rm = TRUE),
             n_planes = n_distinct(tailnum)) %>%
   mutate(avg_flights = flights / n_planes) %>%
-  ggplot()+geom_density(aes(x = avg_flights))+
+  ggplot()+
+  geom_density(aes(x = avg_flights))+
   geom_vline(aes(xintercept = mean(avg_flights)), colour = "red")+
   geom_vline(aes(xintercept = median(avg_flights)), colour = "blue")
 ```
@@ -332,7 +298,7 @@ by_day %>%
 
 ## Solution 3
 
-```{r, fig.align = 'center', fig.width = 12}
+```{r, fig.align = 'center', out.width='100%'}
 library("tidyr")
 by_day %>%
   summarise(avg_delay = mean(dep_delay, na.rm = TRUE)) %>%
@@ -345,7 +311,7 @@ by_day %>%
 ## Solution 3
 
 
-```{r, fig.align = 'center', fig.width = 12}
+```{r, fig.align = 'center', out.width='100%'}
 by_day %>%
   summarise(avg_delay = mean(dep_delay, na.rm = TRUE)) %>%
   arrange(desc(avg_delay))
@@ -358,7 +324,7 @@ What's wrong?
 
 Mind that `arrange` use grouping! (will change in version `0.4.5`)
 
-```{r, fig.align = 'center', fig.width = 12}
+```{r, fig.align = 'center', out.width='100%'}
 by_day %>%
   summarise(avg_delay = mean(dep_delay, na.rm = TRUE)) %>%
   ungroup %>%
@@ -415,45 +381,44 @@ We could have used **left_join** but 4 rows with a 3-letters acronym have no cor
 
 ## join types
 
-<img src="http://www.dofactory.com/Images/sql-joins.png" width="700px" />
+```{r, echo=FALSE, out.width='60%'}
+knitr::include_graphics("http://www.dofactory.com/Images/sql-joins.png")
+```
 
 Of note: **anti_join** can select rows which identifiers are **absent** in the second data frame.
 
-plot on a map
-====
-class: small-code
+## plot on a map
 
-```{r}
-# preambule
-# install.packages("maps")
+```{r, echo=FALSE, out.width='100%'}
 library("maps")
-```
-
-```{r, fig.width = 16, align = 'center'}
-# plot on the US map
+# US map
 delays %>%
-  ggplot()+geom_point(aes(x = lon, y = lat, colour = mean), size = 3, alpha = 0.8)+
+  ggplot()+
+  geom_point(aes(x = lon, y = lat, colour = mean), size = 3, alpha = 0.8)+
   scale_color_gradient2()+
   borders("state")
 ```
 
 ## plot on a map, with text
 
-
-```{r, fig.width = 16, align = 'center'}
+```{r, echo=FALSE, out.width='100%'}
 delays %>%
-  ggplot()+geom_point(aes(x = lon, y = lat, colour = mean), size = 3, alpha = 0.8)+
+  ggplot()+geom_point(aes(x = lon, y = lat, colour = mean),
+                      size = 3, alpha = 0.8)+
   geom_text(aes(x = lon, y = lat, label = name), size = 3)+
-  scale_color_gradient2()+theme_classic()+
+  scale_color_gradient2()+
+  theme_classic()+
   borders("state")
 ```
 
 ## plot on a map, with conditional text
 
-```{r, fig.width = 16, align = 'center'}
+```{r, out.width='100%', align = 'center'}
+library("ggrepel")
 delays %>%
-  ggplot()+geom_point(aes(x = lon, y = lat, colour = mean), size = 3, alpha = 0.8)+
-  geom_text(data = delays %>% filter(mean > 20),
+  ggplot()+geom_point(aes(x = lon, y = lat, colour = mean),
+                      size = 3, alpha = 0.8)+
+  geom_text_repel(data = delays %>% filter(mean > 20),
             aes(x = lon, y = lat + 1, label = name), size = 3)+
   scale_color_gradient2()+theme_classic()+
   borders("state")
@@ -490,25 +455,43 @@ flights %>%
 - group_by, ungroup
 - summarise
 
-
-
 ## Other 20%
 
 
-- assembly: bind_rows, bind_cols
-- windows function, min_rank, dense_rank, cumsum
-- column-wise operations: mutate_each, summarise_each
-- join tables together: right_join, inner_join, full_join
-- filtering joins: semi_join, anti_join
-- do: arbitrary code on each chunk
+- assembly: `bind_rows`, `bind_cols`
+- windows function, `min_rank`, `dense_rank`, `cumsum`
+- column-wise operations: `mutate_each`, `summarise_each`
+- join tables together: `right_join`, `full_join`
+- filtering joins: `semi_join`, `anti_join`
+- `do`: arbitrary code on each chunk
 - different types of tabular data (databases, data.tables)
 
+## bind_rows + purrr
 
+How to read in merge files in 2 lines
+
+```{r}
+library("purrr")
+library("readxl")
+files <- list.files(path = "~/Work/150401/", pattern = "^D.+xlsx$", full.names = TRUE)
+df <- lapply(files, read_excel) %>% bind_rows(.id = "file_number")
+```
+
+using `purrr`
+```{r}
+purr_df <- map_df(files, read_excel, .id = "file_number")
+```
+
+```{r}
+files %>%
+  set_names(nm = basename(.)) %>%
+  map_df(read_excel, .id = "file_name") -> purr_name_df
+```
 
 ## Coding style
 
 
-`R` is rather flexible and permissive with its syntax. Howwver, being more strict tends to ease the debugging process.
+`R` is rather flexible and permissive with its syntax. However, being more strict tends to ease the debugging process.
 
 See [Hadley's recommendations](http://adv-r.had.co.nz/Style.html)
 
