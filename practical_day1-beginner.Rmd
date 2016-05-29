@@ -1,11 +1,12 @@
 ---
 title: "Practical - beginner"
-knit: unilur::knit
+#knit: unilur::knit
 author: "Aurelien Ginolhac"
 date: "2^nd^ June 2016"
 output:
-  unilur::tutorial:
+  unilur::tutorial_html:
     solution: no
+    theme: cosmo
     credit: yes
 ---
 
