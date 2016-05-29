@@ -6,6 +6,7 @@ date: "2^nd^ June 2016"
 output:
   unilur::tutorial:
     solution: no
+    credit: yes
 ---
 
 
