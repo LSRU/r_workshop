@@ -43,7 +43,7 @@ https://exploratory.io/
 
 ## nycflights13
 
-`fligts` is a `tbl_df`
+`flights` is a `tbl_df`
 
 ```{r}
 library("dplyr", warn.conflicts = FALSE)
@@ -68,7 +68,7 @@ How many flights flew to La Guardia, NY in 2013? Expecting none...
 flights %>%
   filter(dest == "LGA")
 ```
-base version (could be `subset`)
+base version equivalent (`subset` could also be used)
 ```{r}
 flights[which(flights$dest == "LGA"), ]
 ```
@@ -91,7 +91,8 @@ flights %>%
   filter(dest == "MSN" | dest == "ORD" | dest == "MDW")
 ```
 
-For more complicated checks, try a set operation, 2 versions:
+For more complicated checks, prefer a set operation.  
+The following 2 are equivalent:
 
 ```{r, eval = FALSE}
 flights %>%
@@ -106,18 +107,24 @@ flights %>%
 
 ## arrange: sort columns
 
-Sort by which airport they departed from in NYC, then year, month, day.
+Perform a nested sorting of all flights in NYC:
+
+    1. By which airport they departed
+    2. year
+    3. month
+    4. day
+
 
 ```{r}
 flights %>%
   arrange(origin, year, month, day)
 ```
 
-
-
 ## arrange desc: reverses sorting
 
-Find longest delayed flights to Madison.
+Find the longest delays for flights to Madison.
+<!--Find the longest delayed flights to Madison.-->
+<!-- This would mean to search for the longest flight whatever the delay...-->
 
 ```{r}
 flights %>%
@@ -173,7 +180,7 @@ flights %>%
 * `glimpse` - some of each column
 * `filter` - subsetting
 * `arrange` - sorting (`desc` to reverse the sort)
-* `select` - picking (and omiting) columns
+* `select` - picking (and omitting) columns
 
 ## rename
 
@@ -186,10 +193,9 @@ flights %>%
 ```
 
 
+## mutate
 
-# mutate
-
-- How much departure delay did the flight make up for in the air?  
+- How much departure delay did the flight make up in the air?  
 - Note that new variables can be used right away
 
 ```{r}
@@ -202,23 +208,23 @@ flights %>%
 ```
 
 
-## Does gain could be explained by speed?
+## Could the gain be explained by speed?
 
 
-```{r}
+```{r, warning=FALSE, fig.height=3.5}
 library("ggplot2")
 flights %>%
   mutate(gain = arr_delay - dep_delay,
     speed = (distance / air_time) * 60) %>%
   sample_n(10000) %>%
   ggplot(aes(x = gain, y = speed))+
-  geom_point()
+  geom_point(alpha = 0.4)
 ```
 
 
 ## group_by
 
-Let's compute the average delay per month of flights to Madison.
+For the flights to Madison, let's compute the average delay per month.
 
 instead of `aggregate`, `dplyr` has its own grouping function.  
 Here, we `group_by` date. See the helpful reminder from `tbl_df` print method
@@ -234,7 +240,6 @@ flights %>%
 
 ## group_by (2)
 
-
 Work per day
 
 ```{r}
@@ -243,7 +248,7 @@ by_day <- flights %>%
 by_day
 ```
 
-Note that one level (rigth most) is removed from grouping.
+Note that one level (right most) is removed from grouping.
 
 
 ## summarise
@@ -254,15 +259,14 @@ each group (per day). `summarise` returns one row per group.
 ```{r}
 by_day %>%
   summarise(
-    flights = n(), # specific dplyr
+    flights = n(), # dplyr specific function
     avg_delay = mean(dep_delay, na.rm = TRUE),
-    n_planes = n_distinct(tailnum)) # specific dplyr
+    n_planes = n_distinct(tailnum)) # dplyr specific function
 ```
-
 
 ## Exercice
 
-* In average, how many flights a single plane is doing per day?
+* In average, how many flights does a single plane perform each day?
 
 * plot the distribution, display the mean / median (`geom_vline()`)
 
@@ -283,7 +287,7 @@ by_day %>%
 ## Solution 2
 
 
-```{r, fig.align = 'center', out.width='100%'}
+```{r, fig.align = 'center', out.width='100%', fig.height=3.1}
 by_day %>%
   summarise(flights = n(),
             avg_delay = mean(dep_delay, na.rm = TRUE),
@@ -298,7 +302,7 @@ by_day %>%
 
 ## Solution 3
 
-```{r, fig.align = 'center', out.width='100%'}
+```{r, fig.align = 'center', out.width='100%', fig.height=3.3, warning = FALSE}
 library("tidyr")
 by_day %>%
   summarise(avg_delay = mean(dep_delay, na.rm = TRUE)) %>%
@@ -311,7 +315,7 @@ by_day %>%
 ## Solution 3
 
 
-```{r, fig.align = 'center', out.width='100%'}
+```{r, fig.align = 'center', out.width='80%', fig.height=3.5}
 by_day %>%
   summarise(avg_delay = mean(dep_delay, na.rm = TRUE)) %>%
   arrange(desc(avg_delay))
@@ -321,8 +325,7 @@ What's wrong?
 
 ## Solution 3.2
 
-
-Mind that `arrange` use grouping! (will change in version `0.4.5`)
+Mind that `arrange` uses grouping! (will change in version `0.4.5`)
 
 ```{r, fig.align = 'center', out.width='100%'}
 by_day %>%
@@ -336,9 +339,9 @@ by_day %>%
 
 
 * Find the destinations with the highest average arrival delay?
-  - discard flights with missing data as arrival delay
+  - discard flights with missing arrival delays
   - count the number of flights per destination
-  - discard results with less than 10 flights, mean not meaningful
+  - discard results with less than 10 flights: mean will not be meaningful
 
 ## Solution
 
@@ -355,7 +358,7 @@ flights %>%
 ```
 
 
-## Can see some spatial pattern for those delays?
+## Is there a spatial pattern for those delays?
 
 First get the GPS coordinate of airports using the data frame `airports`
 
@@ -376,7 +379,7 @@ delays <- flights %>%
   inner_join(airports, by = c("dest" = "faa")) # provide the equivalence since columns have a different name
 ```
 
-We could have used **left_join** but 4 rows with a 3-letters acronym have no correspondance in the `airports` data frame. **inner_join** narrow down the lines that are present in both data frames.
+We could have used **left_join** but 4 rows with a 3-letters acronym have no correspondance in the `airports` data frame. **inner_join** narrows down the lines that are present in both data frames.
 
 
 ## join types
@@ -385,7 +388,7 @@ We could have used **left_join** but 4 rows with a 3-letters acronym have no cor
 knitr::include_graphics("http://www.dofactory.com/Images/sql-joins.png")
 ```
 
-Of note: **anti_join** can select rows which identifiers are **absent** in the second data frame.
+Of note: **anti_join** can select rows in which identifiers are **absent** in the second data frame.
 
 ## plot on a map
 
@@ -401,7 +404,9 @@ delays %>%
 
 ## plot on a map, with text
 
-```{r, echo=FALSE, out.width='100%'}
+<!-- I'm not able to set warning or message to FALSE! -->
+<!-- Index out of range error for map_data... -->
+```{r, echo=FALSE, message = TRUE, warning = TRUE, out.width='100%'}
 delays %>%
   ggplot()+geom_point(aes(x = lon, y = lat, colour = mean),
                       size = 3, alpha = 0.8)+
@@ -426,7 +431,7 @@ delays %>%
 
 ## tally / count
 
-`tally` is a shortcut for counting number of items per group.
+`tally` is a shortcut to counting the number of items per group.
 
 ```{r}
 flights %>%
@@ -434,7 +439,7 @@ flights %>%
   tally()
 ```
 
-could sum over by multiple call of `tally`
+could sum over by multiple calls of `tally`
 
 `count` does the grouping for you
 ```{r}
@@ -468,7 +473,7 @@ flights %>%
 
 ## bind_rows + purrr
 
-How to read in merge files in 2 lines
+How to read in and merge files in 2 lines
 
 ```{r}
 library("purrr")
@@ -491,7 +496,7 @@ files %>%
 ## Coding style
 
 
-`R` is rather flexible and permissive with its syntax. However, being more strict tends to ease the debugging process.
+`R` has a rather flexible and permissive syntax. However, being more strict tends to ease the debugging process.
 
 See [Hadley's recommendations](http://adv-r.had.co.nz/Style.html)
 
