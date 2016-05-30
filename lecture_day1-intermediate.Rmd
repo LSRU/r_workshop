@@ -478,7 +478,7 @@ How to read in and merge files in 2 lines
 ```{r}
 library("purrr")
 library("readxl")
-files <- list.files(path = "~/Work/150401/", pattern = "^D.+xlsx$", full.names = TRUE)
+files <- list.files(path = "./data/", pattern = "xlsx$", full.names = TRUE)
 df <- lapply(files, read_excel) %>% bind_rows(.id = "file_number")
 ```
 
@@ -486,10 +486,11 @@ using `purrr`
 ```{r}
 purr_df <- map_df(files, read_excel, .id = "file_number")
 ```
-
+filenames are better
 ```{r}
+
 files %>%
-  set_names(nm = basename(.)) %>%
+  set_names(nm = basename(.) %>% sub("([^.]+)\\.[[:alnum:]]+$", "\\1", .)) %>%
   map_df(read_excel, .id = "file_name") -> purr_name_df
 ```
 
