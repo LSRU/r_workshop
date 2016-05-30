@@ -54,7 +54,7 @@ flights
 ## glimpse
 
 
-Use `glimpse` to few some values in each column.
+Use `glimpse` to show some values and types per column. Environment tab does it too
 
 ```{r}
 glimpse(flights)
@@ -84,7 +84,7 @@ flights %>%
 ```
 
 
-## filter:  multiple conditions OR (|)
+## filter:  multiple conditions OR
 
 ```{r, eval = FALSE}
 flights %>%
@@ -129,7 +129,8 @@ Find the longest delays for flights to Madison.
 ```{r}
 flights %>%
   filter(dest == "MSN") %>%
-  arrange(desc(arr_delay))
+  arrange(desc(arr_delay)) %>%
+  select(arr_delay, everything()) # way to reorder arr_delay 1st column
 ```
 
 ## 
@@ -138,7 +139,8 @@ Find the most delayed (in minutes) flight in 2013
 
 ```{r}
 flights %>%
-  arrange(desc(arr_delay))
+  arrange(desc(arr_delay)) %>%
+  select(arr_delay, everything()) %>% head(3)
 ```
 
 ```{r}
@@ -216,7 +218,7 @@ library("ggplot2")
 flights %>%
   mutate(gain = arr_delay - dep_delay,
     speed = (distance / air_time) * 60) %>%
-  sample_n(10000) %>%
+  sample_n(10000) %>% # subsample 1e5 rows randomly
   ggplot(aes(x = gain, y = speed))+
   geom_point(alpha = 0.4)
 ```
@@ -240,7 +242,7 @@ flights %>%
 
 ## group_by (2)
 
-Work per day
+Work per day, note the tibble info about the 365 groupings
 
 ```{r}
 by_day <- flights %>%
@@ -379,7 +381,9 @@ delays <- flights %>%
   inner_join(airports, by = c("dest" = "faa")) # provide the equivalence since columns have a different name
 ```
 
-We could have used **left_join** but 4 rows with a 3-letters acronym have no correspondance in the `airports` data frame. **inner_join** narrows down the lines that are present in both data frames.
+We could have used **left_join** but 4 rows with a 3-letters acronym have no correspondance in the `airports` data frame. 
+
+**inner_join** narrows down the lines that are present in both data frames.
 
 
 ## join types
@@ -436,7 +440,7 @@ delays %>%
 ```{r}
 flights %>%
   group_by(dest, month) %>%
-  tally()
+  tally() %>% head(3)
 ```
 
 could sum over by multiple calls of `tally`
@@ -444,7 +448,7 @@ could sum over by multiple calls of `tally`
 `count` does the grouping for you
 ```{r}
 flights %>%
-  count(dest, month)
+  count(dest, month) %>% head(3)
 ```
 
 
@@ -465,7 +469,7 @@ flights %>%
 
 - assembly: `bind_rows`, `bind_cols`
 - windows function, `min_rank`, `dense_rank`, `cumsum`
-- column-wise operations: `mutate_each`, `summarise_each`
+- column-wise operations: `mutate_each`, `transmute`, `summarise_each`
 - join tables together: `right_join`, `full_join`
 - filtering joins: `semi_join`, `anti_join`
 - `do`: arbitrary code on each chunk
