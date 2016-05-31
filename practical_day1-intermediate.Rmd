@@ -10,6 +10,9 @@ output:
     credit: yes
 ---
 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(cache = TRUE)
+```
 
 ## Project - set-up
 
@@ -26,7 +29,7 @@ library("stringr")
 library("dplyr", warn.conflicts = FALSE)
 library("ggplot2")
 library("broom")
-library("GEOquery")
+suppressPackageStartupMessages(library("GEOquery")) # bioconductor is verbose
 library("lubridate", warn.conflicts = FALSE)
 theme_set(theme_bw(14)) # if you wish to get this theme by default
 ```
@@ -221,7 +224,7 @@ The mir array contains probes for both strands of mir:
 ```
 ```{r}
 mir_expression_melt %>%
-  ggplot(aes(x = ID, y = expression))+
+  ggplot(aes(x = ID, y = mir_expression))+
   geom_boxplot()
 ```
 ```{asis, solution=TRUE}
