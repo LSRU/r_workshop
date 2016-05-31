@@ -534,6 +534,18 @@ long_function_name <- function(a = "a long argument",
     + <kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>K</kbd>: Knit document
 
 
+## Rstudio addins
+
+[Addins](https://rstudio.github.io/rstudioaddins/) are small integrated packages that solve small tasks.
+
+```{r, echo = FALSE, out.width='60%'}
+knitr::include_graphics("img/rstudio_addins.png")
+```
+
+[Dean Attali](deanattali.com/) created a [package](https://github.com/daattali/addinslist#readme) to explore and manage your addins.
+
+Sometimes, cause crashes
+
 ## Recommended reading
 
 - [R for data science](http://r4ds.had.co.nz/)
@@ -558,5 +570,6 @@ See why:
 * Hadley Wickham
 * Steve Simpson
 * Jenny Bryan
+* Dean Attali
 * David Robinson
 * Eric Koncina
