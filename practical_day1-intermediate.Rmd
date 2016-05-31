@@ -368,7 +368,7 @@ expression %>%
 with a pvalue of 7.54e-6, the negative is highly significant
 ```
 
-- replace `tidy` by `glance` to get the $r^2$. Is this value satisfactory?
+- replace `tidy` by `glance` to extract the $r^2$. Is this value satisfactory?
 ```{r, solution=TRUE}
 expression %>%
   do(glance(lm(rna_expression ~ mir_expression, data = .)))
@@ -376,4 +376,66 @@ expression %>%
 ```{asis, solution=TRUE}
 with a r^2 of 0.236, i.e only 23.6% of the variance explained, a linear fit sounds bad due to outliers
 ```
+
+## Perform a linear model for the expression of ENTPD5 and ALL mirs
+
+- Count how many `hsa-mir` not star are in present on the array GPL8786
+```{r, solution=TRUE}
+fData(gse35834[[2]]) %>%
+  filter(grepl("^hsa", ID)) %>%
+  filter(!grepl("star", ID)) %>%
+  nrow()
+```
+
+- Retrieve the expression values for the 677 human mir like you did before.
+Same procedure, except that you don't filter for mir-182. Save as `all_mir_rna_expression`
+```{r, solution=TRUE}
+exprs(gse35834[[2]]) %>%
+  as.data.frame() %>%
+  tibble::rownames_to_column(var = "ID") %>%
+  filter(grepl("^hsa", ID)) %>%
+  # match expression data to platform annotation
+  gather(sample, mir_expression, starts_with("GSM")) %>%
+  filter(!grepl("star", ID)) %>%
+  inner_join(fData(gse35834[[2]])) %>% 
+  inner_join(rna_mir, by = c("sample" = "sample.y")) %>%
+  select(-sample.x) %>% 
+  inner_join(rna_expression_melt,
+             by = c("source_name_ch1", "characteristics_ch1", 
+                    "characteristics_ch1.1", "characteristics_ch1.2",
+                    "characteristics_ch1.3",  "characteristics_ch1.4",
+                    "characteristics_ch1.5", "characteristics_ch1.6", 
+                    "characteristics_ch1.7", "characteristics_ch1.8")) -> all_mir_rna_expression 
+```
+
+- Perform the 677 linear models, tidy the results and arrange by the `adj.r.squared`
+```{r, solution=TRUE}
+all_mir_rna_expression %>%
+  group_by(ID) %>%
+   do(glance(lm(rna_expression ~ mir_expression, data = .))) %>%
+  ungroup() %>%
+  arrange(desc(adj.r.squared))
+```
+
+- Get the top 12 mir and plot the scatter plot
+```{r, solution=TRUE}
+top12_mir <- all_mir_rna_expression %>%
+  group_by(ID) %>%
+   do(glance(lm(rna_expression ~ mir_expression, data = .))) %>%
+  ungroup() %>%
+  arrange(desc(adj.r.squared)) %>%
+  head(12) %>%
+  .$ID
+
+all_mir_rna_expression %>%
+  filter(ID %in% top12_mir) %>%
+  separate(source_name_ch1, c("source", "rest"), sep = 12) %>%
+  ggplot(aes(x = mir_expression, y = rna_expression))+
+  geom_point(aes(colour = source))+
+  geom_smooth(method = "lm", se = FALSE)+
+  facet_wrap(~ ID, ncol = 4)+
+  labs(y = "gene expression ENTPD5",
+       x = "hsa-mir expression")
+```
+
 

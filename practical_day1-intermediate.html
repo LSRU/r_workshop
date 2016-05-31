@@ -144,7 +144,7 @@ theme_set(theme_bw(14)) # if you wish to get this theme by default</code></pre>
 </div>
 <div id="aim" class="section level2">
 <h2>Aim</h2>
-<p>Working with GEO datasets could be an hassle and you are going to experience it. Extensive manipulation of tables (<code>data.frame</code> and <code>matrix</code>) is required and provide a nice exercise.</p>
+<p>Working with GEO datasets could be an hassle and you are going to experience it. Extensive manipulation of tables (<code>data.frame</code> and <code>matrix</code>) is required and provide a nice exercise. Here, we will investigate the relationship between the expression of <em>ENTPD5</em> and mir-182 as described by the authors. Even if, the data are normalised and should be ready to use, quite an extensive amount of work is required to reproduce the claimed result.</p>
 </div>
 <div id="retrieve-geo-study" class="section level2">
 <h2>Retrieve GEO study</h2>
@@ -314,23 +314,38 @@ Hint
 <li><p>does it support the study claim?</p></li>
 </ul>
 </div>
-<div id="supplementary-exercise" class="section level2">
-<h2>Supplementary exercise</h2>
+<div id="supplementary-exercise---linear-regression" class="section level2">
+<h2>Supplementary exercise - linear regression</h2>
+<ul>
+<li>get the estimate from the linear trend. linear models output by <code>lm()</code> are lists. Since <code>data.frame</code> are much easier to work with, <a href="http://varianceexplained.org/">David Robinson</a> developed <a href="https://cran.r-project.org/web/packages/broom/index.html"><code>broom</code></a>. More will be done in the advanced lecture, but here see test the <code>broom::tidy()</code> coupled with <code>dplyr::do()</code>.</li>
+</ul>
 <pre class="r"><code>library(&quot;broom&quot;)
 expression %&gt;%
   separate(source_name_ch1, c(&quot;source&quot;, &quot;rest&quot;), sep = 12) %&gt;%
   group_by(source) %&gt;%
-  do(tidy(lm(rna_expression ~ mir_expression, data = .)))</code></pre>
-<pre><code>## Source: local data frame [4 x 6]
+  do(tidy(lm(rna_expression ~ mir_expression, data = .))) %&gt;%
+  filter(term != &quot;(Intercept)&quot;)</code></pre>
+<pre><code>## Source: local data frame [2 x 6]
 ## Groups: source [2]
 ## 
-##         source           term    estimate  std.error  statistic
-##          (chr)          (chr)       (dbl)      (dbl)      (dbl)
-## 1 colon cancer    (Intercept)  7.85859480 0.80706968  9.7371949
-## 2 colon cancer mir_expression -0.03354124 0.09217281 -0.3638951
-## 3 normal colon    (Intercept)  8.89506384 0.65135717 13.6562001
-## 4 normal colon mir_expression  0.04496954 0.10042656  0.4477853
-## Variables not shown: p.value (dbl)</code></pre>
+##         source           term    estimate  std.error  statistic   p.value
+##          (chr)          (chr)       (dbl)      (dbl)      (dbl)     (dbl)
+## 1 colon cancer mir_expression -0.03354124 0.09217281 -0.3638951 0.7174117
+## 2 normal colon mir_expression  0.04496954 0.10042656  0.4477853 0.6588934</code></pre>
+<p>The estimate of the intercept is not meaningful so filtered out. One can easily see that the slope is not significant when data are slipped by source.</p>
+<ul>
+<li><p>Perform the linear regression and tidy the results for all data, is it significant?</p></li>
+<li><p>replace <code>tidy</code> by <code>glance</code> to extract the <span class="math inline">\(r^2\)</span>. Is this value satisfactory?</p></li>
+</ul>
+</div>
+<div id="perform-a-linear-model-for-the-expression-of-entpd5-and-all-mirs" class="section level2">
+<h2>Perform a linear model for the expression of ENTPD5 and ALL mirs</h2>
+<ul>
+<li><p>Count how many <code>hsa-mir</code> not star are in present on the array GPL8786</p></li>
+<li><p>Retrieve the expression values for the 677 human mir like you did before. Same procedure, except that you don’t filter for mir-182. Save as <code>all_mir_rna_expression</code></p></li>
+<li><p>Perform the 677 linear models, tidy the results and arrange by the <code>adj.r.squared</code></p></li>
+<li><p>Get the top 12 mir and plot the scatter plot</p></li>
+</ul>
 </div>
 
 <div class="credit">
