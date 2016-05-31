@@ -7,6 +7,8 @@ output:
     css: style.css
     logo: img/uni.png
     smaller: yes
+    fig_width: 6
+    fig_height: 5
 ---
 
 ```{r setup, include=FALSE}
@@ -396,41 +398,45 @@ Of note: **anti_join** can select rows in which identifiers are **absent** in th
 
 ## plot on a map
 
-```{r, echo=FALSE, out.width='100%'}
-library("maps")
-# US map
-delays %>%
-  ggplot()+
+```{r, echo=TRUE, eval=FALSE, out.width='100%'}
+library("ggplot2")
+library("maps") # US map
+ggplot(delays)+
   geom_point(aes(x = lon, y = lat, colour = mean), size = 3, alpha = 0.8)+
-  scale_color_gradient2()+
-  borders("state")
+  scale_color_gradient2()+borders("state")
+```
+```{r, echo=FALSE, out.width='70%'}
+knitr::include_graphics("img/delays_usmap_grey.png")
 ```
 
 ## plot on a map, with text
 
 <!-- I'm not able to set warning or message to FALSE! -->
 <!-- Index out of range error for map_data... -->
-```{r, echo=FALSE, message = TRUE, warning = TRUE, out.width='100%'}
-delays %>%
-  ggplot()+geom_point(aes(x = lon, y = lat, colour = mean),
-                      size = 3, alpha = 0.8)+
-  geom_text(aes(x = lon, y = lat, label = name), size = 3)+
-  scale_color_gradient2()+
-  theme_classic()+
-  borders("state")
+```{r, eval=FALSE, message = TRUE, warning = TRUE, out.width='100%'}
+library("ggrepel")
+filter(delays, lon > -140) %>% # remove Honolulu
+  ggplot()+geom_point(aes(x = lon, y = lat, colour = mean), size = 3, alpha = 0.8)+
+  geom_text_repel(aes(x = lon, y = lat, label = name), size = 2.5)+
+  scale_color_gradient2()+theme_classic()+borders("state")
+```
+```{r, echo=FALSE, out.width='70%'}
+knitr::include_graphics("img/delays_usmap.png")
 ```
 
 ## plot on a map, with conditional text
 
-```{r, out.width='100%', align = 'center'}
-library("ggrepel")
-delays %>%
+```{r, out.width='100%', eval=FALSE}
+filter(delays, lon > -140) %>% # remove Honolulu
   ggplot()+geom_point(aes(x = lon, y = lat, colour = mean),
-                      size = 3, alpha = 0.8)+
-  geom_text_repel(data = delays %>% filter(mean > 20),
-            aes(x = lon, y = lat + 1, label = name), size = 3)+
-  scale_color_gradient2()+theme_classic()+
-  borders("state")
+                      size = 3, alpha = 0.8)+borders("state")+
+  geom_label_repel(data = delays %>% filter(mean > 20),
+            aes(x = lon, y = lat + 1, label = name), fill = "brown", colour = "white", size = 3)+
+  scale_color_gradient2()+theme_classic()
+```
+
+```{r, echo=FALSE, out.width='70%'}
+knitr::include_graphics("img/delays_cond_usmap.png")
 ```
 
 ## tally / count
@@ -440,11 +446,8 @@ delays %>%
 ```{r}
 flights %>%
   group_by(dest, month) %>%
-  tally() %>% head(3)
+  tally() %>% head(3) # could sum up with multiple tally calls
 ```
-
-could sum over by multiple calls of `tally`
-
 `count` does the grouping for you
 ```{r}
 flights %>%
@@ -494,7 +497,7 @@ filenames are better
 ```{r}
 library("stringr")
 files %>%
-  set_names(nm = str_match(basename(.), "([^.]+)\\.[[:alnum:]]+$")[,2]) %>%
+  set_names(nm = str_match(basename(.), "([^.]+)\\.[[:alnum:]]+$")[, 2]) %>%
   map_df(read_excel, .id = "file_name") -> purr_name_df
 ```
 
@@ -505,7 +508,18 @@ files %>%
 
 See [Hadley's recommendations](http://adv-r.had.co.nz/Style.html)
 
+```{r, eval=FALSE}
+long_function_name <- function(a = "a long argument", 
+                               b = "another argument",
+                               c = "another long argument") {
+  # As usual code is indented by two spaces.
+}
+```
+
+
 ## Useful rstudio shortcuts
+
+
 
 - Scripting (replace  <kbd>Cmd</kbd> by <kbd>Ctrl</kbd> for PC)
     + <kbd>Cmd</kbd> + <kbd>-</kbd>: insert <kbd> <- </kbd>
@@ -513,11 +527,31 @@ See [Hadley's recommendations](http://adv-r.had.co.nz/Style.html)
     + <kbd>Alt</kbd> + <kbd>↑</kbd> or <kbd>↓</kbd>: move line up / down
     + <kbd>Cmd</kbd> + <kbd>Alt</kbd> + <kbd>↑</kbd> or <kbd>↓</kbd>: copy line up   / down
     + <kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>↑</kbd> or <kbd>↓</kbd>: multi-line edition
-
+- `# analysis step ####` for navigating
 - Running
     + <kbd>Cmd</kbd> + <kbd>Enter</kbd>: run code
     + <kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd>: re-run Previous code
     + <kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>K</kbd>: Knit document
+
+
+## Recommended reading
+
+- [R for data science](http://r4ds.had.co.nz/)
+
+```{r, echo = FALSE, out.width='10%'}
+knitr::include_graphics("https://raw.githubusercontent.com/hadley/r4ds/master/cover.png")
+```
+
+- [Advanced in R](http://adv-r.had.co.nz/) by Hadley
+
+- About R weirdness
+    + [R inferno](http://www.burns-stat.com/documents/books/the-r-inferno/) by Patrick Burns
+    + [Rbitrary](https://ironholds.org/projects/rbitrary/) by Oliver Keyes
+    
+See why:
+- `<-` and not `=`
+- `::` and not `:::`
+- `library` and not `require` etc.
 
 ## Acknowledgments
 

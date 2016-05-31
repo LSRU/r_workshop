@@ -112,7 +112,7 @@ ul li:before{
   /*content:'\00b7';*/ /*dot*/
   /*content:'\25b6';*/ /*triangle right*/
   /*content:'\2666';*/ /*diams*/
-  font-size:100px;
+  font-size: 50px;
   margin-top: -3px;
   /*line-height:28px;
   vertical-align:middle;*/
