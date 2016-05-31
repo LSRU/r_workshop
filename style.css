@@ -11,11 +11,11 @@
 }
 
 
-/* unordered list styles */
+/* unordered list styles 
  ul  {
     font-size: 50px;
     list-style-type: square;
-}
+}*/
 
 slides > slide:not(.nobackground):before {
   width: 50px;

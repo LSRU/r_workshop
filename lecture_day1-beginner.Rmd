@@ -267,6 +267,23 @@ rnorm(10) %>%
   round(3)
 ```
 
+## placeholder = .
+
+```{r, eval=FALSE}
+x %>% f(.) 
+#stands for (pipe to the 1st function argument)
+f(x)
+```
+
+When not 1st argument
+```{r}
+sub("b", "B", letters[1:3])
+letters[1:3] %>% sub("b", "B") # raises warning!
+letters[1:3] %>% sub("b", "B", .)
+```
+
+
+
 # Tidying data | tidyr
 
 
