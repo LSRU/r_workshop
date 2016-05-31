@@ -305,13 +305,14 @@ expression %>%
 
 ## plot relation ENTPD5 ~ mir-182 as scatter-plot for all patients
 
-- add a linear trend using `geom_smooth()`
+- add a linear trend using `geom_smooth()` for all data + per source
 ```{r, solution=TRUE}
 expression %>%
   separate(source_name_ch1, c("source", "rest"), sep = 12) %>%
-  ggplot(aes(x = mir_expression, y = rna_expression, colour = source))+
-  geom_point()+
+  ggplot(aes(x = mir_expression, y = rna_expression))+
+  geom_point(aes(colour = source))+
   geom_smooth(method = "lm", se = FALSE)+
+  geom_smooth(aes(colour = source), method = "lm", se = FALSE)+
   labs(y = "gene expression ENTPD5",
        x = "hsa-mir-182 expression")+
   ggtitle("GSE35834")
@@ -319,8 +320,10 @@ expression %>%
 
 - does it support the study claim?
 ```{asis, solution=TRUE}
-the expression of mir-182 does not explain the expression ENTPD5 when we look at the 
-association gene / mir per patient
+the two dot clouds between normal and cancer origin do split by 
+- high mir expression / low gene expression
+- mild mir expression / high gene expression
+but the trend is not so clear
 ```
 
 ## Supplementary exercise
@@ -332,3 +335,5 @@ expression %>%
   group_by(source) %>%
   do(tidy(lm(rna_expression ~ mir_expression, data = .)))
 ```
+
+
