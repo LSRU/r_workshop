@@ -104,3 +104,16 @@ kbd
     padding:.1em .6em;
     text-shadow:0 1px 0 #fff;
 }
+
+li{list-style-type:none;}
+ul li:before{
+  padding-left: 0.7em;
+  content:'\00b7';
+  /*content:'\00b7';*/ /*dot*/
+  /*content:'\25b6';*/ /*triangle right*/
+  /*content:'\2666';*/ /*diams*/
+  font-size:100px;
+  margin-top: -3px;
+  /*line-height:28px;
+  vertical-align:middle;*/
+}
