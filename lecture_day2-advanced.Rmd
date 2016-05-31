@@ -10,7 +10,7 @@ output:
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE, cache = TRUE)
 ```
 
 ## R workshop | Day 2 - advanced
@@ -147,3 +147,17 @@ models %>%
        y = "Yearly improvement")
 ```
 
+
+## Feather: fast data frame storage
+
+[python](https://github.com/wesm/feather) and [R project](https://cran.r-project.org/web/packages/feather/index.html) for reading/writing data frames in binary format and column types.
+
+The advantage is the extreme fast reading process.
+```{r, echo=FALSE, out.width='40%'}
+knitr::include_graphics("http://revolution-computing.typepad.com/.a/6a010534b1db25970b01b7c86170e4970b-400wi")
+```
+
+source: [David Smith](http://blog.revolutionanalytics.com/2016/05/feather-package.html)
+
+
+description on [rstudio blog](https://blog.rstudio.org/2016/03/29/feather/)
