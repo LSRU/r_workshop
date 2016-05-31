@@ -61,7 +61,9 @@ visit the [dedicated page](install_tutorial.html)
 
 #### June 2nd afternoon, intermediate level
 
-##### small presentation ~ 20 minutes
+##### small presentation ~ 30 minutes - `dplyr`
+
+- Slides: [online](lecture_day1-intermediate.html)
 
 ##### microarray hands-on
 
@@ -77,6 +79,7 @@ visit the [dedicated page](install_tutorial.html)
 #### June 3rd morning, advanced user
 
 ##### small presentation ~ 20 minutes
+
 
 ##### practical with yeast data.
 
@@ -127,6 +130,10 @@ Of note, all material was written in [**rmarkdown**](http://rmarkdown.rstudio.co
 knitr::include_graphics("http://lsru.github.io/r_workshop/img/rmarkdown_600.png")
 ```
 
+---
+
+You can download the `Rmd` for each slides / practical by changing the extension.
+For example [`lecture_day1-beginner.Rmd`](http://lsru.github.io/r_workshop/lecture_day1-beginner.Rmd) and open in rstudio.
 
 ---
 
