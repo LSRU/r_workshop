@@ -116,6 +116,11 @@ No, they aren't. This is really annoying as the expression data contain only GSM
 
 We then need to join the two information somehow. 
 Knowing that the column "sample" differs, merge the 2 data frames to get the correspondence between RNA `GSM*` and mir `GSM*`. Save as `rna_mir`.
+```{asis, box = "blue", boxtitle = "Note"}
+When 2 data.frames are joined by specific columns and the remaining columns have have
+identical names, a '.x' or '.y' suffix is appended for the first and second data frames respectively
+```
+
 ```{r, solution=TRUE}
 inner_join(rna_meta, mir_meta, 
            by = c("characteristics_ch1.1", "characteristics_ch1",
@@ -160,7 +165,9 @@ exprs(gse35834[[1]]) %>%
   
 3. merge expression data to platform annotation (`fData(gse35834[[1]])`).
 Save as `rna_expression`. `R` always works in temporary objects, you won't erase the object you are working on.
+```{asis, box = "blue", boxtitle = "Note"}
 Warnings about factors being coerced to characters can be ignored. Factors shouldn't be in the first place (default of `readr` functions)
+```
 ```{r, solution=TRUE}
 rna_expression %>%
  inner_join(fData(gse35834[[1]])) -> rna_expression
@@ -222,8 +229,10 @@ The immature mir, named star is indeed merely expressed
 ```
 
 4. Filter out the irrelevant IDs using `grepl` in the `filter` function.
-Hint: adding `!` to a condition means `NOT`.
+```{asis, box = "lightgreen", boxtitle = "Hint"}
+adding `!` to a condition means `NOT`.
 Example `filter(iris, !grepl("a", Species))`: remove all Species that contain an "a".
+```
 ```{r, solution=TRUE}
 mir_expression_melt %>%
   filter(!grepl("star", ID)) -> mir_expression_melt
@@ -327,6 +336,7 @@ but the trend is not so clear
 ```
 
 ## Supplementary exercise
+
 
 ```{r}
 library("broom")
