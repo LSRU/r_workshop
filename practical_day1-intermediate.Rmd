@@ -180,11 +180,11 @@ rna_expression %>%
   gather(sample, rna_expression, starts_with("GSM")) -> rna_expression_melt
 ```
 
-6. Add meta-data and discard columns `ID`, `SPOT_ID`
+6. Add meta-data and after discard columns `ID`, `SPOT_ID`, `sample.x`
 ```{r, solution=TRUE}
 rna_expression_melt %>%
   inner_join(rna_mir, by = c("sample" = "sample.x")) %>%
-  select(-ID, -SPOT_ID) -> rna_expression_melt
+  select(-ID, -SPOT_ID, -sample.y) -> rna_expression_melt
 ```
 
 ## Get mir expression data for miR-182
@@ -229,10 +229,11 @@ mir_expression_melt %>%
   filter(!grepl("star", ID)) -> mir_expression_melt
 ```
 
-5. Add the meta-data, count number of rows
+5. Add the meta-data, count number of rows. Discard the column `sample.x` after joining.
 ```{r, solution=TRUE}
 mir_expression_melt %>%
-  inner_join(rna_mir, by = c("sample" = "sample.y")) -> mir_expression_melt
+  inner_join(rna_mir, by = c("sample" = "sample.y")) %>%
+  select(-sample.x) -> mir_expression_melt
 ```
 ```{asis, solution=TRUE}
 77 rows, we lost GSM875854, which is not present in the meta-data nor the GSE description.
@@ -252,26 +253,59 @@ expression <- inner_join(rna_expression_melt, mir_expression_melt,
 
 ## Examine gene expression according to meta data
 
-1. Plot gene expression distribution by Gender 
+1. Plot gene expression distribution by Gender. Any obvious difference? 
 ```{r, solution=TRUE}
 expression %>%
   ggplot(aes(y = rna_expression, x = characteristics_ch1))+
   geom_boxplot()
 ```
+```{asis, solution=TRUE}
+no relation to gender
+```
 
-
-
-2. 
+2. Plot gene AND mir expression distribution by Gender. Any obvious difference?
+You will need to tidy by gathering rna and mir expression
 ```{r, solution=TRUE}
 expression %>%
-  separate(source_name_ch1, c("source", "rest"), sep = 12) %>%
-  ggplot(aes(y = rna_expression, x = characteristics_ch1))+
-  geom_boxplot()+ ggtitle("GSE35834")
+  gather(expression, value, ends_with("expression")) %>%
+  ggplot(aes(y = value, x = characteristics_ch1, fill = expression))+
+  geom_boxplot()
+```
+```{asis, solution=TRUE}
+no relation to gender for both expressions
 ```
 
 
-## plot candidate
+3. Plot gene AND mir expression distribution by source (control / cancer).
+To make it easier, a quick hack is `separate(expression, source_name_ch1, c("source", "rest"), sep = 12)` to get `source` as control / cancer. Any difference?
+```{r, solution=TRUE}
+expression %>%
+  gather(expression, value, ends_with("expression")) %>%
+  separate(source_name_ch1, c("source", "rest"), sep = 12) %>%
+  ggplot(aes(y = value, fill = source, x = expression))+
+  geom_boxplot()+ ggtitle("GSE35834")
+```
+```{asis, solution=TRUE}
+Like stated in the summary of the study, yes the expression of mir-182 seems higher in cancer
+and the ENTPD5 expression lower.
+```
 
+4. Replot 3. but reordering the levels so normal colon comes first. 
+Display _normal_ in "lightgreen" and _cancer_ in "red" using `scale_fill_manual()`
+```{r, solution=TRUE}
+expression %>%
+  gather(expression, value, ends_with("expression")) %>%
+  separate(source_name_ch1, c("source", "rest"), sep = 12)  %>% 
+  mutate(source = factor(source, levels = c("normal colon", "colon cancer"))) %>%
+  ggplot(aes(y = value, fill = source, x = expression))+
+  geom_boxplot()+
+  scale_fill_manual(values = c("lightgreen", "red"))
+```
+
+
+## plot relation ENTPD5 ~ mir-182 as scatter-plot for all patients
+
+- add a linear trend using `geom_smooth()`
 ```{r, solution=TRUE}
 expression %>%
   separate(source_name_ch1, c("source", "rest"), sep = 12) %>%
@@ -283,6 +317,11 @@ expression %>%
   ggtitle("GSE35834")
 ```
 
+- does it support the study claim?
+```{asis, solution=TRUE}
+the expression of mir-182 does not explain the expression ENTPD5 when we look at the 
+association gene / mir per patient
+```
 
 ## Supplementary exercise
 
