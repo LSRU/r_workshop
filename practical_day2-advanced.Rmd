@@ -129,7 +129,7 @@ Extract the data corresponding to the gene called "LEU1" and draw a line for eac
 ```{r, solution = TRUE}
 cleaned_data_melt %>%
   filter(name == "LEU1") %>%
-  ggplot(aes(rate, expression, color = nutrient)) +
+  ggplot(aes(rate, expression, colour = nutrient)) +
   geom_line() +
   theme_bw()
 ```
@@ -155,7 +155,7 @@ Add a linear regression with the appropriate `ggplot2` function and carrefully a
 ```{r, solution = TRUE}
 cleaned_data_melt %>%
   filter(BP == "leucine biosynthesis") %>%
-  ggplot(aes(rate, expression, color = nutrient)) +
+  ggplot(aes(rate, expression, colour = nutrient)) +
   geom_point() +
   geom_smooth(method = "lm", se = FALSE) +
   facet_wrap(~ name)
@@ -169,9 +169,116 @@ Instead of the "leucine biosynthesis" plot the data corresponding to "sulfur met
 ```{r, solution = TRUE}
 cleaned_data_melt %>%
   filter(BP == "sulfur metabolism") %>%
-  ggplot(aes(rate, expression, color = nutrient)) +
+  ggplot(aes(x = rate, y = expression, colour = nutrient)) +
   geom_point() +
   geom_smooth(method = "lm", se = FALSE) +
-  facet_wrap(~ name + systematic_name, scales = "free_y")
+  facet_wrap(~ name + systematic_name, scales = "free_y") # add 2 headers to facets with '+'
+```
+
+# 3. Linear models
+
+Following the example on `gapminder` by Hadley
+
+## 3.1 Nest data for systematic_name and nutrient
+
+Before apply a linear regression to all genes, we must clean the data a little further.
+A linear model will be build on max 6 rate points. Filter out genes that have less than 6 data points. Moreover, some systematic_name and expression data are missing (`NA`).
+Filter them out too.
+
+Then, nest the data and save as `cleaned_nest`.
+```{r, solution=TRUE}
+cleaned_data_melt %>%
+  filter(!is.na(expression),!is.na(systematic_name)) %>%
+  group_by(nutrient, systematic_name) %>%
+  mutate(n = n()) %>%
+  filter(n > 5) %>%
+  nest() -> cleaned_nest
+```
+
+## 3.2 Perform all linear models
+
+Mutate the `cleaned_nest` data frame and perform a linear regression 
+of `expression` explained by `rate` for all genes / nutrient. 
+```{asis, box="red", boxtitle="Warning"}
+a bug in [`dplyr`](https://github.com/hadley/purrr/issues/105) (fixed in dev version)
+prevent you to use the form `map(data, ~ lm(y ~ x, data = .x)` 
+instead use `map(data, function(x) lm(y ~ x, data = x)`
+```
+The computation takes ~ 30 sec on my macbook pro. Save as `cleaned_lm`
+```{r, solution=TRUE}
+library("purrr")
+cleaned_nest %>%
+  mutate(model = map(data, function(x) lm(expression ~ rate, data = x))) -> cleaned_lm
+```
+
+- How many models did you performed?
+```{asis, solution=TRUE}
+the nrow of cleaned_nest is 32543 models
+```
+
+## 3.3 Tidy the linear models
+
+Similarly as the life expectancy, use the 3 main function of `broom` to
+- `glance` the models
+- extract the $r^2$
+- `tidy` models
+- `augment` to extract residuals
+```{r}
+library("broom")
+cleaned_lm %>%
+  mutate(glance  = map(model, glance),
+         rsq     = glance %>% map_dbl("r.squared"),
+         tidy    = map(model, tidy),
+         augment = map(model, augment)) -> cleaned_lm
+```
+
+## 3.4 Explore models
+
+- plot the histrogram of $r^2$ for each nutrient. What can you say?
+```{r, solution=TRUE}
+theme_set(theme_bw(14))
+cleaned_lm %>%
+  ggplot(aes(x = rsq))+
+  geom_histogram()+
+  facet_wrap(~ nutrient)
+```
+```{asis, solution=TRUE}
+Most genes does not respond in a linear fashion to starvation. Especially for S and U where
+
+```
+
+- Count how many models have a $r^2 > 0.9$ per nutrient
+```{r, solution=TRUE}
+cleaned_lm %>%
+  filter(rsq > 0.9) %>%
+  count(nutrient)
+```
+
+- For genes with $r^2 > 0.9$ per nutrient, plot the distribution of the intercept/slope estimates
+```{r, solution=TRUE}
+cleaned_lm %>%
+  filter(rsq > 0.9) %>%
+  unnest(tidy) %>%
+  ggplot(aes(x = estimate, fill = term))+
+  geom_histogram(alpha = 0.6)+
+  facet_wrap(~ nutrient)
+``` 
+
+## 3.4 Explore models
+
+Now, we want to see how many of 'linear-trend' genes are overlaping to the nutrient starvations
+
+```{r, solution=TRUE}
+cleaned_lm %>%
+  filter(rsq > 0.9) %>%
+  select(systematic_name, nutrient) %>%
+  mutate(set = 1) %>%
+  spread(nutrient, set)
+```
+
+
+
+```{r, solution}
+library("UpSetR")
 ```
 
