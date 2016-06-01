@@ -501,6 +501,9 @@ files %>%
   map_df(read_excel, .id = "file_name") -> purr_name_df
 ```
 
+
+# Appendix
+
 ## Coding style
 
 
