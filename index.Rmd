@@ -85,12 +85,13 @@ the _interactive_ version is accessible only inside the university network.
 
 ##### practical with yeast data.
 
+- Practical: [online](practical_day2-advanced.html) 
+
 - tidying data
 - performing thousands of linear regression
 - tidying / ranking models using functional programming using `purrr` and nested data frames
 - animate time series using `gganimate`
 - interactive input using embedded `shiny` in `rmarkdown`
-- exploring the git integration in `Rstudio`
 
 ### Practical information
 
