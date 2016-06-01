@@ -67,14 +67,13 @@ visit the [dedicated page](install_tutorial.html)
 
 ##### microarray hands-on
 
-- public dataset from GEO using `bioconductor` package
-- tidying data, split text and unnesting cells
-- Contrast using `limma`
+- Practical: [online](practical_day1-intermediate.html) 
+
+- public dataset of mRNA / mir from GEO using `bioconductor` package
+- tidying data, split text
 - merging annotation tables
-- exploring histograms of p-value / adjusted-p.value
-- viz intersection using `UpSetR`.
 - viz comparison using heatmap and dynamic (d3) `heatmap`
-- Finding house keeping genes using linear models using `dplyr::do()`
+- Fit linear models to mRNA/mir expression using `dplyr::do()`
 
 #### June 3rd morning, advanced user
 
