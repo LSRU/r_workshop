@@ -6,12 +6,12 @@ output:
   ioslides_presentation:
     css: style.css
     logo: img/uni.png
-    runtime: shiny
+    #runtime: shiny
     smaller: yes
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, cache = TRUE)
+knitr::opts_chunk$set(echo = TRUE, cache = FALSE)
 ```
 
 ## R workshop | Day 2 - advanced
@@ -25,6 +25,17 @@ knitr::include_graphics("img/drob_r_pipeline_600.jpg")
 ```
 
 see also what Karl Broman is recommanding for [people who learnt R a while ago](http://kbroman.org/hipsteR/)
+
+
+## Modern pipeline
+
+
+```{r, echo=FALSE, out.width='90%'}
+knitr::include_graphics("http://varianceexplained.org/images/broom_slides/broom_slides.001.jpg")
+```
+
+source: [David Robinson](http://varianceexplained.org/r/broom-slides/)
+check out David [broom presentation](http://varianceexplained.org/files/broom_presentation.pdf)
 
 ## reading data
 
@@ -48,6 +59,13 @@ Tutorial based on the great conference by [Hadley Wickham][1]
 
 [1]:https://www.youtube.com/watch?v=rz3_FDVt9eg
 
+## purrr::map / dplyr::do
+
+progress bar will be [added](https://github.com/hadley/purrr/issues/149)
+
+```{r, echo=FALSE, out.width='60%'}
+knitr::include_graphics("img/purrr_do.png")
+```
 
 ## Functional programming and nested data_frames {.codefont}
 
@@ -94,6 +112,13 @@ by_country_lm <- gapminder %>%
   group_by(continent, country) %>%
   nest() %>%
   mutate(model = map(data, ~ lm(lifeExp ~ year1950, data = .x)))
+by_country_lm
+```
+
+## broom cleanup
+
+```{r, echo=FALSE, out.width='90%'}
+knitr::include_graphics("img/broom_cleanup.png")
 ```
 
 ## Tidying model coefficients
@@ -110,6 +135,7 @@ models <- by_country_lm %>%
          rsq     = glance %>% map_dbl("r.squared"),
          tidy    = map(model, tidy),
          augment = map(model, augment))
+models
 ```
 
 # Exploratory plots
@@ -157,7 +183,7 @@ renderUI({
 
 ## shiny
 
-```{r, cache=FALSE, echo=FALSE}
+```{r, eval=FALSE, cache=FALSE}
 library("shiny")
 inputPanel(
   selectInput("country", "Select Country", levels(models$country))
@@ -177,7 +203,7 @@ renderUI({
 
 ## shiny - rsquare
 
-```{r, cache=FALSE, echo=FALSE}
+```{r, cache=FALSE, eval=FALSE}
 library("shiny")
 inputPanel(
   sliderInput("rsq", "Select rsquared", min = 0, max = 1, 
@@ -212,4 +238,29 @@ models %>%
        y = "Yearly improvement")
 ```
 
+## Error handling
 
+`purrr` proposes `safely()` and `possibly()` as ways to do error-handling.
+
+safely() is a type-stable version of try. It always returns a list of two elements, the result and the error, and one will always be NULL.
+```{r}
+safely(log)(10)
+safely(log)("a")
+```
+
+to be investigated
+
+## Recommended reading
+
+- [purrr applied](http://ijlyttle.github.io/isugg_purrr/presentation.html#%281%29) by Ian Lyttle
+- [R for data science](http://r4ds.had.co.nz/intro.html) by Hadley
+- [iterations - purrr](http://r4ds.had.co.nz/iteration.html) by Hadley
+- [purrr 0.1](https://blog.rstudio.org/2015/09/29/purrr-0-1-0/) by Hadley
+- [purrr 0.2](https://blog.rstudio.org/2016/01/06/purrr-0-2-0/) by Hadley
+
+## Acknowledgments
+
+* Hadley Wickham
+* Ian Lyttle
+* David Robinson
+* Eric Koncina
