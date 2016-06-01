@@ -6,7 +6,7 @@ output:
   ioslides_presentation:
     css: style.css
     logo: img/uni.png
-    #runtime: shiny
+    runtime: shiny
     smaller: yes
 ---
 
@@ -21,7 +21,7 @@ knitr::opts_chunk$set(echo = TRUE, cache = FALSE)
 [David Robinson](http://varianceexplained.org/) summarized the goal on his laptop
 
 ```{r, echo=FALSE, out.width='55%'}
-knitr::include_graphics("img/drob_r_pipeline_600.jpg")
+knitr::include_graphics("http://lsru.github.io/r_workshop/img/drob_r_pipeline_600.jpg")
 ```
 
 see also what Karl Broman is recommanding for [people who learnt R a while ago](http://kbroman.org/hipsteR/)
@@ -44,7 +44,7 @@ Recently the project `feather` for python / R was achieved by Hadley Wickham and
 Column structure and binary storage. Column types are preserved
 
 ```{r, echo=FALSE, out.width='60%'}
-knitr::include_graphics("img/feather_perf_20.png")
+knitr::include_graphics("http://lsru.github.io/r_workshop/img/feather_perf_20.png")
 ```
 
 - [Rstudio blog](https://blog.rstudio.org/2016/03/29/feather/)
@@ -55,7 +55,7 @@ knitr::include_graphics("img/feather_perf_20.png")
 
 Tutorial based on the great conference by [Hadley Wickham][1]
 
-![](img/hadley_purrr.png)
+![](http://lsru.github.io/r_workshop/img/hadley_purrr.png)
 
 [1]:https://www.youtube.com/watch?v=rz3_FDVt9eg
 
@@ -64,7 +64,7 @@ Tutorial based on the great conference by [Hadley Wickham][1]
 progress bar will be [added](https://github.com/hadley/purrr/issues/149)
 
 ```{r, echo=FALSE, out.width='60%'}
-knitr::include_graphics("img/purrr_do.png")
+knitr::include_graphics("http://lsru.github.io/r_workshop/img/purrr_do.png")
 ```
 
 ## Functional programming and nested data_frames {.codefont}
@@ -118,7 +118,7 @@ by_country_lm
 ## broom cleanup
 
 ```{r, echo=FALSE, out.width='90%'}
-knitr::include_graphics("img/broom_cleanup.png")
+knitr::include_graphics("http://lsru.github.io/r_workshop/img/broom_cleanup.png")
 ```
 
 ## Tidying model coefficients
@@ -183,7 +183,7 @@ renderUI({
 
 ## shiny
 
-```{r, eval=FALSE, cache=FALSE}
+```{r, echo=FALSE, cache=FALSE}
 library("shiny")
 inputPanel(
   selectInput("country", "Select Country", levels(models$country))
@@ -203,7 +203,7 @@ renderUI({
 
 ## shiny - rsquare
 
-```{r, cache=FALSE, eval=FALSE}
+```{r, cache=FALSE, echo=FALSE}
 library("shiny")
 inputPanel(
   sliderInput("rsq", "Select rsquared", min = 0, max = 1, 
