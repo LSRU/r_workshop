@@ -45,7 +45,8 @@ visit the [dedicated page](install_tutorial.html)
 
 ##### hands-on Rstudio
 
-- Practical: [online](practical_day1-beginner.html) 
+- Practical: [html](practical_day1-beginner.html) / [pdf](practical_day1-beginner.pdf)
+- Practical _solution_: [html](practical_day1-beginner_solution.html) / [pdf](practical_day1-beginner_solution.pdf)
 
 - practice on a small dataset
   + reading, specify locales and avoid factor conversions
