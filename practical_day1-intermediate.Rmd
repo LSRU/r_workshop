@@ -16,10 +16,7 @@ knitr::opts_chunk$set(cache = TRUE)
 
 ## Project - set-up
 
-- Create a new project in a meaningful folder name on your computer such as
-`R_workshop/day1-intermediate`
-
-using the project manager utility, top-right of the rstudio window.
+- Create a new project in a meaningful folder name on your computer (such as `R_workshop/day1-intermediate`) using the project manager utility on the upper-right part of the rstudio window.
 
 - Check if you have all those libraries installed
 ```{r}
@@ -34,9 +31,8 @@ theme_set(theme_bw(14)) # if you wish to get this theme by default
 ## Aim
 
 Working with GEO datasets could be an hassle and you are going to experience it.
-Extensive manipulation of tables (`data.frame` and `matrix`) is required and provide a nice exercise.
-Here, we will investigate the relationship between the expression of _ENTPD5_ and mir-182 as described by the authors. Even if, the data are normalised and should be ready to use, quite 
-an extensive amount of work is required to reproduce the claimed result.
+Extensive manipulation of tables (`data.frame` and `matrix`) is required and provides a nice exercise.
+Here, we will investigate the relationship between the expression of _ENTPD5_ and mir-182 as it was described by the authors. Even if the data are normalised and should be ready to use, quite an extensive amount of work is still required to reproduce the claimed result.
 
 ## Retrieve GEO study
 
@@ -63,8 +59,8 @@ http://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GPL15236
 - GPL8786 ([miRNA-1_0] Affymetrix miRNA Array)
 http://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GPL8786
 ```
-- How can you assign the mRNA or mir data to each of element of `gse35834`?
 
+- How can you assign the mRNA or mir data to each element of `gse35834`?
 ```{asis, solution=TRUE}
 The function `show()` displays
 1. GPL15236
@@ -75,7 +71,7 @@ gse35834[[2]] is mir (7815 probes)
 
 ## Explore the mRNA expression meta-data
 
-Information about samples are accessible using `phenoData()` and convert to `data.frame` with `pData()`.
+Informations about samples are accessible using `phenoData()` and can directly be retrieved as a `data.frame` with `pData()`.
 
 for example, the following command will return the mRNA meta-data as a `data.frame`
 ```{r, eval=FALSE}
@@ -83,7 +79,7 @@ pData(gse35834[[1]])
 ```
 
 - Extract as a `tbl_df` named `rna_meta` the mRNA meta-data and
-    + rename `geo_accession` by `sample`
+    + rename `geo_accession` to `sample`
     + select `source_name_ch1` and all columns that start with "charact" 
     
 ```{r, solution=TRUE}
@@ -97,7 +93,7 @@ rna_meta <- pData(gse35834[[1]]) %>%
 ## Explore the mir expression meta-data
 
 - Extract as a `tbl_df` named `mir_meta` the mRNA meta-data and
-    + rename `geo_accession` by `sample`
+    + rename `geo_accession` to `sample`
     + select `source_name_ch1` and all columns that start with "charact" 
     
 ```{r, solution=TRUE}
@@ -111,13 +107,13 @@ mir_meta <- pData(gse35834[[2]]) %>%
 
 ## Join meta-data
 
-- Explore the two data frame with `View(rna_meta)` and `View(mir_meta)`. Are the sample `GSM*` identical?
+- Explore the two data frames with `View(rna_meta)` and `View(mir_meta)`. Are the samples `GSM*` identical?
 ```{asis, solution=TRUE}
 No, they aren't. This is really annoying as the expression data contain only GSM ids.
 ```
 
-We then need to join the two information somehow. 
-Knowing that the column "sample" differs, merge the 2 data frames to get the correspondence between RNA `GSM*` and mir `GSM*`. Save as `rna_mir`.
+Then, we would like to somehow join both informations.  
+Knowing that both data frames have different "sample" columns, merge them to get the correspondence between RNA `GSM*` and mir `GSM*`. Save the result as `rna_mir`.
 ```{asis, box = "blue", boxtitle = "Note"}
 When 2 data.frames are joined by specific columns and the remaining columns have have
 identical names, a '.x' or '.y' suffix is appended for the first and second data frames respectively
@@ -136,27 +132,30 @@ inner_join(rna_meta, mir_meta,
 ## Get RNA expression data for the ENTPD5 gene
 
 Expression data can be accessed via `exprs()` which returns a matrix.
-If you happen to run the command without piping to `head`, `R` will print ALL rows until the `max.print`.
+
+```{asis, box = "orange", boxtitle = "Warning"}
+If you do not pipe the command to `head`, `R` would print **ALL** rows (or until it reaches `max.print`).
+```
+
 ```{r, eval=FALSE}
 exprs(gse35834[[1]]) %>% head()
 ```
 
-rows are probes and columns sample ids in the form `GSM*`.
+rows are probes and columns are sample ids in the form `GSM*`.
 
 Probe ids are not meaningful, but `fData()` provides features.
 ```{r, eval=FALSE}
 fData(gse35834[[1]]) %>% head()
 ```
 
-Again, we need to merge both information to assign expression data to the gene of interest.
+Again, we need to merge both informations to assign the expression data to the gene of interest.
 
 1. Find the common values that could help us joining.
 ```{asis, solution=TRUE}
 the probe ids are the common values
 ```
-2. A `matrix` contains only numerical values. But, the `rownames` contains the necessary info.
-Transform the `matrix` into a `data.frame`. Then,
-convert the `rownames` to a column using `tibble::rownames_to_column(var = "ID")`.
+2. A `matrix` contains only numerical values. But, the `rownames` contain the necessary info.  
+Transform the `matrix` into a `data.frame`. Then, convert the `rownames` to a column using `tibble::rownames_to_column(var = "ID")`.  
 Save as `rna_expression`
 
 ```{r, solution=TRUE}
@@ -166,30 +165,30 @@ exprs(gse35834[[1]]) %>%
 ```
   
 3. merge expression data to platform annotation (`fData(gse35834[[1]])`).
-Save as `rna_expression`. `R` always works in temporary objects, you won't erase the object you are working on.
+Save as `rna_expression`. `R` is always working on temporary objects, you won't erase the object you are working on.
 ```{asis, box = "blue", boxtitle = "Note"}
-Warnings about factors being coerced to characters can be ignored. Factors shouldn't be in the first place (default of `readr` functions)
+Warnings about *factors being coerced to characters* can be ignored. Factors shouldn't be in the first place (default of `readr` functions)
 ```
 ```{r, solution=TRUE}
 rna_expression %>%
  inner_join(fData(gse35834[[1]])) -> rna_expression
 ```
 
-4. Find the [Entrez](http://www.ncbi.nlm.nih.gov/gene) gene id for ENTPD5. Usually, the gene symbol is given in the annotation, but each GEO submission is new discovery.
+4. Find the [Entrez](http://www.ncbi.nlm.nih.gov/gene) gene id for _ENTPD5_. Usually, the gene symbol is given in the annotation, but each GEO submission is a new discovery.
 ```{asis, solution=TRUE}
 957, for Homo sapiens
 ```
 
-5. Filter `rna_expression` for the gene of interest and tidy the samples.
-One column `sample` for all `GSM*` and one column `rna_expression` with expression values.
-Save as `rna_expression_melt`. At this point you should get a `data.frame` of 80 values.
+5. Filter `rna_expression` for the gene of interest and tidy the samples:  
+A column `sample` for all `GSM*` and a column `rna_expression` containing the expression values.
+Save the result as `rna_expression_melt`. At this point you should get a `data.frame` of 80 values.
 ```{r, solution=TRUE}
 rna_expression %>%
   filter(ENTREZ_GENE_ID == 957) %>% 
   gather(sample, rna_expression, starts_with("GSM")) -> rna_expression_melt
 ```
 
-6. Add meta-data and after discard columns `ID`, `SPOT_ID`, `sample.x`
+6. Add the meta-data and discard the columns `ID`, `SPOT_ID` and `sample.x`. Save the result as `rna_expression_melt`.
 ```{r, solution=TRUE}
 rna_expression_melt %>%
   inner_join(rna_mir, by = c("sample" = "sample.x")) %>%
@@ -198,8 +197,8 @@ rna_expression_melt %>%
 
 ## Get mir expression data for miR-182
 
-1. Repeat previous step but using `exprs(gse35834[[2]])` for the `mir_expression`.
-Nicely, this time, the mir names are provided in `fData(gse35834[[2]])` in column `miRNA_ID_LIST`
+1. Repeat the previous step but using `exprs(gse35834[[2]])` for the `mir_expression`.
+This time, the mir names are nicely provided by `fData(gse35834[[2]])` in the column `miRNA_ID_LIST`
 ```{r, solution=TRUE}
 exprs(gse35834[[2]]) %>%
   as.data.frame() %>%
@@ -240,7 +239,7 @@ mir_expression_melt %>%
   filter(!grepl("star", ID)) -> mir_expression_melt
 ```
 
-5. Add the meta-data, count number of rows. Discard the column `sample.x` after joining.
+5. Add the meta-data, count the number of rows. Discard the column `sample.x` after joining.
 ```{r, solution=TRUE}
 mir_expression_melt %>%
   inner_join(rna_mir, by = c("sample" = "sample.y")) %>%
@@ -256,7 +255,7 @@ Let it down
 ## join both expression
 
 Join `rna_expression_melt` and `mir_expression_melt` by their common columns EXCEPT `sample`.
-Save as `expression`
+Save the result as `expression`.
 ```{r, solution=TRUE}
 expression <- inner_join(rna_expression_melt, mir_expression_melt,
                          by = c("source_name_ch1", "characteristics_ch1", "characteristics_ch1.1", "characteristics_ch1.2", "characteristics_ch1.3", "characteristics_ch1.4", "characteristics_ch1.5", "characteristics_ch1.6", "characteristics_ch1.7", "characteristics_ch1.8"))
@@ -264,7 +263,7 @@ expression <- inner_join(rna_expression_melt, mir_expression_melt,
 
 ## Examine gene expression according to meta data
 
-1. Plot gene expression distribution by Gender. Any obvious difference? 
+1. Plot the gene expression distribution by Gender. Is there any obvious difference? 
 ```{r, solution=TRUE}
 expression %>%
   ggplot(aes(y = rna_expression, x = characteristics_ch1))+
@@ -274,8 +273,13 @@ expression %>%
 no relation to gender
 ```
 
-2. Plot gene AND mir expression distribution by Gender. Any obvious difference?
+2. Plot gene AND mir expression distribution by Gender. Is there any obvious difference?
+
+
+```{asis, box = "blue", boxtitle = "Hint"}
 You will need to tidy by gathering rna and mir expression
+```
+
 ```{r, solution=TRUE}
 expression %>%
   gather(expression, value, ends_with("expression")) %>%
@@ -287,8 +291,8 @@ no relation to gender for both expressions
 ```
 
 
-3. Plot gene AND mir expression distribution by source (control / cancer).
-To make it easier, a quick hack is `separate(expression, source_name_ch1, c("source", "rest"), sep = 12)` to get `source` as control / cancer. Any difference?
+3. Plot gene AND mir expression distributions by source (control / cancer).
+To make it easier, a quick hack is `separate(expression, source_name_ch1, c("source", "rest"), sep = 12)` to get `source` as control / cancer. Is there any difference?
 ```{r, solution=TRUE}
 expression %>%
   gather(expression, value, ends_with("expression")) %>%
@@ -297,8 +301,8 @@ expression %>%
   geom_boxplot()+ ggtitle("GSE35834")
 ```
 ```{asis, solution=TRUE}
-Like stated in the summary of the study, yes the expression of mir-182 seems higher in cancer
-and the ENTPD5 expression lower.
+Like it is stated in the summary of the study, the expression of mir-182 seems indeed higher in cancer
+while the ENTPD5 expression seems lower.
 ```
 
 4. Replot 3. but reordering the levels so normal colon comes first. 
@@ -329,7 +333,7 @@ expression %>%
   ggtitle("GSE35834")
 ```
 
-- does it support the study claim?
+- does it support the claim of the study?
 ```{asis, solution=TRUE}
 the two dot clouds between normal and cancer origin do split by 
 - high mir expression / low gene expression
@@ -340,9 +344,9 @@ but the trend is not so clear
 ## Supplementary exercise - linear regression
 
 - get the estimate from the linear trend.
-linear models output by `lm()` are lists. Since `data.frame` are much easier to work with,
+linear models are outputted by `lm()` as lists. Since `data.frame` are much easier to work with,
 [David Robinson](http://varianceexplained.org/) developed [`broom`](https://cran.r-project.org/web/packages/broom/index.html).
-More will be done in the advanced lecture, but here see test the `broom::tidy()` coupled with `dplyr::do()`.
+We will present the use of `broom` during the advanced lecture, but you can have an insight here and test `broom::tidy()` coupled with `dplyr::do()`.
 ```{r}
 library("broom")
 expression %>%
@@ -352,7 +356,7 @@ expression %>%
   filter(term != "(Intercept)")
 ```
 
-The estimate of the intercept is not meaningful so filtered out.
+The estimate of the intercept is not meaningful thus it is filtered out.
 One can easily see that the slope is not significant when data are slipped by source.
 
 - Perform the linear regression and tidy the results for all data, is it significant?
@@ -374,9 +378,9 @@ expression %>%
 with a r^2 of 0.236, i.e only 23.6% of the variance explained, a linear fit sounds bad due to outliers
 ```
 
-## Perform a linear model for the expression of ENTPD5 and ALL mirs
+## Perform a linear model for the expression of _ENTPD5_ and ALL mirs
 
-- Count how many `hsa-mir` not star are in present on the array GPL8786
+- Count how many `hsa-mir`, which are not star, are present on the array GPL8786
 ```{r, solution=TRUE}
 fData(gse35834[[2]]) %>%
   filter(grepl("^hsa", ID)) %>%
