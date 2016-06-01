@@ -23,14 +23,11 @@ using the project manager utility, top-right of the rstudio window.
 
 - Check if you have all those libraries installed
 ```{r}
-library("readr") # for parse_number
 library("tidyr")
-library("stringr")
 library("dplyr", warn.conflicts = FALSE)
 library("ggplot2")
 library("broom")
 suppressPackageStartupMessages(library("GEOquery")) # bioconductor is verbose
-library("lubridate", warn.conflicts = FALSE)
 theme_set(theme_bw(14)) # if you wish to get this theme by default
 ```
 
