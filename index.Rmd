@@ -41,7 +41,7 @@ visit the [dedicated page](install_tutorial.html)
 
 ##### Lecture ~ 45 minutes
 
-- Slides: [online](lecture_day1-beginner.html) 
+- Slides: [online](lecture_day1-beginner.html) / [Rmd](lecture_day1-beginner.Rmd)
 
 ##### hands-on Rstudio
 
@@ -63,7 +63,7 @@ visit the [dedicated page](install_tutorial.html)
 
 ##### small presentation ~ 30 minutes - `dplyr`
 
-- Slides: [online](lecture_day1-intermediate.html)
+- Slides: [online](lecture_day1-intermediate.html) / [Rmd](lecture_day1-intermediate.Rmd)
 
 ##### microarray hands-on
 
@@ -79,7 +79,9 @@ visit the [dedicated page](install_tutorial.html)
 
 ##### small presentation ~ 20 minutes
 
-- Slides: [online](lecture_day2-advanced.html)
+- Slides: [interactive shiny](http://shiny-server.uni.lu/lecture-advanced) / [html](lecture_day2-advanced.html) / [Rmd](lecture_day2-advanced.Rmd)
+
+the _interactive_ version is accessible only inside the university network.
 
 ##### practical with yeast data.
 
