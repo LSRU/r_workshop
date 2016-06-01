@@ -35,13 +35,14 @@ knitr::include_graphics("http://varianceexplained.org/images/broom_slides/broom_
 ```
 
 source: [David Robinson](http://varianceexplained.org/r/broom-slides/)
-check out David [broom presentation](http://varianceexplained.org/files/broom_presentation.pdf)
+check out David's [broom presentation](http://varianceexplained.org/files/broom_presentation.pdf)
 
 ## reading data
 
-Recently the project `feather` for python / R was achieved by Hadley Wickham and  Wes McKinney 
+Hadley Wickham and Wes McKinney recently released `feather`, a new python / R project.
 
-Column structure and binary storage. Column types are preserved
+It rapidly stores dataframes as binary files and preserves column types.
+<!-- Column structure and binary storage. Column types are preserved -->
 
 ```{r, echo=FALSE, out.width='60%'}
 knitr::include_graphics("http://lsru.github.io/r_workshop/img/feather_perf_20.png")
@@ -69,12 +70,12 @@ knitr::include_graphics("http://lsru.github.io/r_workshop/img/purrr_do.png")
 
 ## Functional programming and nested data_frames {.codefont}
 
-Using `purrr` and `tidyr`. Hadley takes every part of `R` and _cleans_ it up.
+Using `purrr` and `tidyr`. Hadley is focusing on every part of `R` to _clean_ it up.
 
 `purrr` revisits the `apply` family in a consistent way.
 `tidyr::nest` nests list in `tibble::data_frame` to keep related things together.
 
-## For loops emphasis objects and not actions {.codefont}
+## For loops emphasise on objects and not actions {.codefont}
 
 compare (notice `seq_along` instead of `1:length(mtcars)`)
 ```{r}
@@ -123,7 +124,8 @@ knitr::include_graphics("http://lsru.github.io/r_workshop/img/broom_cleanup.png"
 
 ## Tidying model coefficients
 
-Use broom to extract from `lm()` in neat data frames:
+Use broom to extract, as neat data frames out of `lm()`:
+
 - coefficients estimates: **slope** and **intercept**
 - $r^2$ 
 - residuals
@@ -240,7 +242,7 @@ models %>%
 
 ## Error handling
 
-`purrr` proposes `safely()` and `possibly()` as ways to do error-handling.
+`purrr` proposes `safely()` and `possibly()` to enable error-handling.
 
 safely() is a type-stable version of try. It always returns a list of two elements, the result and the error, and one will always be NULL.
 ```{r}
