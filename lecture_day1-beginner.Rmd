@@ -473,20 +473,55 @@ iris %>%
   geom_point(aes(colour = "Species"))
 ```
 
-##
+## in / out aesthetics
 
-```{r, out.width='70%'}
+```{r, out.width='60%', eval=FALSE}
+iris %>%
+  ggplot(aes(x = Sepal.Length, y = Sepal.Width))+
+  geom_point(colour = "Species") # Error
+```
+
+```{r, out.width='40%'}
 iris %>%
   ggplot(aes(x = Sepal.Length, y = Sepal.Width))+
   geom_point(colour = "red")
 ```
 
-## Barplots
+## histogram
 
+```{r, out.width='70%'}
+iris_melt %>%
+  ggplot()+
+  geom_histogram(aes(x = measure, fill = flower))
+```
+
+## Barplots - stack
+
+by default, `geom_bar` counts. For mapping values use `stat = "identity"`
 ```{r, out.width='50%'}
 iris_melt %>%
   ggplot()+
   geom_bar(aes(x = Species, y = measure, fill = flower), stat = "identity")
+```
+```{r, eval=FALSE}
+iris_melt %>%
+  ggplot()+
+  geom_bar(aes(x = measure, fill = flower))
+```
+
+## Barplots - relative
+
+```{r, out.width='50%'}
+iris_melt %>%
+  ggplot()+
+  geom_bar(aes(x = Species, y = measure, fill = flower), position = "fill", stat = "identity")
+```
+
+## Barplots - dodge
+```{r, out.width='50%'}
+iris_melt %>%
+  ggplot()+
+  geom_bar(aes(x = Species, y = measure, fill = flower), position = "dodge", stat = "identity")
 ```
 
 ## Density and faceting
@@ -533,6 +568,7 @@ suppressPackageStartupMessages(library("gridExtra"))
 grid.arrange(light, classic, void, dark, nrow = 2)
 ```
 
+
 ## Recommended reading
 
 - [data structures](http://adv-r.had.co.nz/Data-structures.html) by Hadley
@@ -542,6 +578,7 @@ grid.arrange(light, classic, void, dark, nrow = 2)
   + [plotting](http://r4ds.had.co.nz/data-visualisation.html)
 - [ggplot2 documentation](http://docs.ggplot2.org/current/) by Hadley / Winston
 - [ggplot2 layer by layer](http://rpubs.com/hadley/ggplot2-layers) by Hadley
+- [ggplot2 extensions](https://www.ggplot2-exts.org/) by Daniel Emaasit
 - Excellent ressource on `R` (in French) 
 [Introduction to R](http://egallic.fr/Enseignement/R/m1_stat_eco_logiciel_R.pdf) by Ewen Gallic
 
@@ -553,3 +590,4 @@ grid.arrange(light, classic, void, dark, nrow = 2)
 * Ewen Gallic
 * David Robinson
 * Eric Koncina
+* Tony Heurtaux
