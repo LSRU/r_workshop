@@ -1,12 +1,11 @@
 ---
 title: "Practical - intermediate"
-#knit: unilur::knit
+knit: unilur::knit
 author: "Aurelien Ginolhac"
 date: "2^nd^ June 2016"
 output:
-  unilur::tutorial_html:
-    solution: no
-    theme: cosmo
+  unilur::tutorial:
+    solution: wwo
     credit: yes
 ---
 

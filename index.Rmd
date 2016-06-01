@@ -58,7 +58,6 @@ visit the [dedicated page](install_tutorial.html)
   + use aesthetics to map variables to columns
   + explore the world of `geom_*`
   + faceting for 1 or 2 variables
-- practice on normalisation of qPCR (or any) data
 
 #### June 2nd afternoon, intermediate level
 
@@ -68,12 +67,12 @@ visit the [dedicated page](install_tutorial.html)
 
 ##### microarray hands-on
 
-- Practical: [online](practical_day1-intermediate.html) 
+- Practical: [html](practical_day1-intermediate.html) / [pdf](practical_day1-intermediate.pdf)
+- Practical _solution_: [html](practical_day1-intermediate_solution.html) / [pdf](practical_day1-intermediate_solution.pdf)
 
 - public dataset of mRNA / mir from GEO using `bioconductor` package
 - tidying data, split text
 - merging annotation tables
-- viz comparison using heatmap and dynamic (d3) `heatmap`
 - Fit linear models to mRNA/mir expression using `dplyr::do()`
 
 #### June 3rd morning, advanced user
@@ -92,6 +91,7 @@ the _interactive_ version is accessible only inside the university network.
 - performing thousands of linear regression
 - tidying / ranking models using functional programming using `purrr` and nested data frames
 - animate time series using `gganimate`
+- viz comparison using `UpSetR`
 - interactive input using embedded `shiny` in `rmarkdown`
 
 ### Practical information
