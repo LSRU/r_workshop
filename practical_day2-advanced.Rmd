@@ -5,7 +5,7 @@ author: "Aurelien Ginolhac, Eric Koncina"
 date: "3^rd^ June 2016"
 output:
   unilur::tutorial_html:
-    solution: yes
+    solution: no
     theme: cosmo
     credit: yes
 ---
@@ -273,12 +273,12 @@ cleaned_lm %>%
   filter(rsq > 0.9) %>%
   select(systematic_name, nutrient) %>%
   mutate(set = 1) %>%
-  spread(nutrient, set)
+  spread(nutrient, set) -> mat
 ```
 
 
 
-```{r, solution}
+```{r, solution=TRUE}
 library("UpSetR")
 ```
 

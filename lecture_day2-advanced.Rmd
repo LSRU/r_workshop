@@ -6,7 +6,6 @@ output:
   ioslides_presentation:
     css: style.css
     logo: img/uni.png
-    runtime: shiny
     smaller: yes
 ---
 
@@ -185,7 +184,7 @@ renderUI({
 
 ## shiny
 
-```{r, echo=FALSE, cache=FALSE}
+```{r, eval=FALSE, cache=FALSE}
 library("shiny")
 inputPanel(
   selectInput("country", "Select Country", levels(models$country))
@@ -205,7 +204,7 @@ renderUI({
 
 ## shiny - rsquare
 
-```{r, cache=FALSE, echo=FALSE}
+```{r, cache=FALSE, eval=FALSE}
 library("shiny")
 inputPanel(
   sliderInput("rsq", "Select rsquared", min = 0, max = 1, 
@@ -263,6 +262,7 @@ to be investigated
 ## Acknowledgments
 
 * Hadley Wickham
+* Robert Rudis
 * Ian Lyttle
 * David Robinson
 * Eric Koncina
