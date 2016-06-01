@@ -28,6 +28,10 @@ h1{
   font-size: 20pt;
 }
 
+h2{
+  font-size: 22pt;
+}
+
 .codefont pre {
     font-size: 11px;
     line-height: 9px;

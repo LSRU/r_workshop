@@ -6,6 +6,7 @@ output:
   ioslides_presentation:
     css: style.css
     logo: img/uni.png
+    runtime: shiny
     smaller: yes
 ---
 
@@ -19,7 +20,9 @@ knitr::opts_chunk$set(echo = TRUE, cache = TRUE)
 
 [David Robinson](http://varianceexplained.org/) summarized the goal on his laptop
 
-<img src="img/drob_r_pipeline_600.jpg">
+```{r, echo=FALSE, out.width='55%'}
+knitr::include_graphics("img/drob_r_pipeline_600.jpg")
+```
 
 see also what Karl Broman is recommanding for [people who learnt R a while ago](http://kbroman.org/hipsteR/)
 
@@ -29,7 +32,9 @@ Recently the project `feather` for python / R was achieved by Hadley Wickham and
 
 Column structure and binary storage. Column types are preserved
 
-<img src="img/feather_perf_20.png">
+```{r, echo=FALSE, out.width='60%'}
+knitr::include_graphics("img/feather_perf_20.png")
+```
 
 - [Rstudio blog](https://blog.rstudio.org/2016/03/29/feather/)
 - [performance benchmark](https://blog.dominodatalab.com/the-r-data-i-o-shootout/)
@@ -111,7 +116,7 @@ models <- by_country_lm %>%
 
 ## Does linear models fit all countries?
 
-```{r}
+```{r, out.width='60%'}
 library("ggplot2")
 theme_set(theme_bw(14))
 models %>%
@@ -122,7 +127,7 @@ models %>%
 
 ## focus on non-linear trends
 
-```{r}
+```{r, cache=FALSE}
 models %>%
   filter(rsq < 0.55) %>%
   unnest(data) %>%
@@ -131,9 +136,69 @@ models %>%
   facet_wrap(~ country)
 ```
 
+## shiny - code
+
+```{r, cache=FALSE, eval=FALSE}
+library("shiny")
+inputPanel(
+  selectInput("country", "Select Country", levels(models$country))
+)
+output$rsq <- renderPlot({
+  models %>%
+  filter(country == input$country) %>%
+  unnest(data) %>%
+  ggplot(aes(x = year, y = lifeExp))+
+  geom_line(aes(colour = continent))
+})
+renderUI({
+ plotOutput("rsq", height = "400", width = "600")
+})
+```
+
+## shiny
+
+```{r, cache=FALSE, echo=FALSE}
+library("shiny")
+inputPanel(
+  selectInput("country", "Select Country", levels(models$country))
+)
+output$country <- renderPlot({
+  models %>%
+  filter(country == input$country) %>%
+  unnest(data) %>%
+  ggplot(aes(x = year, y = lifeExp))+
+  geom_line(aes(colour = continent))
+})
+renderUI({
+ plotOutput("country", height = "400", width = "600")
+})
+```
+
+
+## shiny - rsquare
+
+```{r, cache=FALSE, echo=FALSE}
+library("shiny")
+inputPanel(
+  sliderInput("rsq", "Select rsquared", min = 0, max = 1, 
+              value = c(0, 0.2), dragRange = TRUE)
+)
+output$rsq <- renderPlot({
+  models %>%
+  filter(rsq >= input$rsq[1], rsq <= input$rsq[2]) %>%
+  unnest(data) %>%
+  ggplot(aes(x = year, y = lifeExp))+
+  geom_line(aes(colour = continent))+
+  facet_wrap(~ country)
+})
+renderUI({
+ plotOutput("rsq", height = "400", width = "600")
+})
+```
+
 ## All in all
 
-```{r}
+```{r,out.width='70%'}
 models %>%
   unnest(tidy) %>%
   select(continent, country, rsq, term, estimate) %>%
@@ -148,16 +213,3 @@ models %>%
 ```
 
 
-## Feather: fast data frame storage
-
-[python](https://github.com/wesm/feather) and [R project](https://cran.r-project.org/web/packages/feather/index.html) for reading/writing data frames in binary format and column types.
-
-The advantage is the extreme fast reading process.
-```{r, echo=FALSE, out.width='40%'}
-knitr::include_graphics("http://revolution-computing.typepad.com/.a/6a010534b1db25970b01b7c86170e4970b-400wi")
-```
-
-source: [David Smith](http://blog.revolutionanalytics.com/2016/05/feather-package.html)
-
-
-description on [rstudio blog](https://blog.rstudio.org/2016/03/29/feather/)
