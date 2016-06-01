@@ -41,11 +41,11 @@ visit the [dedicated page](install_tutorial.html)
 
 ##### Lecture ~ 45 minutes
 
-- Slides: [online](lecture_day1-beginner.html) and [pdf](lecture_day1-beginner.pdf)
+- Slides: [online](lecture_day1-beginner.html) 
 
 ##### hands-on Rstudio
 
-- Practical: [online](practical_day1-beginner.html) and [pdf](practical_day1-beginner.pdf)
+- Practical: [online](practical_day1-beginner.html) 
 
 - practice on a small dataset
   + reading, specify locales and avoid factor conversions
@@ -79,6 +79,7 @@ visit the [dedicated page](install_tutorial.html)
 
 ##### small presentation ~ 20 minutes
 
+- Slides: [online](lecture_day2-advanced.html)
 
 ##### practical with yeast data.
 
