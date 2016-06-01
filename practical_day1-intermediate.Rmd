@@ -221,7 +221,7 @@ The mir array contains probes for both strands of mir:
 - mature mir
 - immature mir, named "*", star.
 ```
-```{r}
+```{r, solution=TRUE}
 mir_expression_melt %>%
   ggplot(aes(x = ID, y = mir_expression))+
   geom_boxplot()
