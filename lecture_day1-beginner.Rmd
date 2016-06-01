@@ -524,6 +524,15 @@ iris_melt %>%
   geom_bar(aes(x = Species, y = measure, fill = flower), position = "dodge", stat = "identity")
 ```
 
+## heatmap
+```{r, out.width='50%'}
+iris_melt %>%
+  ggplot()+
+  geom_tile(aes(x = Species, y = flower, fill = measure))+
+  scale_fill_gradient(low = "yellow", high = "red", limits = c(0, 8))
+```
+
+
 ## Density and faceting
 
 transparency using the `alpha` parameter
