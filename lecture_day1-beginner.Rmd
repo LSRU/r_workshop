@@ -147,6 +147,21 @@ l[[2]]    # return a vector
 l[[2]][1] # return 1st element, 2nd atomic vector
 ```
 
+## factor
+
+
+```{r, collapse=TRUE}
+f <- rep(c("Male", "Female"), each = 4)
+f
+ff <- factor(f)
+ff # levels are like dictionnary keys
+str(ff) # structure of factor, integer behind
+```
+```{r, collapse=TRUE}
+table(ff) # useful command to count entities
+ff[3] <- "t" # error! "t" not in levels
+```
+
 
 ## Accessing lists' elements {.smaller}
 
