@@ -11,7 +11,7 @@ output:
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(cache = TRUE)
+knitr::opts_chunk$set(cache = FALSE)
 ```
 
 ## Project - set-up
@@ -231,7 +231,7 @@ The immature mir, named star is indeed merely expressed
 ```
 
 4. Filter out the irrelevant IDs using `grepl` in the `filter` function.
-```{asis, box = "lightgreen", boxtitle = "Hint"}
+```{asis, box = "green", boxtitle = "Hint"}
 adding `!` to a condition means `NOT`.
 Example `filter(iris, !grepl("a", Species))`: remove all Species that contain an "a".
 ```
