@@ -1,0 +1,177 @@
+---
+title: "Practical - advanced"
+#knit: unilur::knit
+author: "Aurelien Ginolhac, Eric Koncina"
+date: "3^rd^ June 2016"
+output:
+  unilur::tutorial_html:
+    solution: yes
+    theme: cosmo
+    credit: yes
+---
+
+```{r, include=FALSE}
+library("readr")
+library("dplyr", warn.conflicts = FALSE)
+library("tidyr")
+library("ggplot2")
+library("knitr")
+```
+
+> This practical work is adapted from the exhaustive example published by David Robinson on [his blog](http://varianceexplained.org/r/tidy-genomics/).
+
+In [2008, Brauer et al.](http://www.molbiolcell.org/content/19/1/352.abstract) used microarrays to test the effect of starvation on the growth rate of yeast. For example, they tried limiting the yeast's supply of glucose (sugar to metabolize into energy), of leucine (an essential amino acid), or of ammonium (a source of nitrogen).
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(cache = TRUE)
+```
+
+## Project - set-up
+
+- Create a new project in a meaningful folder name on your computer such as
+`R_workshop/day2-advanced`
+
+using the project manager utility, top-right of the rstudio window.
+
+- Create a folder `data`
+- Download [`Brauer2008_DataSet1.tds`](https://github.com/LSRU/r_workshop/blob/gh-pages/data/Brauer2008_DataSet1.tds) inside the `data` folder
+
+Load the [`Brauer2008_DataSet1.tds`] file into a dataframe. This is the exact data that was published with the paper (though for some reason the link on the journal's page is broken). It thus serves as a good example of tidying a biological dataset "found in the wild".
+
+```{r, collapse = TRUE}
+original_data <- read_tsv("data/Brauer2008_DataSet1.tds")
+```
+
+# 1 Tidying the data
+
+Have a look at the dataset. Is the data "tidy"?
+
+## 1.1 Many variables are stored in one column
+
+```{r, collapse = TRUE}
+cat(as.character(original_data$NAME[1:3]), sep = "\n")
+```
+
+* **Gene name** e.g. _SFB2_. Note that not all genes have a name.
+* **Biological process** e.g. "proteolysis and peptidolysis"
+* **Molecular function** e.g. "metalloendopeptidase activity"
+* **Systematic ID** e.g. _YNL049C_. Unlike a gene name, every gene in this dataset has a systematic ID.
+* **Another ID number** e.g. `1082129`. I don't know what this number means, and it's not annotated in the paper. Oh, well.
+
+1. Use the appropriate function provided in the `tidyr` library to split these values and generate a column for each variable.
+
+```{r, solution=TRUE}
+cleaned_data <- original_data %>%
+  separate(NAME, c("name", "BP", "MF", "systematic_name", "number"), sep = "\\|\\|")
+```
+
+2. Once you separated the variables delimited by two "`||`", check closer the new values: You will see that they might start and/or end with whitespaces which might be inconvinient during the subsequent use.
+    + To remove these whitespaces, R base provides a function called `trimws()`. Let's test how the function works:
+    ```{r, collapse = TRUE}
+# Creating test string with whitespaces:
+s <- "  Removing whitespaces at both ends "
+s
+trimws(s)
+```
+    + Dplyr allows us to apply a function (in our case `trimws()`) to all columns. In other words, we would like to modify the content of each column with the output of the function `trimws()`.  
+    How can you achieve this? Save as results in data frame `cleaned_data`
+
+```{r, solution=TRUE}
+cleaned_data <- original_data %>%
+  separate(NAME, c("name", "BP", "MF", "systematic_name", "number"), sep = "\\|\\|") %>%
+  mutate_each(funs(trimws), name:systematic_name)
+```
+
+3. We are not going to use every column of the dataframe. Remove the unecessary columns: `number`, `GID`, `YORF` and `GWEIGHT`.
+
+```{r, solution = TRUE}
+cleaned_data %>%
+  select(-number, -GID, -YORF, -GWEIGHT) -> cleaned_data
+```
+
+Look at the column names.  
+Do you think that our dataset is now "tidy"?
+
+```{asis, solution=TRUE}
+No, our dataframe is still not tidy. We can see that the column names from G0.05 to U0.3 represent a variable.
+```
+
+## 1.2 Column headers are values, not variable names
+
++ Keep care to build a dataframe with each column representing a variable: At this point we are storing the sample name as a different column `sample` associated to values in `expression` column. Save as `cleaned_data_melt`
+
+```{r, solution = TRUE}
+cleaned_data %>%
+  gather(sample, expression, G0.05:U0.3) -> cleaned_data_melt
+```
+
+Now look at the content of the `sample` column. We are again facing the problem that two variables are stored in a single column.  
+
+```{r, solution = TRUE}
+levels(cleaned_data_melt$sample)
+```
+
+Use the same function as before to split the `sample` column into two variables `nutrient` and `rate` (use the appropriate delimitation in `sep` and consider using the `convert` argument).
+
+```{r, solution = TRUE}
+cleaned_data_melt %>%
+  separate(sample, c("nutrient", "rate"), sep = 1, convert = TRUE) -> cleaned_data_melt
+```
+
+# 2 Representing the data
+
+Tidying the data is a crucial step allowing easy handling and representing.
+
+## 2.1 Plot the expression data of the LEU1 gene
+
+Extract the data corresponding to the gene called "LEU1" and draw a line for each nutrient showing the expression in function of the growth rate.
+
+```{r, solution = TRUE}
+cleaned_data_melt %>%
+  filter(name == "LEU1") %>%
+  ggplot(aes(rate, expression, color = nutrient)) +
+  geom_line() +
+  theme_bw()
+```
+
+## 2.2 Plot the expression data of a biological process
+
+We don't have to filter by a single gene as we have some information from the raw data about the biological process of each gene.  
+Extract all the genes in the "leucine biosynthesis" process and plot expression in function of the growth rate for each nutrient.
+
+```{r, solution = TRUE}
+cleaned_data_melt %>%
+  filter(BP == "leucine biosynthesis") %>%
+  ggplot(aes(rate, expression, color = nutrient)) +
+  geom_line() +
+  facet_wrap(~ name)
+```
+
+## 2.3 Perform a linear regression in top of the plots
+
+Let's play with the graph a little more. These trends look vaguely linear.  
+Add a linear regression with the appropriate `ggplot2` function and carrefully adjust the `method` aergument.
+
+```{r, solution = TRUE}
+cleaned_data_melt %>%
+  filter(BP == "leucine biosynthesis") %>%
+  ggplot(aes(rate, expression, color = nutrient)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE) +
+  facet_wrap(~ name)
+```
+
+## 2.4 Switch to another biological process
+
+Once the dataset is tidy, it is very easy to switch to another biological process.
+Instead of the "leucine biosynthesis" plot the data corresponding to "sulfur metabolism".
+
+```{r, solution = TRUE}
+cleaned_data_melt %>%
+  filter(BP == "sulfur metabolism") %>%
+  ggplot(aes(rate, expression, color = nutrient)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE) +
+  facet_wrap(~ name + systematic_name, scales = "free_y")
+```
+
