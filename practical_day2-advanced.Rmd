@@ -28,10 +28,8 @@ knitr::opts_chunk$set(cache = TRUE)
 
 ## Project - set-up
 
-- Create a new project in a meaningful folder name on your computer such as
-`R_workshop/day2-advanced`
-
-using the project manager utility, top-right of the rstudio window.
+- Create a new project in a meaningful folder name (such as
+`R_workshop/day2-advanced`) on your computer using the project manager utility in the upper-right part of the rstudio window.
 
 - Create a folder `data`
 - Download [`Brauer2008_DataSet1.tds`](https://github.com/LSRU/r_workshop/blob/gh-pages/data/Brauer2008_DataSet1.tds) inside the `data` folder
@@ -67,22 +65,22 @@ cleaned_data <- original_data %>%
 
 2. Once you separated the variables delimited by two "`||`", check closer the new values: You will see that they might start and/or end with whitespaces which might be inconvinient during the subsequent use.
     + To remove these whitespaces, R base provides a function called `trimws()`. Let's test how the function works:
-    ```{r, collapse = TRUE}
+    + Dplyr allows us to apply a function (in our case `trimws()`) to all columns. In other words, we would like to modify the content of each column with the output of the function `trimws()`. How can you achieve this? Save the result in a data frame called `cleaned_data`.
+
+<!-- Moving chunk down as it breaks the indentation in HTML (Is it working in Pdf?) -->
+```{r}
 # Creating test string with whitespaces:
 s <- "  Removing whitespaces at both ends "
 s
 trimws(s)
 ```
-    + Dplyr allows us to apply a function (in our case `trimws()`) to all columns. In other words, we would like to modify the content of each column with the output of the function `trimws()`.  
-    How can you achieve this? Save as results in data frame `cleaned_data`
 
 ```{r, solution=TRUE}
 cleaned_data <- original_data %>%
   separate(NAME, c("name", "BP", "MF", "systematic_name", "number"), sep = "\\|\\|") %>%
   mutate_each(funs(trimws), name:systematic_name)
 ```
-
-3. We are not going to use every column of the dataframe. Remove the unecessary columns: `number`, `GID`, `YORF` and `GWEIGHT`.
+3. We are not going to use every column of the dataframe. Remove the unnecessary columns: `number`, `GID`, `YORF` and `GWEIGHT`.
 
 ```{r, solution = TRUE}
 cleaned_data %>%
@@ -136,8 +134,8 @@ cleaned_data_melt %>%
 
 ## 2.2 Plot the expression data of a biological process
 
-We don't have to filter by a single gene as we have some information from the raw data about the biological process of each gene.  
-Extract all the genes in the "leucine biosynthesis" process and plot expression in function of the growth rate for each nutrient.
+For this, we don't need to filter by single gene names as the raw data provides us some information on the biological process for each gene.  
+Extract all the genes in the "leucine biosynthesis" process and plot the expression in function of the growth rate for each nutrient.
 
 ```{r, solution = TRUE}
 cleaned_data_melt %>%
@@ -150,7 +148,7 @@ cleaned_data_melt %>%
 ## 2.3 Perform a linear regression in top of the plots
 
 Let's play with the graph a little more. These trends look vaguely linear.  
-Add a linear regression with the appropriate `ggplot2` function and carrefully adjust the `method` aergument.
+Add a linear regression with the appropriate `ggplot2` function and carrefully adjust the `method` argument.
 
 ```{r, solution = TRUE}
 cleaned_data_melt %>%
@@ -164,7 +162,7 @@ cleaned_data_melt %>%
 ## 2.4 Switch to another biological process
 
 Once the dataset is tidy, it is very easy to switch to another biological process.
-Instead of the "leucine biosynthesis" plot the data corresponding to "sulfur metabolism".
+Instead of the "leucine biosynthesis", plot the data corresponding to "sulfur metabolism".
 
 ```{r, solution = TRUE}
 cleaned_data_melt %>%
@@ -177,15 +175,14 @@ cleaned_data_melt %>%
 
 # 3. Linear models
 
-Following the example on `gapminder` by Hadley
+_We are following the `gapminder` example written by Hadley._
 
 ## 3.1 Nest data for systematic_name and nutrient
 
-Before apply a linear regression to all genes, we must clean the data a little further.
-A linear model will be build on max 6 rate points. Filter out genes that have less than 6 data points. Moreover, some systematic_name and expression data are missing (`NA`).
-Filter them out too.
+Before applying a linear regression to all genes, we must further clean the data.
+A linear model will be build with at least 6 rate points. Filter out the genes that have less than 6 data points. Moreover, some systematic_name and expression data are missing (`NA`). Filter them out too.
 
-Then, nest the data and save as `cleaned_nest`.
+Then, nest the data and save the result as `cleaned_nest`.
 ```{r, solution=TRUE}
 cleaned_data_melt %>%
   filter(!is.na(expression),!is.na(systematic_name)) %>%
@@ -197,28 +194,26 @@ cleaned_data_melt %>%
 
 ## 3.2 Perform all linear models
 
-Mutate the `cleaned_nest` data frame and perform a linear regression 
-of `expression` explained by `rate` for all genes / nutrient. 
+Mutate the `cleaned_nest` data frame and, for all genes / nutrient, perform a linear regression of `expression` explained by `rate`.
 ```{asis, box="red", boxtitle="Warning"}
-a bug in [`dplyr`](https://github.com/hadley/purrr/issues/105) (fixed in dev version)
-prevent you to use the form `map(data, ~ lm(y ~ x, data = .x)` 
-instead use `map(data, function(x) lm(y ~ x, data = x)`
+A bug in [`dplyr`](https://github.com/hadley/purrr/issues/105) (which is already fixed in the dev version), prevents you from using the form `map(data, ~ lm(y ~ x, data = .x)` instead of using `map(data, function(x) lm(y ~ x, data = x)`
 ```
-The computation takes ~ 30 sec on my macbook pro. Save as `cleaned_lm`
+The computation takes ~ 30 sec on my macbook pro. Save as `cleaned_lm`.
+<!-- 50 seconds on my PC... knitting took half an our though! -->
 ```{r, solution=TRUE}
 library("purrr")
 cleaned_nest %>%
   mutate(model = map(data, function(x) lm(expression ~ rate, data = x))) -> cleaned_lm
 ```
 
-- How many models did you performed?
+- How many models did you perform?
 ```{asis, solution=TRUE}
 the nrow of cleaned_nest is 32543 models
 ```
 
 ## 3.3 Tidy the linear models
 
-Similarly as the life expectancy, use the 3 main function of `broom` to
+Similarly as the life expectancy, use the 3 main functions of `broom` to
 - `glance` the models
 - extract the $r^2$
 - `tidy` models
@@ -231,10 +226,11 @@ cleaned_lm %>%
          tidy    = map(model, tidy),
          augment = map(model, augment)) -> cleaned_lm
 ```
+<!-- 182 seconds on my PC! -->
 
 ## 3.4 Explore models
 
-- plot the histrogram of $r^2$ for each nutrient. What can you say?
+- plot the histogram of $r^2$ for each nutrient. What can you say?
 ```{r, solution=TRUE}
 theme_set(theme_bw(14))
 cleaned_lm %>%
@@ -243,9 +239,9 @@ cleaned_lm %>%
   facet_wrap(~ nutrient)
 ```
 ```{asis, solution=TRUE}
-Most genes does not respond in a linear fashion to starvation. Especially for S and U where
-
+Most genes do not respond in a linear fashion to starvation. Especially for S and U.
 ```
+<!-- The solution seemed incomplete here! Cutting out "where" -->
 
 - Count how many models have a $r^2 > 0.9$ per nutrient
 ```{r, solution=TRUE}
@@ -266,7 +262,7 @@ cleaned_lm %>%
 
 ## 3.4 Explore models
 
-Now, we want to see how many of 'linear-trend' genes are overlaping to the nutrient starvations
+Now, we want to see how many of 'linear-trend' genes are overlapping to the nutrient starvations
 
 ```{r, solution=TRUE}
 cleaned_lm %>%
@@ -275,8 +271,6 @@ cleaned_lm %>%
   mutate(set = 1) %>%
   spread(nutrient, set) -> mat
 ```
-
-
 
 ```{r, solution=TRUE}
 library("UpSetR")
