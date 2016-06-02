@@ -261,23 +261,22 @@ cleaned_lm %>%
 
 ## 3.4 Explore models
 
-Now, we want to see how many of 'linear-trend' genes are overlapping to the nutrient starvations
+Now, we would like to find out how many of the 'linear-trend' genes are overlapping to the nutrient starvations.
 
-Venn Diagrams are an option but we have 5 sets and intersections are just impossible to see.
-The alternative is the [upset](http://vcg.github.io/upset/) for which a `R` [implementation](https://github.com/hms-dbmi/UpSetR)
-was done.
+Venn Diagrams are an option but as we have 5 sets intersections would be difficult to see.
+The alternative is [UpSet](http://vcg.github.io/upset/) for which an `R` [implementation](https://github.com/hms-dbmi/UpSetR) exists.
 
-The object needed is a `data.frame` with:
+The required object is a `data.frame` with:
     - row.names as `systematic_name`
     - columns as `nutrient`, so 5
     - values as 0/1 for absence/presence
 
 - Starting from `cleaned_lm`, filter out the models with $r^2 < 0.9$ and
- empty systematic name (_i.e_ = "").
+ empty the systematic names (_i.e_ = "").
 
-- select only the `systematic_name`, `nutrient` columns only 
-- add a column `set` that contains 1 for all rows.
-- convert from long to wide format `nutrient` fill up by `set`.
+- select only the `systematic_name` and `nutrient` columns 
+- add a column `set` containing `1` in all rows.
+- convert from long to wide format (`nutrient` filled up by `set`).
 All absent genes will then be NAs.
 ```{r, solution=TRUE}
 cleaned_lm %>%
@@ -287,11 +286,11 @@ cleaned_lm %>%
   spread(nutrient, set) -> mat
 ```
 
-- Move `the systematic` from column to rownames (`tibble::column_to_rownames()`)
+- Move `the systematic` from the column to rownames (`tibble::column_to_rownames()`)
 Save as `mat_upset`
-- The pseudo matrix is almost done, we have absence as `NA` and presence as `1`.
+- The pseudo matrix is almost done: we get an absence as `NA` and a presence as `1`.
 - Replace all `NA` by 0
-- set the class of `mat_upset` to `data.frame`, `upset` does not handle `tbl_df`
+- Set the class of `mat_upset` to `data.frame` as `upset` does not handle `tbl_df`.
 - plot the upset using `upset(mat_upset)`
 ```{r, solution=TRUE}
 library("UpSetR")
