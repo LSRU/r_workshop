@@ -220,9 +220,18 @@ df</code></pre>
 </div>
 <div id="tidying-and-plotting" class="section level2">
 <h2>tidying and plotting</h2>
-<p><code>df</code> has 2 columns, both contain values. - use <code>gather()</code> from <code>tidyr</code> to get two columns + <code>measure</code> for either height or weight + <code>value</code> for actual measurements Remember that <code>gather</code> takes by default all columns. - store the result into <code>df_melt</code></p>
+<p><code>df</code> has 2 columns, both contain values.</p>
 <ul>
-<li>plot the distribution as boxplots of both measures</li>
+<li>use <code>gather()</code> from <code>tidyr</code> to get two columns
+<ul>
+<li><code>measure</code> for either height or weight</li>
+<li><code>value</code> for actual measurements</li>
+</ul></li>
+</ul>
+<p>Remember that <code>gather</code> takes by default all columns.</p>
+<ul>
+<li><p>store the result into <code>df_melt</code></p></li>
+<li><p>plot the distribution as boxplots of both measures</p></li>
 </ul>
 </div>
 <div id="plot-densities" class="section level2">

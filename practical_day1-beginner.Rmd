@@ -121,11 +121,15 @@ df %>%
 ## tidying and plotting
 
 `df` has 2 columns, both contain values.
+
 - use `gather()` from `tidyr` to get two columns
-  + `measure` for either height or weight
-  + `value` for actual measurements
+    + `measure` for either height or weight
+    + `value` for actual measurements
+    
 Remember that `gather` takes by default all columns.
+
 - store the result into `df_melt`
+
 ```{r, solution=TRUE}
 library("tidyr")
 df_melt <- gather(df, measure, value)
