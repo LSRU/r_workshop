@@ -1,11 +1,10 @@
 ---
 title: "Practical - advanced"
-#knit: unilur::knit
 author: "Aurelien Ginolhac, Eric Koncina"
 date: "3^rd^ June 2016"
 output:
   unilur::tutorial_html:
-    solution: no
+    solution: yes
     theme: cosmo
     credit: yes
 ---
@@ -23,7 +22,7 @@ library("knitr")
 In [2008, Brauer et al.](http://www.molbiolcell.org/content/19/1/352.abstract) used microarrays to test the effect of starvation on the growth rate of yeast. For example, they tried limiting the yeast's supply of glucose (sugar to metabolize into energy), of leucine (an essential amino acid), or of ammonium (a source of nitrogen).
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(cache = TRUE)
+knitr::opts_chunk$set(cache = FALSE)
 ```
 
 ## Project - set-up
@@ -264,15 +263,43 @@ cleaned_lm %>%
 
 Now, we want to see how many of 'linear-trend' genes are overlapping to the nutrient starvations
 
+Venn Diagrams are an option but we have 5 sets and intersections are just impossible to see.
+The alternative is the [upset](http://vcg.github.io/upset/) for which a `R` [implementation](https://github.com/hms-dbmi/UpSetR)
+was done.
+
+The object needed is a `data.frame` with:
+    - row.names as `systematic_name`
+    - columns as `nutrient`, so 5
+    - values as 0/1 for absence/presence
+
+- Starting from `cleaned_lm`, filter out the models with $r^2 < 0.9$ and
+ empty systematic name (_i.e_ = "").
+
+- select only the `systematic_name`, `nutrient` columns only 
+- add a column `set` that contains 1 for all rows.
+- convert from long to wide format `nutrient` fill up by `set`.
+All absent genes will then be NAs.
 ```{r, solution=TRUE}
 cleaned_lm %>%
-  filter(rsq > 0.9) %>%
+  filter(rsq > 0.9, systematic_name != "") %>%
   select(systematic_name, nutrient) %>%
   mutate(set = 1) %>%
   spread(nutrient, set) -> mat
 ```
 
+- Move `the systematic` from column to rownames (`tibble::column_to_rownames()`)
+Save as `mat_upset`
+- The pseudo matrix is almost done, we have absence as `NA` and presence as `1`.
+- Replace all `NA` by 0
+- set the class of `mat_upset` to `data.frame`, `upset` does not handle `tbl_df`
+- plot the upset using `upset(mat_upset)`
 ```{r, solution=TRUE}
 library("UpSetR")
+mat %>%
+  tibble::column_to_rownames("systematic_name") -> mat_upset
+
+mat_upset[is.na(mat_upset)]  <- 0
+class(mat_upset) <- "data.frame"
+upset(mat_upset)
 ```
 

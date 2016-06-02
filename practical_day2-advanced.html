@@ -221,10 +221,10 @@ Add a linear regression with the appropriate <code>ggplot2</code> function and c
 Warning
 </h2>
 <div class="box-content">
-<p>a bug in <a href="https://github.com/hadley/purrr/issues/105"><code>dplyr</code></a> (fixed in dev version) prevent you to use the form <code>map(data, ~ lm(y ~ x, data = .x)</code> instead use <code>map(data, function(x) lm(y ~ x, data = x)</code></p>
+<p>A bug in <a href="https://github.com/hadley/purrr/issues/105"><code>dplyr</code></a> (which is already fixed in the dev version), prevents you from using the form <code>map(data, ~ lm(y ~ x, data = .x)</code> instead of using <code>map(data, function(x) lm(y ~ x, data = x)</code></p>
 </div>
 </div>
-<p>The computation takes ~ 30 sec on my macbook pro. Save as <code>cleaned_lm</code>.</p>
+<p>The computation takes ~ 30 sec on my macbook pro. Save as <code>cleaned_lm</code>. <!-- 50 seconds on my PC... knitting took half an our though! --></p>
 <ul>
 <li>How many models did you perform?</li>
 </ul>
@@ -242,6 +242,7 @@ cleaned_lm %&gt;%
 ## unreliable</code></pre>
 <pre><code>## Warning in summary.lm(x): essentially perfect fit: summary may be
 ## unreliable</code></pre>
+<!-- 182 seconds on my PC! -->
 </div>
 <div id="explore-models" class="section level2">
 <h2>3.4 Explore models</h2>
@@ -257,6 +258,19 @@ cleaned_lm %&gt;%
 <div id="explore-models-1" class="section level2">
 <h2>3.4 Explore models</h2>
 <p>Now, we want to see how many of ‘linear-trend’ genes are overlapping to the nutrient starvations</p>
+<p>Venn Diagrams are an option but we have 5 sets and intersections are just impossible to see. The alternative is the <a href="http://vcg.github.io/upset/">upset</a> for which a <code>R</code> <a href="https://github.com/hms-dbmi/UpSetR">implementation</a> was done.</p>
+<p>The object needed is a <code>data.frame</code> with: - row.names as <code>systematic_name</code> - columns as <code>nutrient</code>, so 5 - values as 0/1 for absence/presence</p>
+<ul>
+<li><p>Starting from <code>cleaned_lm</code>, filter out the models with <span class="math inline">\(r^2 &lt; 0.9\)</span> and empty systematic name (<em>i.e</em> = “”).</p></li>
+<li>select only the <code>systematic_name</code>, <code>nutrient</code> columns only</li>
+<li>add a column <code>set</code> that contains 1 for all rows.</li>
+<li><p>convert from long to wide format <code>nutrient</code> fill up by <code>set</code>. All absent genes will then be NAs.</p></li>
+<li>Move <code>the systematic</code> from column to rownames (<code>tibble::column_to_rownames()</code>) Save as <code>mat_upset</code></li>
+<li>The pseudo matrix is almost done, we have absence as <code>NA</code> and presence as <code>1</code>.</li>
+<li>Replace all <code>NA</code> by 0</li>
+<li>set the class of <code>mat_upset</code> to <code>data.frame</code>, <code>upset</code> does not handle <code>tbl_df</code></li>
+<li><p>plot the upset using <code>upset(mat_upset)</code></p></li>
+</ul>
 </div>
 </div>
 

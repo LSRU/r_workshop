@@ -86,6 +86,7 @@ the _interactive_ version is accessible only inside the university network.
 ##### practical with yeast data.
 
 - Practical: [online](practical_day2-advanced.html) 
+- Practical _solution_: [online](practical_day2-advanced_solution.html) 
 
 - tidying data
 - performing thousands of linear regression
