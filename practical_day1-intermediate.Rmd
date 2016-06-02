@@ -1,11 +1,12 @@
 ---
 title: "Practical - intermediate"
-knit: unilur::knit
+#knit: unilur::knit
 author: "Aurelien Ginolhac"
 date: "2^nd^ June 2016"
 output:
-  unilur::tutorial:
-    solution: wwo
+  unilur::tutorial_html:
+    solution: no
+    theme: cosmo
     credit: yes
 ---
 
@@ -91,7 +92,7 @@ rna_meta <- pData(gse35834[[1]]) %>%
 
 ## Explore the mir expression meta-data
 
-- Extract as a `tbl_df` named `mir_meta` the mRNA meta-data and
+- Extract as a `tbl_df` named `mir_meta` the mir meta-data and
     + rename `geo_accession` to `sample`
     + select `source_name_ch1` and all columns that start with "charact" 
     
