@@ -1,11 +1,12 @@
 ---
 title: "Practical - beginner"
-knit: unilur::knit
+#knit: unilur::knit
 author: "Aurelien Ginolhac"
 date: "2^nd^ June 2016"
 output:
-  unilur::tutorial:
+  unilur::tutorial_html:
     solution: no
+    theme: cosmo
     credit: yes
 ---
 
@@ -150,7 +151,7 @@ head(df)
 
 ### plot densities
 
-- tidy the 3 columns and plot all densities using different colours and set them translucent
+- Gather (from `tidyr`) the 3 columns and plot all densities using different colours and set them translucent
 You will need to make a new `df_melt` data frame first.
 ```{r, solution=TRUE}
 df_melt <- gather(df, measure, value)
@@ -197,7 +198,7 @@ gse <- read_tsv("data/GSE35982.tsv.gz")
 No, since all samples (starts by "GSM*") are in different columns
 ```
 
-- Tidy the samples. Look at the `gather` help page to select columns based on characters.
+- Gather the samples. Look at the `gather` help page to select columns based on characters.
 ```{r, solution=TRUE}
 library("tidyr")
 gse_melt <- gse %>%
