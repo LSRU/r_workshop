@@ -1,5 +1,5 @@
 ---
-title: "R workshop"
+title: "R 'hadley' workshop"
 author: "Aurélien Ginolhac"
 date: "3^rd^ June 2016"
 output:
@@ -14,7 +14,7 @@ output:
 knitr::opts_chunk$set(echo = TRUE, cache = FALSE)
 ```
 
-## R workshop | Day 2 - advanced
+## R 'hadley' workshop | Day 2 - advanced
 
 ## Modern R
 
