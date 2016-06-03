@@ -197,7 +197,7 @@ Mutate the `cleaned_nest` data frame and, for all genes / nutrient, perform a li
 ```{asis, box="red", boxtitle="Warning"}
 A bug in [`dplyr`](https://github.com/hadley/purrr/issues/105) (which is already fixed in the dev version), prevents you from using the form `map(data, ~ lm(y ~ x, data = .x)` instead of using `map(data, function(x) lm(y ~ x, data = x)`
 ```
-The computation takes ~ 30 sec on my macbook pro. Save as `cleaned_lm`.
+The computation takes ~ 40 sec on my macbook pro. Save as `cleaned_lm`.
 <!-- 50 seconds on my PC... knitting took half an our though! -->
 ```{r, solution=TRUE}
 library("purrr")
@@ -217,6 +217,16 @@ Similarly as the life expectancy, use the 3 main functions of `broom` to
 - extract the $r^2$
 - `tidy` models
 - `augment` to extract residuals
+
+This computation takes ~ 3 min. For testing, you should work with a subset by running `sample_frac()`
+before the `mutate`. Here, we used randomly only 5% of the data.
+```{r, eval=FALSE}
+cleaned_lm %>%
+  sample_frac(0.05) %>%
+  mutate(...)
+```
+
+
 ```{r}
 library("broom")
 cleaned_lm %>%

@@ -224,7 +224,7 @@ Warning
 <p>A bug in <a href="https://github.com/hadley/purrr/issues/105"><code>dplyr</code></a> (which is already fixed in the dev version), prevents you from using the form <code>map(data, ~ lm(y ~ x, data = .x)</code> instead of using <code>map(data, function(x) lm(y ~ x, data = x)</code></p>
 </div>
 </div>
-<p>The computation takes ~ 30 sec on my macbook pro. Save as <code>cleaned_lm</code>. <!-- 50 seconds on my PC... knitting took half an our though! --></p>
+<p>The computation takes ~ 40 sec on my macbook pro. Save as <code>cleaned_lm</code>. <!-- 50 seconds on my PC... knitting took half an our though! --></p>
 <ul>
 <li>How many models did you perform?</li>
 </ul>
@@ -232,6 +232,10 @@ Warning
 <div id="tidy-the-linear-models" class="section level2">
 <h2>3.3 Tidy the linear models</h2>
 <p>Similarly as the life expectancy, use the 3 main functions of <code>broom</code> to - <code>glance</code> the models - extract the <span class="math inline">\(r^2\)</span> - <code>tidy</code> models - <code>augment</code> to extract residuals</p>
+<p>This computation takes ~ 3 min. For testing, you should work with a subset by running <code>sample_frac()</code> before the <code>mutate</code>. Here, we used randomly only 5% of the data.</p>
+<pre class="r"><code>cleaned_lm %&gt;%
+  sample_frac(0.05) %&gt;%
+  mutate(...)</code></pre>
 <pre class="r"><code>library(&quot;broom&quot;)
 cleaned_lm %&gt;%
   mutate(glance  = map(model, glance),
