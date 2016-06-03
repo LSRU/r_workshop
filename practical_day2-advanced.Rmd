@@ -181,6 +181,12 @@ _We are following the `gapminder` example written by Hadley._
 Before applying a linear regression to all genes, we must further clean the data.
 A linear model will be build with at least 6 rate points. Filter out the genes that have less than 6 data points. Moreover, some systematic_name and expression data are missing (`NA`). Filter them out too.
 
+```{asis, box="orange", boxtitle="Warning"}
+`nest()` cannot use column names with spaces, even if between backstics, such as `Systematic name`.
+Use `systematic_name` instead.
+```
+
+
 Then, nest the data and save the result as `cleaned_nest`.
 ```{r, solution=TRUE}
 cleaned_data_melt %>%

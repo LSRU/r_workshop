@@ -211,6 +211,14 @@ Add a linear regression with the appropriate <code>ggplot2</code> function and c
 <div id="nest-data-for-systematic_name-and-nutrient" class="section level2">
 <h2>3.1 Nest data for systematic_name and nutrient</h2>
 <p>Before applying a linear regression to all genes, we must further clean the data. A linear model will be build with at least 6 rate points. Filter out the genes that have less than 6 data points. Moreover, some systematic_name and expression data are missing (<code>NA</code>). Filter them out too.</p>
+<div class="box" style="background-color:rgba(255, 165, 0, 0.3);border:2px solid rgba(255, 165, 0, 1);">
+<h2 style="background-color:rgba(255, 165, 0, 1);">
+Warning
+</h2>
+<div class="box-content">
+<p><code>nest()</code> cannot use column names with spaces, even if between backstics, such as <code>Systematic name</code>. Use <code>systematic_name</code> instead.</p>
+</div>
+</div>
 <p>Then, nest the data and save the result as <code>cleaned_nest</code>.</p>
 </div>
 <div id="perform-all-linear-models" class="section level2">
