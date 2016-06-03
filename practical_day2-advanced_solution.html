@@ -132,7 +132,7 @@ $(document).ready(function () {
 <ul>
 <li><p>Create a new project in a meaningful folder name (such as <code>R_workshop/day2-advanced</code>) on your computer using the project manager utility in the upper-right part of the rstudio window.</p></li>
 <li>Create a folder <code>data</code></li>
-<li><p>Download <a href="https://github.com/LSRU/r_workshop/blob/gh-pages/data/Brauer2008_DataSet1.tds"><code>Brauer2008_DataSet1.tds</code></a> inside the <code>data</code> folder</p></li>
+<li><p>Download <a href="https://lsru.github.io/r_workshop/data/Brauer2008_DataSet1.tds"><code>Brauer2008_DataSet1.tds</code></a> inside the <code>data</code> folder</p></li>
 </ul>
 <p>Load the [<code>Brauer2008_DataSet1.tds</code>] file into a dataframe. This is the exact data that was published with the paper (though for some reason the link on the journal’s page is broken). It thus serves as a good example of tidying a biological dataset “found in the wild”.</p>
 <pre class="r"><code>original_data &lt;- read_tsv(&quot;data/Brauer2008_DataSet1.tds&quot;)</code></pre>
@@ -473,14 +473,14 @@ Solution
 </div>
 <div id="explore-models-1" class="section level2">
 <h2>3.4 Explore models</h2>
-<p>Now, we want to see how many of ‘linear-trend’ genes are overlapping to the nutrient starvations</p>
-<p>Venn Diagrams are an option but we have 5 sets and intersections are just impossible to see. The alternative is the <a href="http://vcg.github.io/upset/">upset</a> for which a <code>R</code> <a href="https://github.com/hms-dbmi/UpSetR">implementation</a> was done.</p>
-<p>The object needed is a <code>data.frame</code> with: - row.names as <code>systematic_name</code> - columns as <code>nutrient</code>, so 5 - values as 0/1 for absence/presence</p>
+<p>Now, we would like to find out how many of the ‘linear-trend’ genes are overlapping to the nutrient starvations.</p>
+<p>Venn Diagrams are an option but as we have 5 sets intersections would be difficult to see. The alternative is <a href="http://vcg.github.io/upset/">UpSet</a> for which an <code>R</code> <a href="https://github.com/hms-dbmi/UpSetR">implementation</a> exists.</p>
+<p>The required object is a <code>data.frame</code> with: - row.names as <code>systematic_name</code> - columns as <code>nutrient</code>, so 5 - values as 0/1 for absence/presence</p>
 <ul>
-<li><p>Starting from <code>cleaned_lm</code>, filter out the models with <span class="math inline">\(r^2 &lt; 0.9\)</span> and empty systematic name (<em>i.e</em> = “”).</p></li>
-<li>select only the <code>systematic_name</code>, <code>nutrient</code> columns only</li>
-<li>add a column <code>set</code> that contains 1 for all rows.</li>
-<li><p>convert from long to wide format <code>nutrient</code> fill up by <code>set</code>. All absent genes will then be NAs.</p></li>
+<li><p>Starting from <code>cleaned_lm</code>, filter out the models with <span class="math inline">\(r^2 &lt; 0.9\)</span> and empty the systematic names (<em>i.e</em> = “”).</p></li>
+<li>select only the <code>systematic_name</code> and <code>nutrient</code> columns</li>
+<li>add a column <code>set</code> containing <code>1</code> in all rows.</li>
+<li><p>convert from long to wide format (<code>nutrient</code> filled up by <code>set</code>). All absent genes will then be NAs.</p></li>
 </ul>
 <div class="box solution">
 <h2>
@@ -495,10 +495,10 @@ Solution
 </div>
 </div>
 <ul>
-<li>Move <code>the systematic</code> from column to rownames (<code>tibble::column_to_rownames()</code>) Save as <code>mat_upset</code></li>
-<li>The pseudo matrix is almost done, we have absence as <code>NA</code> and presence as <code>1</code>.</li>
+<li>Move <code>the systematic</code> from the column to rownames (<code>tibble::column_to_rownames()</code>) Save as <code>mat_upset</code></li>
+<li>The pseudo matrix is almost done: we get an absence as <code>NA</code> and a presence as <code>1</code>.</li>
 <li>Replace all <code>NA</code> by 0</li>
-<li>set the class of <code>mat_upset</code> to <code>data.frame</code>, <code>upset</code> does not handle <code>tbl_df</code></li>
+<li>Set the class of <code>mat_upset</code> to <code>data.frame</code> as <code>upset</code> does not handle <code>tbl_df</code>.</li>
 <li>plot the upset using <code>upset(mat_upset)</code></li>
 </ul>
 <div class="box solution">

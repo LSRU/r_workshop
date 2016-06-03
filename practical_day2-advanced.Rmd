@@ -4,7 +4,7 @@ author: "Aurelien Ginolhac, Eric Koncina"
 date: "3^rd^ June 2016"
 output:
   unilur::tutorial_html:
-    solution: yes
+    solution: no
     theme: cosmo
     credit: yes
 ---
@@ -31,7 +31,7 @@ knitr::opts_chunk$set(cache = FALSE)
 `R_workshop/day2-advanced`) on your computer using the project manager utility in the upper-right part of the rstudio window.
 
 - Create a folder `data`
-- Download [`Brauer2008_DataSet1.tds`](https://github.com/LSRU/r_workshop/blob/gh-pages/data/Brauer2008_DataSet1.tds) inside the `data` folder
+- Download [`Brauer2008_DataSet1.tds`](https://lsru.github.io/r_workshop/data/Brauer2008_DataSet1.tds) inside the `data` folder
 
 Load the [`Brauer2008_DataSet1.tds`] file into a dataframe. This is the exact data that was published with the paper (though for some reason the link on the journal's page is broken). It thus serves as a good example of tidying a biological dataset "found in the wild".
 
