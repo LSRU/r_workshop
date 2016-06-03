@@ -5,6 +5,7 @@ date: "3^rd^ June 2016"
 output:
   ioslides_presentation:
     css: style.css
+    runtime: shiny
     logo: img/uni.png
     smaller: yes
 ---
@@ -101,11 +102,24 @@ funs %>%
   map(~ mtcars %>% map_dbl(.x))
 ```
 
+
+## Gapminder
+
+Global vs individual trend
+```{r, out.width='70%'}
+library("gapminder")
+library("ggplot2")
+theme_set(theme_bw(14))
+gapminder %>%
+  ggplot(aes(x = year, y = lifeExp, group = country))+
+  geom_line()
+```
+
+
 ## Keep related things together
 
 Linear model _per_ country
 ```{r}
-library("gapminder")
 library("tidyr")
 by_country_lm <- gapminder %>%
   mutate(year1950 = year - 1950) %>%
@@ -144,8 +158,6 @@ models
 ## Does linear models fit all countries?
 
 ```{r, out.width='60%'}
-library("ggplot2")
-theme_set(theme_bw(14))
 models %>%
   ggplot(aes(x = rsq, y = reorder(country, rsq)))+
   geom_point(aes(colour = continent))+
@@ -184,7 +196,7 @@ renderUI({
 
 ## shiny
 
-```{r, eval=FALSE, cache=FALSE}
+```{r, echo=FALSE, cache=FALSE}
 library("shiny")
 inputPanel(
   selectInput("country", "Select Country", levels(models$country))
@@ -204,7 +216,7 @@ renderUI({
 
 ## shiny - rsquare
 
-```{r, cache=FALSE, eval=FALSE}
+```{r, cache=FALSE, echo=FALSE}
 library("shiny")
 inputPanel(
   sliderInput("rsq", "Select rsquared", min = 0, max = 1, 
@@ -238,6 +250,21 @@ models %>%
   labs(x = "Life expectancy (1950)",
        y = "Yearly improvement")
 ```
+
+## animation made easy
+
+[gganimate](https://github.com/dgrtwo/gganimate) by David Robinson
+
+```{r, eval=FALSE}
+library("gganimate")
+library("gapminder")
+p <- ggplot(gapminder, aes(gdpPercap, lifeExp, size = pop, color = continent, frame = year))+geom_point()+scale_x_log10()
+gg_animate(p, 'img/gapminder.gif')
+```
+```{r, echo=FALSE, out.width='50%'}
+knitr::include_graphics("img/gapminder.gif")
+```
+
 
 ## Error handling
 
