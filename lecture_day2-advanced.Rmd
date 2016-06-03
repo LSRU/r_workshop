@@ -201,16 +201,14 @@ library("shiny")
 inputPanel(
   selectInput("country", "Select Country", levels(models$country))
 )
-output$country <- renderPlot({
+renderPlot({
   models %>%
   filter(country == input$country) %>%
   unnest(data) %>%
   ggplot(aes(x = year, y = lifeExp))+
   geom_line(aes(colour = continent))
 })
-renderUI({
- plotOutput("country", height = "400", width = "600")
-})
+
 ```
 
 
@@ -222,7 +220,7 @@ inputPanel(
   sliderInput("rsq", "Select rsquared", min = 0, max = 1, 
               value = c(0, 0.2), dragRange = TRUE)
 )
-output$rsq <- renderPlot({
+renderPlot({
   models %>%
   filter(rsq >= input$rsq[1], rsq <= input$rsq[2]) %>%
   unnest(data) %>%
@@ -230,9 +228,7 @@ output$rsq <- renderPlot({
   geom_line(aes(colour = continent))+
   facet_wrap(~ country)
 })
-renderUI({
- plotOutput("rsq", height = "400", width = "600")
-})
+
 ```
 
 ## All in all
@@ -258,7 +254,9 @@ models %>%
 ```{r, eval=FALSE}
 library("gganimate")
 library("gapminder")
-p <- ggplot(gapminder, aes(gdpPercap, lifeExp, size = pop, color = continent, frame = year))+geom_point()+scale_x_log10()
+p <- ggplot(gapminder, aes(gdpPercap, lifeExp, size = pop, 
+                           color = continent, frame = year))+
+  geom_point()+scale_x_log10()
 gg_animate(p, 'img/gapminder.gif')
 ```
 ```{r, echo=FALSE, out.width='50%'}
