@@ -20,7 +20,7 @@ University of Luxembourg
 
 ### Aim
 
-Replace `R base` functions by the [**hadleyverse**](https://barryrowlingson.github.io/hadleyverse/).
+Replace `R base` functions by the [**tidyverse**](https://barryrowlingson.github.io/hadleyverse/).
 Adopt [Hadley Wickham](http://hadley.nz/) philosophy, take each step of data science and simplify the tools. 
 Keeping what make them helpful and removing inconsistent and historic behaviors.
 
